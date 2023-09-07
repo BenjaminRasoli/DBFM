@@ -17,7 +17,7 @@ function Navbar() {
     <div class="topnav">
       <div class="left">
         <img className="mainlogo" src={logo} alt="DBFM Logo" />
-        <Link to="/"> Home</Link>
+        <Link to="/DBFM"> Home</Link>
         <Link to="/Popular"> Popular</Link>
         <Link to="/Popular"> About</Link>
       </div>
