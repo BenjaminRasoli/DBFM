@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/DBFM/static/css/main.180e2cd8.css",
+    "main.js": "/DBFM/static/js/main.64be519e.js",
+    "static/media/DATABASEFORMOVIES-logos_white.png": "/DBFM/static/media/DATABASEFORMOVIES-logos_white.6f0764479ea441dd3313.png",
+    "static/media/poster-image.png": "/DBFM/static/media/poster-image.25eaedfe7a808755144e.png",
+    "index.html": "/DBFM/index.html",
+    "main.180e2cd8.css.map": "/DBFM/static/css/main.180e2cd8.css.map",
+    "main.64be519e.js.map": "/DBFM/static/js/main.64be519e.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.180e2cd8.css",
+    "static/js/main.64be519e.js"
+  ]
+}
