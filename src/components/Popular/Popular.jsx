@@ -14,7 +14,6 @@ function Popular() {
     );
     const allMovies = await response.json();
     setMovies(allMovies.results);
-    console.log(allMovies);
   }
 
   useEffect(() => {
@@ -24,9 +23,9 @@ function Popular() {
   return (
     <div className="grid-container">
       {Array.isArray(movies) &&
-        movies.map((movie) => {
+        movies.map((movie, i) => {
           return (
-            <Link to={`/movie/${movie.id}`}>
+            <Link to={`/movie/${movie.id}`} key={i}>
               <div key={movie.id} className="grid-item">
                 <div className="movie-card">
                   <img

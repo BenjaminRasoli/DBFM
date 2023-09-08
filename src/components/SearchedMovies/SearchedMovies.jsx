@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./SearchedMovies.css";
-import { Link, useParams, useLocation } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { AiFillStar } from "react-icons/ai";
 import { IconContext } from "react-icons";
-import Popular from "../Popular/Popular";
 import poster from "../../images/poster-image.png";
 
 function SearchedMovies() {
-  const location = useLocation();
   let { searchword } = useParams();
 
   const [searchedMovies, setSearchedMovies] = useState([]);
@@ -21,15 +19,14 @@ function SearchedMovies() {
   }
 
   useEffect(() => {
-    console.log(location.pathname);
     getSearchedMovies();
   }, [searchword]);
 
   return (
     <div className="grid-container">
-      {searchedMovies.map((movie) => {
+      {searchedMovies.map((movie, i) => {
         return (
-          <Link to={`/movie/${movie.id}`}>
+          <Link to={`/movie/${movie.id}`} key={i}>
             <div key={movie.id} className="grid-item">
               <div className="movie-card">
                 <img

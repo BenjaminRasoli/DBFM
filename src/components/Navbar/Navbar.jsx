@@ -14,22 +14,22 @@ function Navbar() {
   }
 
   return (
-    <div class="topnav">
-      <div class="left">
+    <div className="topnav">
+      <div className="left">
         <img className="mainlogo" src={logo} alt="DBFM Logo" />
         <Link to="/"> Home</Link>
         <Link to="/Popular"> Popular</Link>
         <Link to="/Popular"> About</Link>
       </div>
-      <div class="right">
+      <div className="right">
         <form>
-          <div class="search-container">
+          <div className="search-container">
             <input
               type="text"
               placeholder="Search.."
               onChange={(e) => setSearchWord(e.target.value)}
             />
-            <button onClick={(e) => searchMovies(e)} class="search-icon">
+            <button onClick={(e) => searchMovies(e)} className="search-icon">
               <BiSearch />
             </button>
           </div>
