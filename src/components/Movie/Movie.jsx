@@ -46,6 +46,8 @@ function Movie() {
       axios.post("http://localhost:3003/bookings", booking);
       e.target.reset();
       setSelectedOption([]);
+      axios.post("http://localhost:3003/sendEmail", booking);
+
     }
   }
 
