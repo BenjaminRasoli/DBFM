@@ -19,7 +19,7 @@ function Navbar() {
         <img className="mainlogo" src={logo} alt="DBFM Logo" />
         <Link to="/"> Home</Link>
         <Link to="/Popular"> Popular</Link>
-        <Link to="/Popular"> About</Link>
+        <Link to="/favorites"> Favorites</Link>
       </div>
       <div className="right">
         <form>

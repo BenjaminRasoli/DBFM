@@ -2,6 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import Select from "react-select";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
+//import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { alpha, styled } from "@mui/material/styles";
 
 function Movie() {
   const options = [
@@ -47,7 +53,6 @@ function Movie() {
       e.target.reset();
       setSelectedOption([]);
       axios.post("http://localhost:3003/sendEmail", booking);
-
     }
   }
 
@@ -69,37 +74,55 @@ function Movie() {
             );
           })}
       </div>
-      <form onSubmit={(e) => sendBooking(e)}>
-        <input
-          type="text"
-          onChange={(e) => setBooking({ ...booking, name: e.target.value })}
-        />
 
-        <input
-          type="text"
-          onChange={(e) => setBooking({ ...booking, email: e.target.value })}
-        />
+      <div>
+        <Accordion className="test">
+          <AccordionSummary
+            // expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography>Accordion 1</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <form onSubmit={(e) => sendBooking(e)}>
+              <input
+                type="text"
+                onChange={(e) =>
+                  setBooking({ ...booking, name: e.target.value })
+                }
+              />
 
-        <button>submit</button>
-      </form>
-      <Select
-        value={selectedOption}
-        onChange={(selectedOption) => {
-          setSelectedOption(selectedOption);
-          setBooking({
-            ...booking,
-            location: selectedOption ? selectedOption.value : null,
-          });
-        }}
-        options={options}
-        styles={{
-          control: (baseStyles, state) => ({
-            ...baseStyles,
-            borderColor: "red",
-            backgroundColor: "green",
-          }),
-        }}
-      />
+              <input
+                type="text"
+                onChange={(e) =>
+                  setBooking({ ...booking, email: e.target.value })
+                }
+              />
+
+              <button>submit</button>
+            </form>
+            <Select
+              value={selectedOption}
+              onChange={(selectedOption) => {
+                setSelectedOption(selectedOption);
+                setBooking({
+                  ...booking,
+                  location: selectedOption ? selectedOption.value : null,
+                });
+              }}
+              options={options}
+              styles={{
+                control: (baseStyles, state) => ({
+                  ...baseStyles,
+                  borderColor: "red",
+                  backgroundColor: "green",
+                }),
+              }}
+            />
+          </AccordionDetails>
+        </Accordion>
+      </div>
     </>
   );
 }
