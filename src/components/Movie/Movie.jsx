@@ -6,8 +6,7 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
-//import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { alpha, styled } from "@mui/material/styles";
+import YouTube from "react-youtube"; //import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 function Movie() {
   const options = [
@@ -24,6 +23,8 @@ function Movie() {
     email: null,
     location: null,
   });
+  const [allActors, setAllActor] = useState([]);
+  const [video, setVideo] = useState({});
 
   async function fetchMovie() {
     const response = await fetch(
@@ -37,8 +38,25 @@ function Movie() {
     });
   }
 
+  async function getAllActors() {
+    const res = await axios(
+      `https://api.themoviedb.org/3/movie/${id}/casts?api_key=${process.env.REACT_APP_APIKEY}`
+    );
+    setAllActor(res.data.cast);
+  }
+
+  async function getVideo() {
+    const res = await axios(
+      `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${process.env.REACT_APP_APIKEY}`
+    );
+
+    setVideo(res.data.results[0]);
+  }
+
   useEffect(() => {
     fetchMovie();
+    getAllActors();
+    getVideo();
   }, []);
 
   function sendBooking(e) {
@@ -56,13 +74,20 @@ function Movie() {
     }
   }
 
+  const youtubeOpts = {
+    height: "390",
+    width: "640",
+    playerVars: {
+      autoplay: 0,
+    },
+  };
+
   return (
     <>
       {Array.isArray(movie.genres) &&
         movie.genres.map((movie, i) => {
           return <h1 key={i}>{movie.name}</h1>;
         })}
-
       <div>
         {Array.isArray(movie.genres) &&
           movie.production_companies.map((movie, i) => {
@@ -74,7 +99,6 @@ function Movie() {
             );
           })}
       </div>
-
       <div>
         <Accordion className="test">
           <AccordionSummary
@@ -123,6 +147,15 @@ function Movie() {
           </AccordionDetails>
         </Accordion>
       </div>
+      {Array.isArray(allActors) &&
+        allActors.map((actor) => {
+          return (
+            <Link to={`/actor/${actor.id}`}>
+              <p>{actor.name}</p>
+            </Link>
+          );
+        })}
+      <YouTube videoId={`${video.key}`} opts={youtubeOpts} />;
     </>
   );
 }

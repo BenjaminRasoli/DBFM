@@ -7,12 +7,14 @@
     width: 100%;
    background-color: black;
    max-height: 100px;
+   
   
 }
 
 .left {
     display: flex;
     align-items: center;
+    
 }
 
 .left img.mainlogo {
