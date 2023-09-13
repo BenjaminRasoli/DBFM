@@ -1,10 +1,16 @@
 import "./MovieCard.css";
 import { Link, useParams, useLocation } from "react-router-dom";
 import { AiFillStar } from "react-icons/ai";
+import { BiSolidDownArrow } from "react-icons/bi";
 import { IconContext } from "react-icons";
 import poster from "../../images/poster-image.png";
 import React, { useEffect, useState } from "react";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import {
+  AiOutlineHeart,
+  AiFillHeart,
+  AiFillPlusCircle,
+  AiOutlineArrowDown,
+} from "react-icons/ai";
 
 let moreMovies = 0;
 function MovieCard() {
@@ -13,6 +19,7 @@ function MovieCard() {
   const [movies, setMovies] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const favoriteMovies = JSON.parse(localStorage.getItem("favoriteMovies"));
+  const [sort, setSort] = useState("");
 
   async function fetchMovies() {
     if (location.pathname === "/favorites") {
@@ -77,57 +84,91 @@ function MovieCard() {
     }
   }, [favorites]);
 
-  return (
-    <div className="grid-container">
-      {favoriteMovies.length === 0 && location.pathname === "/favorites" && (
-        <Link to="/">Start adding</Link>
-      )}
-      {movies.length === 0 && searchword && <h1> Movie not found</h1>}
-      {Array.isArray(movies) &&
-        movies.map((movie, i) => {
-          return (
-            <React.Fragment key={i}>
-              <div onClick={() => handleFavorites(movie)}>
-                {favorites.some((favorite) => favorite.id == movie.id) ? (
-                  <AiFillHeart size={50} />
-                ) : (
-                  <AiOutlineHeart size={50} />
-                )}
-              </div>
+  function sortMovie(sortType) {
+    const sortedMovies = [...movies].sort((a, b) => {
+      switch (sortType) {
+        case "a-z":
+          return a.title.localeCompare(b.title);
+        case "date":
+          return b.release_date.localeCompare(a.release_date);
+        case "vote":
+          return b.vote_average - a.vote_average;
+      }
+    });
+    setMovies(sortedMovies);
+  }
 
-              <Link to={`/movie/${movie.id}`} key={i}>
-                <div key={movie.id} className="grid-item">
-                  <div className="movie-card">
-                    <img
-                      src={
-                        movie.poster_path === null
-                          ? poster
-                          : "https://image.tmdb.org/t/p/w500/" +
-                            movie.poster_path
-                      }
-                      alt={movie.title}
-                      className="movie-image"
-                    />
-                    <IconContext.Provider value={{ color: "yellow" }}>
-                      <div className="card-content">
-                        <h3>{movie.title}</h3>
-                        <p> {movie.release_date}</p>
-                        <p>
-                          {movie.vote_average}
-                          <AiFillStar />
-                        </p>
-                      </div>
-                    </IconContext.Provider>
+  return (
+    <>
+      <div class="sortContainer">
+        <div class="select">
+          <select onChange={(e) => sortMovie(e.target.value)}>
+            <option value="a-z">A-Z</option>
+            <option value="date">Sort by date</option>
+            <option value="vote">Sort by vote</option>
+          </select>
+        </div>
+      </div>
+
+      <div className="grid-container">
+        {favoriteMovies.length === 0 && location.pathname === "/favorites" && (
+          <Link to="/">Start adding</Link>
+        )}
+        {movies.length === 0 && searchword && <h1> Movie not found</h1>}
+        {Array.isArray(movies) &&
+          movies.map((movie, i) => {
+            return (
+              <div className="cardConatiner">
+                <React.Fragment key={i}>
+                  <div
+                    className="heartContainer"
+                    onClick={() => handleFavorites(movie)}
+                  >
+                    {favorites.some((favorite) => favorite.id == movie.id) ? (
+                      <AiFillHeart className="heart" size={50} color="red" />
+                    ) : (
+                      <AiOutlineHeart size={50} />
+                    )}
                   </div>
-                </div>
-              </Link>
-            </React.Fragment>
-          );
-        })}
-      {location.pathname !== "/favorites" && (
-        <button onClick={() => fetchMovies()}>more movies</button>
-      )}
-    </div>
+                  <Link to={`/movie/${movie.id}`} key={i}>
+                    <div key={movie.id} className="grid-item">
+                      <div className="movie-card">
+                        <img
+                          src={
+                            movie.poster_path === null
+                              ? poster
+                              : "https://image.tmdb.org/t/p/w500/" +
+                                movie.poster_path
+                          }
+                          alt={movie.title}
+                          className="movie-image"
+                        />
+                        <IconContext.Provider value={{ color: "yellow" }}>
+                          <div className="card-content">
+                            <h3>{movie.title}</h3>
+                            <p> {movie.release_date}</p>
+                            <p>
+                              {movie.vote_average}
+                              <AiFillStar />
+                            </p>
+                          </div>
+                        </IconContext.Provider>
+                      </div>
+                    </div>
+                  </Link>
+                </React.Fragment>
+              </div>
+            );
+          })}
+        {location.pathname !== "/favorites" && (
+          <div className="moreMovieButtonContainer">
+            <button className="moreMovieButton" onClick={() => fetchMovies()}>
+              <AiFillPlusCircle size={50} />
+            </button>
+          </div>
+        )}
+      </div>
+    </>
   );
 }
 
