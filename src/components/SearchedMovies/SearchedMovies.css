@@ -1,27 +1,27 @@
-.grid-container {
+/* .grid-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 25px;
-}
+} */
 
-.grid-item {
+/* .grid-item {
     position: relative;
     overflow: hidden;
     margin: 0;
     padding: 0;
-}
+} */
 
-.movie-card {
+/* .movie-card {
     position: relative;
-}
+} */
 
-.movie-image {
+/* .movie-image {
     width: 100%;
     height: auto;
     transition: transform 0.3s ease;
-}
+} */
 
-.card-content {
+/* .card-content {
     position: absolute;
     top: 0;
     left: -100%;
@@ -38,9 +38,9 @@
     align-items: center;
     transition: left 0.3s ease;
     z-index: 1;
-}
+} */
 
-.card-content p {
+/* .card-content p {
     text-align: center;
     margin: 5px 0;
 }
@@ -52,4 +52,4 @@
 .movie-card:hover .movie-image {
     transform: scale(1.2);
     transition: 0.5s;
-}
+} */

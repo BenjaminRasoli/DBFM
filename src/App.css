@@ -7,5 +7,9 @@
 
 body {
   background: #28262C;
+}
+
+:root{
+--main-color: white;
 
 }

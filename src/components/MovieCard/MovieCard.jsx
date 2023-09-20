@@ -10,6 +10,7 @@ import {
   AiFillHeart,
   AiFillPlusCircle,
   AiOutlineArrowDown,
+  AiOutlinePlus,
 } from "react-icons/ai";
 
 let moreMovies = 0;
@@ -17,9 +18,12 @@ function MovieCard() {
   let { searchword, genreId } = useParams();
   let location = useLocation();
   const [movies, setMovies] = useState([]);
+  const filteredMovies = movies.filter(
+    (movie) => movie.media_type !== "person"
+  );
   const [favorites, setFavorites] = useState([]);
   const favoriteMovies = JSON.parse(localStorage.getItem("favoriteMovies"));
-  const [sort, setSort] = useState("");
+  //const [sort, setSort] = useState("");
 
   async function fetchMovies() {
     if (location.pathname === "/favorites") {
@@ -29,9 +33,9 @@ function MovieCard() {
       moreMovies++;
       let url = "";
       if (location.pathname === "/") {
-        url = `https://api.themoviedb.org/3/trending/movie/day?language=en-US&page=${moreMovies}&api_key=${process.env.REACT_APP_APIKEY}`;
+        url = `https://api.themoviedb.org/3/trending/all/day?language=en-US&page=${moreMovies}&api_key=${process.env.REACT_APP_APIKEY}`;
       } else if (location.pathname === `/search/${searchword}`) {
-        url = `https://api.themoviedb.org/3/search/movie?language=en-US&query=${searchword}&page=${moreMovies}&api_key=${process.env.REACT_APP_APIKEY}`;
+        url = `https://api.themoviedb.org/3/search/multi?language=en-US&query=${searchword}&page=${moreMovies}&api_key=${process.env.REACT_APP_APIKEY}`;
       } else if (location.pathname === `/genres/${genreId}`) {
         url = `https://api.themoviedb.org/3/discover/movie?language=en-US&&with_genres=${genreId}&page=${moreMovies}&api_key=${process.env.REACT_APP_APIKEY}`;
       }
@@ -58,10 +62,13 @@ function MovieCard() {
         ...favorites,
         {
           id: movie.id,
-          title: movie.title,
+          original_title: movie.original_title,
+          original_name: movie.original_name,
           release_date: movie.release_date,
+          first_air_date: movie.first_air_date,
           vote_average: movie.vote_average,
           poster_path: movie.poster_path,
+          media_type: movie.media_type,
         },
       ];
       setFavorites(updatedFavorites);
@@ -85,12 +92,16 @@ function MovieCard() {
   }, [favorites]);
 
   function sortMovie(sortType) {
-    const sortedMovies = [...movies].sort((a, b) => {
+    const sortedMovies = [...filteredMovies].sort((a, b) => {
       switch (sortType) {
         case "a-z":
-          return a.title.localeCompare(b.title);
+          return (a.original_title || a.original_name).localeCompare(
+            b.original_title || b.original_name
+          );
         case "date":
-          return b.release_date.localeCompare(a.release_date);
+          return (b.release_date || b.first_air_date).localeCompare(
+            a.release_date || a.first_air_date
+          );
         case "vote":
           return b.vote_average - a.vote_average;
       }
@@ -111,26 +122,34 @@ function MovieCard() {
       </div>
 
       <div className="grid-container">
-        {favoriteMovies.length === 0 && location.pathname === "/favorites" && (
+        {/* {favoriteMovies.length === 0 && location.pathname === "/favorites" && (
           <Link to="/">Start adding</Link>
-        )}
+        )} */}
         {movies.length === 0 && searchword && <h1> Movie not found</h1>}
         {Array.isArray(movies) &&
-          movies.map((movie, i) => {
+          filteredMovies.map((movie, i) => {
             return (
               <div className="cardConatiner">
+                <div
+                  className="heartContainer"
+                  onClick={() => handleFavorites(movie)}
+                >
+                  {favorites.some((favorite) => favorite.id == movie.id) ? (
+                    <AiFillHeart className="heart" size={50} color="red" />
+                  ) : (
+                    <AiOutlineHeart size={50} color="var(--main-color)" />
+                  )}
+                </div>
+
                 <React.Fragment key={i}>
-                  <div
-                    className="heartContainer"
-                    onClick={() => handleFavorites(movie)}
+                  <Link
+                    to={
+                      (location.pathname === `/genres/${genreId}` &&
+                        `/movie/${movie.id}`) ||
+                      `/${movie.original_title ? "movie" : "tv"}/${movie.id}`
+                    }
+                    key={i}
                   >
-                    {favorites.some((favorite) => favorite.id == movie.id) ? (
-                      <AiFillHeart className="heart" size={50} color="red" />
-                    ) : (
-                      <AiOutlineHeart size={50} />
-                    )}
-                  </div>
-                  <Link to={`/movie/${movie.id}`} key={i}>
                     <div key={movie.id} className="grid-item">
                       <div className="movie-card">
                         <img
@@ -145,8 +164,10 @@ function MovieCard() {
                         />
                         <IconContext.Provider value={{ color: "yellow" }}>
                           <div className="card-content">
-                            <h3>{movie.title}</h3>
-                            <p> {movie.release_date}</p>
+                            <h3>
+                              {movie.original_title || movie.original_name}
+                            </h3>
+                            <p> {movie.release_date || movie.first_air_date}</p>
                             <p>
                               {movie.vote_average}
                               <AiFillStar />
@@ -162,9 +183,11 @@ function MovieCard() {
           })}
         {location.pathname !== "/favorites" && (
           <div className="moreMovieButtonContainer">
-            <button className="moreMovieButton" onClick={() => fetchMovies()}>
-              <AiFillPlusCircle size={50} />
-            </button>
+            <div className="centerButton">
+              <button className="moreMovieButton" onClick={() => fetchMovies()}>
+                <AiFillPlusCircle size={50} />
+              </button>
+            </div>
           </div>
         )}
       </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 import Select from "react-select";
 import Accordion from "@mui/material/Accordion";
@@ -15,7 +15,9 @@ function Movie() {
     { value: "vanilla", label: "Vanilla" },
   ];
   const [selectedOption, setSelectedOption] = useState(null);
-  let { id } = useParams();
+  let { id, tvId, genreId } = useParams();
+  let location = useLocation();
+
   const [movie, setMovie] = useState({});
   const [booking, setBooking] = useState({
     name: null,
@@ -27,9 +29,12 @@ function Movie() {
   const [video, setVideo] = useState({});
 
   async function fetchMovie() {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/movie/${id}?language=en-US&api_key=${process.env.REACT_APP_APIKEY}`
-    );
+    const url =
+      location.pathname === `/movie/${id}`
+        ? `https://api.themoviedb.org/3/movie/${id}?language=en-US&api_key=${process.env.REACT_APP_APIKEY}`
+        : `https://api.themoviedb.org/3/tv/${tvId}?language=en-US&api_key=${process.env.REACT_APP_APIKEY}`;
+
+    const response = await fetch(url);
     const movie = await response.json();
     setMovie(movie);
     setBooking({
@@ -39,16 +44,21 @@ function Movie() {
   }
 
   async function getAllActors() {
-    const res = await axios(
-      `https://api.themoviedb.org/3/movie/${id}/casts?api_key=${process.env.REACT_APP_APIKEY}`
-    );
+    const url =
+      location.pathname === `/movie/${id}`
+        ? `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${process.env.REACT_APP_APIKEY}`
+        : `https://api.themoviedb.org/3/tv/${tvId}/credits?api_key=${process.env.REACT_APP_APIKEY}`;
+    const res = await axios(url);
     setAllActor(res.data.cast);
   }
 
   async function getVideo() {
-    const res = await axios(
-      `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${process.env.REACT_APP_APIKEY}`
-    );
+    const url =
+      location.pathname === `/movie/${id}`
+        ? `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${process.env.REACT_APP_APIKEY}`
+        : `https://api.themoviedb.org/3/tv/${tvId}/videos?api_key=${process.env.REACT_APP_APIKEY}`;
+
+    const res = await axios(url);
 
     setVideo(res.data.results[0]);
   }
@@ -155,7 +165,7 @@ function Movie() {
             </Link>
           );
         })}
-      <YouTube videoId={`${video.key}`} opts={youtubeOpts} />;
+      {video && <YouTube videoId={`${video.key}`} opts={youtubeOpts} />}
     </>
   );
 }
