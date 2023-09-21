@@ -1,5 +1,10 @@
 import "./MovieCard.css";
-import { Link, useParams, useLocation } from "react-router-dom";
+import {
+  Link,
+  useParams,
+  useLocation,
+  useSearchParams,
+} from "react-router-dom";
 import { AiFillStar } from "react-icons/ai";
 import { BiSolidDownArrow } from "react-icons/bi";
 import { IconContext } from "react-icons";
@@ -14,28 +19,34 @@ import {
 } from "react-icons/ai";
 
 let moreMovies = 0;
+
 function MovieCard() {
-  let { searchword, genreId } = useParams();
+  const [searchParams] = useSearchParams();
+  let searchWord = searchParams.get("query");
+
+  let { genreId } = useParams();
   let location = useLocation();
   const [movies, setMovies] = useState([]);
-  const filteredMovies = movies.filter(
-    (movie) => movie.media_type !== "person"
+  let filteredMovies = movies.filter(
+    (movie) =>
+      movie.release_date ||
+      (movie.first_air_date && movie.media_type !== "person")
   );
+
   const [favorites, setFavorites] = useState([]);
   const favoriteMovies = JSON.parse(localStorage.getItem("favoriteMovies"));
-  //const [sort, setSort] = useState("");
 
   async function fetchMovies() {
     if (location.pathname === "/favorites") {
       const favoriteMovies = JSON.parse(localStorage.getItem("favoriteMovies"));
-      setMovies(favoriteMovies);
+      setMovies(favoriteMovies && favoriteMovies);
     } else {
       moreMovies++;
       let url = "";
       if (location.pathname === "/") {
         url = `https://api.themoviedb.org/3/trending/all/day?language=en-US&page=${moreMovies}&api_key=${process.env.REACT_APP_APIKEY}`;
-      } else if (location.pathname === `/search/${searchword}`) {
-        url = `https://api.themoviedb.org/3/search/multi?language=en-US&query=${searchword}&page=${moreMovies}&api_key=${process.env.REACT_APP_APIKEY}`;
+      } else if (location.pathname === "/search") {
+        url = `https://api.themoviedb.org/3/search/multi?language=en-US&query=${searchWord}&page=${moreMovies}&api_key=${process.env.REACT_APP_APIKEY}`;
       } else if (location.pathname === `/genres/${genreId}`) {
         url = `https://api.themoviedb.org/3/discover/movie?language=en-US&&with_genres=${genreId}&page=${moreMovies}&api_key=${process.env.REACT_APP_APIKEY}`;
       }
@@ -92,20 +103,24 @@ function MovieCard() {
   }, [favorites]);
 
   function sortMovie(sortType) {
-    const sortedMovies = [...filteredMovies].sort((a, b) => {
+    const sortedMovies = filteredMovies.sort((a, b) => {
       switch (sortType) {
         case "a-z":
           return (a.original_title || a.original_name).localeCompare(
             b.original_title || b.original_name
           );
         case "date":
-          return (b.release_date || b.first_air_date).localeCompare(
-            a.release_date || a.first_air_date
+          return (
+            new Date(b.release_date || b.first_air_date) -
+            new Date(a.release_date || a.first_air_date)
           );
         case "vote":
           return b.vote_average - a.vote_average;
+        default:
+          return 0;
       }
     });
+
     setMovies(sortedMovies);
   }
 
@@ -120,12 +135,12 @@ function MovieCard() {
           </select>
         </div>
       </div>
-
       <div className="grid-container">
-        {/* {favoriteMovies.length === 0 && location.pathname === "/favorites" && (
+        {favoriteMovies.length === 0 && location.pathname === "/favorites" && (
           <Link to="/">Start adding</Link>
-        )} */}
-        {movies.length === 0 && searchword && <h1> Movie not found</h1>}
+        )}
+
+        {movies.length === 0 && searchWord && <h1> Movie not found</h1>}
         {Array.isArray(movies) &&
           filteredMovies.map((movie, i) => {
             return (

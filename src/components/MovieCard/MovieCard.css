@@ -18,6 +18,7 @@
     margin: 0;
     padding: 0;
     width: 350px;
+    border-radius: 0px 40px 40px 40px;
 }
 
 .movie-card {
@@ -89,7 +90,6 @@
 select {
     border: 0;
     box-shadow: none;
-    color: black;
     background:var(--main-color);
     cursor: pointer;
     text-align: center;
@@ -97,6 +97,7 @@ select {
     padding: 10px;
   
 }
+
 
 .select {
     position: absolute;
@@ -112,13 +113,26 @@ select {
     position: relative;
     top: 75px;
     z-index: 100;
-    background-color: #525E60;
-    opacity: 0.8; 
+    background: rgba(192, 192, 192, 0.6);
+    /* opacity: 0.5;  */
     width: fit-content;
     border-bottom-right-radius: 20px ;
-  
   
     
 }
 
 
+.skeleton-loader {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.skeleton-card {
+    width: 200px;
+    /* Adjust as needed */
+    height: 350px;
+    /* Adjust as needed */
+    background-color: #e0e0e0;
+    /* Adjust to your preferred skeleton color */
+    margin: 10px;
+}

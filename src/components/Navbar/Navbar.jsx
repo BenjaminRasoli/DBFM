@@ -14,7 +14,10 @@ function Navbar() {
   let navigate = useNavigate();
   function searchMovies(e) {
     e.preventDefault();
-    navigate(`/search/${searchWord}`);
+    navigate({
+      pathname: "/search",
+      search: `query=${searchWord}`,
+    });
   }
 
   async function getGenres() {
@@ -123,7 +126,6 @@ function Navbar() {
           </div>
         </form>
       </IconContext.Provider>
-      
     </>
   );
 }

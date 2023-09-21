@@ -14,7 +14,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/movie/:id" element={<Movie />} />
-        <Route path="/search/:searchword" element={<Movies />} />
+        <Route path="/search" element={<Movies />} />
         <Route path="/" element={<Movies />} />
         <Route path="/genres/:genreId" element={<Movies />} />
         <Route path="/tv/:tvId" element={<Movie />} />
