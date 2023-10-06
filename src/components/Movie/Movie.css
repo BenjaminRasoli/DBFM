@@ -1,0 +1,119 @@
+.movieContainer {
+  width: 90%;
+  float: right;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 100px;
+  padding: 30px;
+  color: var(--second-color);
+}
+
+@media screen and (max-width: 1350px) {
+  .movieContainer {
+    width: 100%;
+    padding: 0;
+  }
+}
+
+.moreInformationImage {
+  width: fit-content;
+  height: fit-content;
+  border-radius: 20px;
+  padding: 10px;
+}
+
+@media screen and (max-width: 1650px) {
+  .moreInformationImage {
+    width: 300px;
+  }
+}
+
+@media screen and (max-width: 1350px) {
+  .moreInformationImage {
+    display: flex;
+    margin: auto;
+  }
+}
+
+.movieInformationContainer {
+  padding-left: 100px;
+}
+
+@media screen and (max-width: 1350px) {
+  .movieInformationContainer {
+    padding-left: 0px;
+    margin: 60px;
+  }
+}
+
+.movieGenresContainer {
+  padding-top: 40px;
+}
+
+.movieGenres {
+  display: flex;
+}
+
+@media screen and (max-width: 700px) {
+  .movieGenres {
+    display: block;
+  }
+}
+
+.movieVote {
+  padding-top: 30px;
+}
+
+.movieOverViewContainer {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.movieOverView {
+  line-height: 1.5;
+  max-width: 600px;
+}
+
+/* @media screen and (max-width: 1350px) {
+  .movieOverView {
+max-width: 300px; 
+ }
+} */
+
+.movieReleaseRun {
+  justify-content: flex-end;
+}
+
+.movieSubData {
+  display: flex;
+}
+
+.movieSubDataLeft {
+  margin-right: auto;
+}
+
+/* @media screen and (max-width: 790px) {
+  .movieSubDataLeft {
+    margin-right: 100px;
+  }
+} */
+
+.actorsContainer {
+  display: flex;
+  max-width: 400px;
+  word-wrap: break-word;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.actorsContainer a {
+  color: #4786d8;
+}
+
+/* @media screen and (max-width: 1200px) {
+  .actorsContainer {
+    max-width: 200px;
+  }
+} */

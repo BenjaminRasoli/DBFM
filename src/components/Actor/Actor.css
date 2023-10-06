@@ -1,0 +1,159 @@
+.actorContainer {
+  width: 90%;
+  float: right;
+  margin-top: 100px;
+  padding: 30px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  color: var(--second-color);
+}
+
+.actorImageContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.besideActorImage {
+  max-width: 600px;
+  margin-left: 80px;
+}
+
+.besideActorImage h3{
+margin-top: 20px;
+margin-bottom: 10px;
+}
+
+.actorMovies {
+  margin-top: 40px;
+  display: flex;
+  overflow: auto;
+  width: 600px;
+  gap: 50px;
+  text-align: center;
+}
+
+.actorMovies a {
+  color: #4786d8;
+}
+
+.actorMovies img {
+  width: 150px;
+  border-radius: 10px;
+}
+
+.actorMoviesTitle p {
+  max-width: 200px;
+  font-size: 20px;
+}
+
+@media screen and (max-width: 1350px) {
+  .actorContainer {
+    width: 100%;
+    padding: 0;
+  }
+}
+
+.actorImage {
+  width: 400px;
+  height: fit-content;
+  border-radius: 20px;
+}
+
+@media screen and (max-width: 1650px) {
+  .actorImage {
+    width: 300px;
+  }
+}
+
+@media screen and (max-width: 1350px) {
+  .actorImage {
+    display: flex;
+    margin: auto;
+  }
+}
+
+.actorInformation {
+  padding-top: 20px;
+}
+
+.actorInformation strong {
+  display: block;
+}
+
+.actorInformation p {
+  margin-bottom: 1em; /* Adjust the margin as needed */
+}
+
+.actorInformationContainer {
+  padding-left: 100px;
+}
+
+/* .actorInformation h1 h3 h4 p{
+  margin-bottom: 10px;
+} */
+
+@media screen and (max-width: 1350px) {
+  .actorInformationContainer {
+    padding-left: 0px;
+    margin: 60px;
+  }
+}
+
+.actorGenresContainer {
+  padding-top: 40px;
+}
+
+.actorGenres {
+  display: flex;
+}
+
+@media screen and (max-width: 700px) {
+  .actorGenres {
+    display: block;
+  }
+}
+
+.actorVote {
+  padding-top: 30px;
+}
+
+.actorOverViewContainer {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.actorOverView {
+  line-height: 1.5;
+  max-width: 600px;
+}
+
+/* @media screen and (max-width: 1350px) {
+  .actorOverView {
+max-width: 300px; 
+ }
+} */
+
+.actorReleaseRun {
+  justify-content: flex-end;
+}
+
+.actorSubData {
+  display: flex;
+}
+
+.actorSubDataLeft {
+  margin-right: auto;
+}
+
+/* @media screen and (max-width: 790px) {
+  .actorSubDataLeft {
+    margin-right: 100px;
+  }
+} */
+
+/* @media screen and (max-width: 1200px) {
+  .actorsContainer {
+    max-width: 200px;
+  }
+} */

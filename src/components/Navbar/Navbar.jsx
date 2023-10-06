@@ -7,18 +7,25 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { Icon, colors } from "@mui/material";
 import { IconContext } from "react-icons";
+import * as FaIcons from "react-icons/fa";
+import * as AiIcons from "react-icons/ai";
+import Hamburger from "hamburger-react";
 
 function Navbar() {
-  const [searchWord, setSearchWord] = useState();
+  const [searchWord, setSearchWord] = useState("");
   const [genres, setGenres] = useState([]);
   let navigate = useNavigate();
   function searchMovies(e) {
     e.preventDefault();
+    setSearchWord("");
     navigate({
       pathname: "/search",
       search: `query=${searchWord}`,
     });
   }
+  const [sidebar, setSidebar] = useState(false);
+
+  const showSidebar = () => setSidebar(!sidebar);
 
   async function getGenres() {
     const res = await axios.get(
@@ -26,6 +33,8 @@ function Navbar() {
     );
     setGenres(res.data.genres);
   }
+
+  const [toggle, setToggle] = useState(false);
 
   useEffect(() => {
     getGenres();
@@ -105,7 +114,9 @@ function Navbar() {
           </button>
         </div>
       </form> */}
-      <IconContext.Provider value={{ color: "#28262C", size: "50px" }}>
+      <IconContext.Provider
+        value={{ color: "var(--main-color)", size: "50px" }}
+      >
         <form id="search">
           <div className="search-container">
             <div class="search-box">
@@ -114,6 +125,7 @@ function Navbar() {
                 type="text"
                 placeholder="Search.."
                 onChange={(e) => setSearchWord(e.target.value)}
+                value={searchWord}
               />
               <button
                 class="search-btn"
@@ -126,6 +138,91 @@ function Navbar() {
           </div>
         </form>
       </IconContext.Provider>
+      {/* <Menu
+        className={"sidebar"}
+        // htmlClassName={"sidebar"}
+        // bodyClassName={"sidebar"}
+        // burgerButtonClassName={"sidebar"}
+        // burgerBarClassName={"sidebar"}
+        // crossButtonClassName={"sidebar"}
+        // crossClassName={"sidebar"}
+        // menuClassName={"sidebar"}
+        // morphShapeClassName={"sidebar"}
+        // itemListClassName={"sidebar"}
+        // overlayClassName={"sidebar"}
+      >
+        <nav class="nav">
+          <ul>
+            <li>
+              <NavLink className="sideBarText" to="/">
+                Home
+              </NavLink>
+              <NavLink className="sideBarText" to="/favorites">
+                Favorites
+              </NavLink>
+            </li>
+            {Array.isArray(genres) &&
+              genres.map((genre, i) => {
+                return (
+                  <li key={i}>
+                    <NavLink
+                      to={`/genres/${genre.id}`}
+                      className={({ isActive }) =>
+                        isActive ? " active sideBarText " : "sideBarText"
+                      }
+                    >
+                      {genre.name}
+                    </NavLink>
+                  </li>
+                );
+              })}
+          </ul>
+        </nav>
+      </Menu> */}
+      {/* <button className="navBarButton" onClick={toggleNavBar}>
+          <div></div>
+          <div></div>
+          <div></div>
+        
+      </button> */}
+      <div id="sidebar" className={toggle && "active"}>
+        <nav class="nav">
+          <ul>
+            <li>
+              <NavLink className="sideBarText" to="/">
+                Home
+              </NavLink>
+              <NavLink className="sideBarText" to="/favorites">
+                Favorites
+              </NavLink>
+            </li>
+            {Array.isArray(genres) &&
+              genres.map((genre, i) => {
+                return (
+                  <li key={i}>
+                    <NavLink
+                      to={`/genres/${genre.id}`}
+                      className={({ isActive }) =>
+                        isActive ? " active sideBarText " : "sideBarText"
+                      }
+                    >
+                      {genre.name}
+                    </NavLink>
+                  </li>
+                );
+              })}
+          </ul>
+        </nav>
+      </div>
+      <button class="navBarButton">
+        <IconContext.Provider>
+          <Hamburger
+            color="var(--second-color)"
+            toggled={toggle}
+            toggle={setToggle}
+          />
+        </IconContext.Provider>
+      </button>
     </>
   );
 }

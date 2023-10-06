@@ -4,7 +4,12 @@ import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import Movie from "./components/Movie/Movie";
 import SearchedMovies from "./components/SearchedMovies/SearchedMovies";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import Favorites from "./components/Favorites/Favorites";
 import Actor from "./components/Actor/Actor";
 
@@ -22,7 +27,7 @@ function App() {
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/actor/:actorId" element={<Actor />} />
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </Router>
   );
 }

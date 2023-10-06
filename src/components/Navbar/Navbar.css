@@ -1,131 +1,275 @@
-
-.sidebar{
-    position: absolute;
-    width: 15%;
-    height: fit-content;
-    background: #28262C;
-    font-size: 0.9em;
-    border-right: 1px solid black;
-
+.sidebar {
+  position: absolute;
+  width: 15%;
+  height: fit-content;
+  background: var(--main-color);
+  font-size: 0.9em;
+  border-right: 1px solid black;
 }
 
+@media screen and (max-width: 1350px) {
+  .sidebar {
+    display: none;
+  }
+}
 
 .nav {
-    position: relative;
-    margin: 0 15%;
-    font-weight: bold;
+  position: relative;
+  margin: 0 15%;
+  font-weight: bold;
 }
 
 .nav ul {
-    list-style: none;
+  list-style: none;
 
-    li {
-        position: relative;
-        margin: 3.2em 0;
+  li {
+    position: relative;
+    margin: 3.2em 0;
 
-        a {
-            line-height: 5em;
-            text-transform: uppercase;
-            text-decoration: none;
-            letter-spacing: 0.4em;
-            display: block;
-            transition: all ease-out 300ms;
-        
-          
-        }
-
-       
-
-        &:not(.active)::after {
-            opacity: 0.5;
-        }
-
-    
-
-        &::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 0.2em;
-            background: black;
-            left: 0;
-            bottom: 0;
-            background:var(--main-color);
-        }
+    a {
+      line-height: 5em;
+      text-transform: uppercase;
+      text-decoration: none;
+      letter-spacing: 0.4em;
+      display: block;
+      transition: all ease-out 300ms;
     }
+
+    &:not(.active)::after {
+      opacity: 0.5;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 0.2em;
+      background: black;
+      left: 0;
+      bottom: 0;
+      background: var(--second-color);
+    }
+  }
 }
 
-
-.sideBarText{
-    color:var(--main-color);
+.sideBarText {
+  color: var(--second-color);
 }
-
 
 .active {
-    color: #FF1053;
+  color: #ff1053;
 }
 
 a {
-    font-weight: bold;
-    text-decoration: drop-shadow;
-    padding: .25em;
-    border-radius: .50em;
-
+  font-weight: bold;
+  text-decoration: drop-shadow;
+  padding: 0.25em;
+  border-radius: 0.5em;
 }
 
-
 .search-container {
-    position: absolute;
-    top: 40px;
-    right: 10px;
-    display: flex;
-    align-items: center;
+  position: absolute;
+  top: 5px;
+  right: 0px;
+  display: flex;
+  align-items: center;
+  z-index: 1000000000;
+}
+
+@media screen and (max-width: 1350px) {
+  .search-container {
+    position: fixed;
+  }
 }
 
 .search-box {
-    background: var(--main-color);
-    height: 40px;
-    border-radius: 40px;
-    padding: 10px;
-    display: flex;
-    align-items: center;
+  background: var(--second-color);
+  height: 40px;
+  border-radius: 40px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
 }
 
-.search-box:hover>.search-text {
-    width: 240px;
-    padding: 0 6px;
+.search-box:hover > .search-text {
+  width: 240px;
+  padding: 0 6px;
 }
 
-.search-box:hover>.search-btn {
-    background: white;
-    color: black;
+.search-box:hover > .search-btn {
+  background: white;
+  color: black;
 }
 
 .search-icon {
-    color: black;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: transparent;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: 0.4s;
-    cursor: pointer;
-    text-decoration: none;
-    border: none;
+  color: black;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.4s;
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
 }
-
 
 .search-text {
-    border: none;
-    background: none;
-    outline: none;
-    padding: 0;
-    font-size: 16px;
-    font-weight: normal;
-    transition: 0.4s;
-    line-height: 40px;
-    width: 0px;
+  border: none;
+  background: none;
+  outline: none;
+  padding: 0;
+  font-size: 16px;
+  font-weight: normal;
+  transition: 0.4s;
+  line-height: 40px;
+  width: 0px;
+  background-color: var(--second-color);
 }
 
+/* @media screen and (min-width: 1350px) {
+  .bm-burger-button {
+display: none;
+  }
+} */
+
+.bm-burger-button {
+  position: fixed;
+  width: 36px;
+  height: 30px;
+  left: 36px;
+  top: 36px;
+}
+
+/* Color/shape of burger icon bars */
+.bm-burger-bars {
+  background: #373a47;
+}
+
+/* Color/shape of burger icon bars on hover*/
+.bm-burger-bars-hover {
+  background: #a90000;
+}
+
+/* Position and sizing of clickable cross button */
+.bm-cross-button {
+  height: 24px;
+  width: 24px;
+}
+
+/* Color/shape of close button cross */
+.bm-cross {
+  background: #bdc3c7;
+}
+
+/*
+Sidebar wrapper styles
+Note: Beware of modifying this element as it can break the animations - you should not need to touch it in most cases
+*/
+.bm-menu-wrap {
+  position: fixed;
+  height: 100%;
+}
+
+/* General sidebar styles */
+.bm-menu {
+  background: #373a47;
+  padding: 2.5em 1.5em 0;
+  font-size: 1.15em;
+  overflow: hidden !important;
+}
+
+/* Morph shape necessary with bubble or elastic */
+.bm-morph-shape {
+  fill: #373a47;
+}
+
+/* Wrapper for item list */
+.bm-item-list {
+  color: #b8b7ad;
+  padding: 0.8em;
+  list-style-type: none !important;
+}
+
+/* Individual item */
+.bm-item {
+  display: inline-block;
+}
+
+/* Styling of overlay */
+.bm-overlay {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+#sidebar {
+  z-index: 10000000;
+  position: fixed;
+
+  width: 300px;
+
+  height: 100%;
+
+  background: var(--main-color);
+
+  left: -300px;
+
+  transition: all 500ms linear;
+  display: none;
+}
+
+@media screen and (max-width: 1350px) {
+  #sidebar {
+    display: block;
+  }
+}
+
+#sidebar.active {
+  left: 0px;
+  overflow: auto;
+}
+
+#sidebar ul li {
+  color: rgba(230, 230, 230, 0.9);
+
+  list-style: none;
+
+  padding: 15px 10px;
+
+  border-bottom: 1px solid rgba(100, 100, 100, 0.3);
+}
+
+.navBarButton {
+  position: fixed;
+
+  margin-left: 5px;
+  top: 5px;
+  display: none;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  z-index: 1000000000;
+}
+
+@media screen and (max-width: 1350px) {
+  .navBarButton {
+    display: block;
+  }
+}
+
+/* .navBarButton div {
+  display: block;
+
+  width: 30px;
+
+  height: 5px;
+
+  background: yellow;
+
+  margin: 5px 0px;
+} */
+
+.section-start {
+  padding-top: 100px;
+}

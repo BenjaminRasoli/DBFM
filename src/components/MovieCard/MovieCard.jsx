@@ -17,6 +17,7 @@ import {
   AiOutlineArrowDown,
   AiOutlinePlus,
 } from "react-icons/ai";
+import { BsFillArrowUpCircleFill } from "react-icons/bs";
 
 let moreMovies = 0;
 
@@ -35,11 +36,15 @@ function MovieCard() {
 
   const [favorites, setFavorites] = useState([]);
   const favoriteMovies = JSON.parse(localStorage.getItem("favoriteMovies"));
+  const [scrollButtonVisible, setScrollButtonVisible] = useState(false);
+  const [totalResults, setTotalResults] = useState(0);
+  const [disabled, setDisabled] = useState(false);
 
   async function fetchMovies() {
     if (location.pathname === "/favorites") {
       const favoriteMovies = JSON.parse(localStorage.getItem("favoriteMovies"));
       setMovies(favoriteMovies && favoriteMovies);
+      console.log("hej");
     } else {
       moreMovies++;
       let url = "";
@@ -52,11 +57,30 @@ function MovieCard() {
       }
       const response = await fetch(url);
       const allMovies = await response.json();
+      allMovies.results.length === 0 && setDisabled(true);
 
       setMovies((prevMovies) => [...prevMovies, ...allMovies.results]);
+      setTotalResults(allMovies.total_results || 0);
     }
   }
 
+  const handleScroll = () => {
+    const yOffset = window.scrollY;
+    setScrollButtonVisible(yOffset > 200);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const scrollUp = () => {
+    const scrollSmooth = document.documentElement;
+
+    scrollSmooth.scrollIntoView({ behavior: "smooth" });
+  };
   function handleFavorites(movie) {
     const isAlreadyInFavorites = favorites.some(
       (favorite) => favorite.id === movie.id
@@ -93,6 +117,7 @@ function MovieCard() {
     fetchMovies();
     const favoriteMovies = JSON.parse(localStorage.getItem("favoriteMovies"));
     setFavorites(favoriteMovies !== null ? favoriteMovies : []);
+    window.scrollTo(0, 0);
   }, [location]);
 
   useEffect(() => {
@@ -135,76 +160,99 @@ function MovieCard() {
           </select>
         </div>
       </div>
-      <div className="grid-container">
-        {favoriteMovies.length === 0 && location.pathname === "/favorites" && (
-          <Link to="/">Start adding</Link>
-        )}
+      <div className="gridContainer">
+        <div className="gridInnerContainer">
+          {favoriteMovies.length === 0 &&
+            location.pathname === "/favorites" && (
+              <>
+                <h3>No movies added to favorites</h3>
+                <Link to="/">Start adding</Link>
+              </>
+            )}
 
-        {movies.length === 0 && searchWord && <h1> Movie not found</h1>}
-        {Array.isArray(movies) &&
-          filteredMovies.map((movie, i) => {
-            return (
-              <div className="cardConatiner">
-                <div
-                  className="heartContainer"
-                  onClick={() => handleFavorites(movie)}
-                >
-                  {favorites.some((favorite) => favorite.id == movie.id) ? (
-                    <AiFillHeart className="heart" size={50} color="red" />
-                  ) : (
-                    <AiOutlineHeart size={50} color="var(--main-color)" />
-                  )}
-                </div>
-
-                <React.Fragment key={i}>
-                  <Link
-                    to={
-                      (location.pathname === `/genres/${genreId}` &&
-                        `/movie/${movie.id}`) ||
-                      `/${movie.original_title ? "movie" : "tv"}/${movie.id}`
-                    }
-                    key={i}
+          {movies.length === 0 && searchWord && <h1> Movie not found</h1>}
+          {Array.isArray(movies) &&
+            filteredMovies.map((movie, i) => {
+              return (
+                <div className="cardConatiner">
+                  <div
+                    className="heartContainer"
+                    onClick={() => handleFavorites(movie)}
                   >
-                    <div key={movie.id} className="grid-item">
-                      <div className="movie-card">
-                        <img
-                          src={
-                            movie.poster_path === null
-                              ? poster
-                              : "https://image.tmdb.org/t/p/w500/" +
-                                movie.poster_path
-                          }
-                          alt={movie.title}
-                          className="movie-image"
-                        />
-                        <IconContext.Provider value={{ color: "yellow" }}>
-                          <div className="card-content">
-                            <h3>
-                              {movie.original_title || movie.original_name}
-                            </h3>
-                            <p> {movie.release_date || movie.first_air_date}</p>
-                            <p>
-                              {movie.vote_average}
-                              <AiFillStar />
-                            </p>
-                          </div>
-                        </IconContext.Provider>
+                    {favorites.some((favorite) => favorite.id == movie.id) ? (
+                      <AiFillHeart className="heart" size={50} color="red" />
+                    ) : (
+                      <AiOutlineHeart size={50} color="var(--main-color)" />
+                    )}
+                  </div>
+
+                  <React.Fragment key={i}>
+                    <Link
+                      to={
+                        (location.pathname === `/genres/${genreId}` &&
+                          `/movie/${movie.id}`) ||
+                        `/${movie.original_title ? "movie" : "tv"}/${movie.id}`
+                      }
+                      key={i}
+                    >
+                      <div key={movie.id} className="grid-item">
+                        <div className="movie-card">
+                          <img
+                            src={
+                              movie.poster_path === null
+                                ? poster
+                                : "https://image.tmdb.org/t/p/w500/" +
+                                  movie.poster_path
+                            }
+                            alt={movie.title}
+                            className="movie-image"
+                          />
+                          <IconContext.Provider value={{ color: "yellow" }}>
+                            <div className="card-content">
+                              <h3>
+                                {movie.original_title || movie.original_name}
+                              </h3>
+                              <p>
+                                {movie.release_date || movie.first_air_date}
+                              </p>
+                              <p>
+                                {movie.vote_average}
+                                <AiFillStar />
+                              </p>
+                            </div>
+                          </IconContext.Provider>
+                        </div>
                       </div>
-                    </div>
-                  </Link>
-                </React.Fragment>
-              </div>
-            );
-          })}
-        {location.pathname !== "/favorites" && (
+                    </Link>
+                  </React.Fragment>
+                </div>
+              );
+            })}
+        </div>
+        {location.pathname !== "/favorites" && totalResults > 15 && (
           <div className="moreMovieButtonContainer">
             <div className="centerButton">
-              <button className="moreMovieButton" onClick={() => fetchMovies()}>
-                <AiFillPlusCircle size={50} />
+              <button
+                className="moreMovieButton"
+                disabled={disabled}
+                onClick={() => fetchMovies()}
+              >
+                <AiFillPlusCircle size={50} color="var(--second-color)" />
               </button>
             </div>
           </div>
         )}
+        <div
+          className={`scrollUpContainer ${
+            scrollButtonVisible ? "show" : "hide"
+          }`}
+        >
+          {scrollButtonVisible && (
+            <button className="scrollUp" onClick={scrollUp}>
+              <BsFillArrowUpCircleFill size={50} color="var(--second-color)" />
+            </button>
+          )}
+        </div>
       </div>
     </>
   );
