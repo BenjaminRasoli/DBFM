@@ -76,12 +76,6 @@
   max-width: 600px;
 }
 
-/* @media screen and (max-width: 1350px) {
-  .movieOverView {
-max-width: 300px; 
- }
-} */
-
 .movieReleaseRun {
   justify-content: flex-end;
 }
@@ -94,26 +88,73 @@ max-width: 300px;
   margin-right: auto;
 }
 
-/* @media screen and (max-width: 790px) {
-  .movieSubDataLeft {
-    margin-right: 100px;
-  }
-} */
-
 .actorsContainer {
   display: flex;
   max-width: 400px;
   word-wrap: break-word;
   flex-wrap: wrap;
   gap: 5px;
+  margin-bottom: 10px;
 }
 
 .actorsContainer a {
   color: #4786d8;
 }
 
-/* @media screen and (max-width: 1200px) {
-  .actorsContainer {
-    max-width: 200px;
+.youtubeVideo {
+  border-style: solid;
+  border-color: var(--second-color);
+  width: auto;
+  height: auto;
+  margin: auto;
+  margin-top: 30px;
+}
+
+@media screen and (max-width: 670px) {
+  .youtubeVideo {
+    width: 500px;
+
+    iframe {
+      width: 500px;
+    }
   }
-} */
+}
+
+@media screen and (max-width: 540px) {
+  .youtubeVideo {
+    width: 350px;
+
+    iframe {
+      width: 350px;
+    }
+  }
+}
+
+.bookingFormContainer {
+  margin-top: 30px;
+  background-color: yellow;
+}
+
+.bookingFormArrow {
+  position: absolute;
+  right: 0;
+  padding-right: 10px;
+}
+
+.bookingFormContainer button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  float: right;
+  margin-bottom: 10px;
+}
+
+.bookingFormContainer input {
+  margin-bottom: 15px;
+  margin-right: 15px;
+  padding: 5px;
+}
+
+.bookingLocaiton {
+  margin-bottom: 15px;
+}

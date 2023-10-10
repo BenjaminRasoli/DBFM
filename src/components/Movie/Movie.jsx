@@ -1,27 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams, useLocation } from "react-router-dom";
-import "./Movie.css";
-import axios from "axios";
 import Select from "react-select";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
-import YouTube from "react-youtube"; //import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import YouTube from "react-youtube";
 import poster from "../../images/poster-image.png";
-import { AiFillStar } from "react-icons/ai";
+import { AiFillStar, AiOutlineSend, AiOutlineArrowDown } from "react-icons/ai";
 import { IconContext } from "react-icons";
+import {
+  fetchMovie,
+  getAllActors,
+  getVideo,
+  sendBooking,
+} from "./functions.js";
+import "./Movie.css";
 
 function Movie() {
-  const options = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
-  ];
   const [selectedOption, setSelectedOption] = useState(null);
-  let { id, tvId, genreId } = useParams();
+  let { id, tvId } = useParams();
   let location = useLocation();
-
   const [movie, setMovie] = useState({});
   const [booking, setBooking] = useState({
     name: null,
@@ -32,71 +31,21 @@ function Movie() {
   const [allActors, setAllActor] = useState([]);
   const [video, setVideo] = useState({});
 
-  async function fetchMovie() {
-    const url =
-      location.pathname === `/movie/${id}`
-        ? `https://api.themoviedb.org/3/movie/${id}?language=en-US&api_key=${process.env.REACT_APP_APIKEY}`
-        : `https://api.themoviedb.org/3/tv/${tvId}?language=en-US&api_key=${process.env.REACT_APP_APIKEY}`;
-    window.scrollTo(0, 0);
-
-    const response = await fetch(url);
-    const movie = await response.json();
-    setMovie(movie);
-    setBooking({
-      ...booking,
-      MovieName: movie.original_title,
-    });
-  }
-
-  async function getAllActors() {
-    const url =
-      location.pathname === `/movie/${id}`
-        ? `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${process.env.REACT_APP_APIKEY}`
-        : `https://api.themoviedb.org/3/tv/${tvId}/credits?api_key=${process.env.REACT_APP_APIKEY}`;
-    const res = await axios(url);
-    setAllActor(res.data.cast);
-  }
-
-  async function getVideo() {
-    const url =
-      location.pathname === `/movie/${id}`
-        ? `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${process.env.REACT_APP_APIKEY}`
-        : `https://api.themoviedb.org/3/tv/${tvId}/videos?api_key=${process.env.REACT_APP_APIKEY}`;
-
-    const res = await axios(url);
-
-    setVideo(res.data.results[0]);
-  }
+  const options = [
+    { value: "Filmstaden Heron City", label: "Filmstaden Heron City" },
+    { value: "Filmstaden Kista", label: "Filmstaden Kista" },
+    { value: "Filmstaden Scandinavia", label: "Filmstaden Scandinavia" },
+    { value: "Filmstaden Sergel", label: "Filmstaden Sergel" },
+    { value: "Filmstaden Sickla", label: "Filmstaden Sickla" },
+    { value: "Filmstaden Söder", label: "Filmstaden Söder" },
+  ];
 
   useEffect(() => {
-    fetchMovie();
-    getAllActors();
-    getVideo();
+    fetchMovie(id, tvId, setMovie, setBooking, booking, location);
+    getAllActors(id, tvId, setAllActor, location);
+    getVideo(id, tvId, setVideo, location);
     window.scroll(0, 0);
   }, []);
-
-  function sendBooking(e) {
-    e.preventDefault();
-
-    if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(booking.email)) {
-      alert("You have entered an invalid email address!");
-    } else if (!/^[A-Za-z]+$/.test(booking.name)) {
-      alert("You have entered an invalid name !");
-    } else {
-      axios.post("http://localhost:3003/bookings", booking);
-      e.target.reset();
-      setSelectedOption([]);
-      axios.post("http://localhost:3003/sendEmail", booking);
-    }
-  }
-
-  const youtubeOpts = {
-    height: "390",
-    width: "640",
-    playerVars: {
-      autoplay: 0,
-    },
-  };
 
   return (
     <div className="movieContainer">
@@ -144,21 +93,9 @@ function Movie() {
               <p>{movie.overview}</p>
             </div>
           </div>
-          {/* <div>
-              {Array.isArray(movie.genres) &&
-                movie.production_companies.map((movie, i) => {
-                  return (
-                    <React.Fragment key={i}>
-                      <h1>{movie.name}</h1>
 
-                      <h1>{movie.origin_country}</h1>
-                    </React.Fragment>
-                  );
-                })}
-            </div> */}
           <div className="actorsContainer">
             <h3> Actors</h3>
-            {/* <div className="actorNames"> */}
             {Array.isArray(allActors) &&
               allActors.slice(0, 10).map((actor) => {
                 return (
@@ -167,23 +104,27 @@ function Movie() {
                   </Link>
                 );
               })}
-            {/* </div> */}
           </div>
         </div>
-        {/* 
+
         <div>
-          <Accordion className="test">
+          <Accordion className="bookingFormContainer">
             <AccordionSummary
-              // expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
               id="panel1a-header"
             >
-              <Typography>Accordion 1</Typography>
+              <Typography>Boka Biljet</Typography>
+              <div className="bookingFormArrow">
+                <AiOutlineArrowDown size={20} />
+              </div>
             </AccordionSummary>
             <AccordionDetails>
-              <form onSubmit={(e) => sendBooking(e)}>
+              <form
+                onSubmit={(e) => sendBooking(e, booking, setSelectedOption)}
+              >
                 <input
                   type="text"
+                  placeholder="Name"
                   onChange={(e) =>
                     setBooking({ ...booking, name: e.target.value })
                   }
@@ -191,37 +132,41 @@ function Movie() {
 
                 <input
                   type="text"
+                  placeholder="Email"
                   onChange={(e) =>
                     setBooking({ ...booking, email: e.target.value })
                   }
                 />
-
-                <button>submit</button>
+                <Select
+                  className="bookingLocaiton"
+                  value={selectedOption}
+                  onChange={(selectedOption) => {
+                    setSelectedOption(selectedOption);
+                    setBooking({
+                      ...booking,
+                      location: selectedOption ? selectedOption.value : null,
+                    });
+                  }}
+                  options={options}
+                  styles={{
+                    control: (baseStyles, state) => ({
+                      ...baseStyles,
+                    }),
+                  }}
+                />
+                <button>
+                  <AiOutlineSend size={20} />
+                </button>
               </form>
-              <Select
-                value={selectedOption}
-                onChange={(selectedOption) => {
-                  setSelectedOption(selectedOption);
-                  setBooking({
-                    ...booking,
-                    location: selectedOption ? selectedOption.value : null,
-                  });
-                }}
-                options={options}
-                styles={{
-                  control: (baseStyles, state) => ({
-                    ...baseStyles,
-                    borderColor: "red",
-                    backgroundColor: "green",
-                  }),
-                }}
-              />
             </AccordionDetails>
-            
           </Accordion>
-        </div> */}
-
-        {/* {video && <YouTube videoId={`${video.key}`} opts={youtubeOpts} />} */}
+        </div>
+        <div>
+          {video && (
+            <YouTube videoId={`${video.key}`} className="youtubeVideo" />
+          )}
+          {/* opts={youtubeOpts} */}
+        </div>
       </div>
     </div>
   );

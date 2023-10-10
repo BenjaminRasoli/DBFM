@@ -1,63 +1,18 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useParams } from "react-router";
 import "./Actor.css";
 import { Link } from "react-router-dom";
 import poster from "../../images/poster-image.png";
-import { MdReadMore } from "react-icons/md";
+import { getActor, checkInfo, movieSeriesUrl, truncateText } from "./functions";
 
 function Actor() {
   const [actor, setActor] = useState({});
   const [showFullBiography, setShowFullBiography] = useState(false);
   const [movieCredits, setMovieCredits] = useState([]);
   const { actorId } = useParams();
-  async function getActor() {
-    const res = await axios(
-      `https://api.themoviedb.org/3/person/${actorId}?api_key=${process.env.REACT_APP_APIKEY}`
-    );
-    setActor(res.data);
 
-    const movieCreditsRes = await axios(
-      `https://api.themoviedb.org/3/person/${actorId}/combined_credits?api_key=${process.env.REACT_APP_APIKEY}`
-    );
-
-    const filterVote = movieCreditsRes.data.cast.sort((a, b) => {
-      return b.vote_average - a.vote_average;
-    });
-    setMovieCredits(filterVote);
-  }
-
-  const truncateText = (text, maxRows) => {
-    if (!text) return ""; // Handle undefined or empty text
-    const maxChars = maxRows * 80;
-    if (text.length <= maxChars) return text;
-    return `${text.slice(0, maxChars)}...`;
-  };
-  const movieSeriesUrl = (movie) => {
-    if (movie.media_type === "movie") {
-      return `/movie/${movie.id}`;
-    } else if (movie.media_type === "tv") {
-      return `/tv/${movie.id}`;
-    }
-  };
-
-  const handleReadMore = () => {
-    setShowFullBiography(true);
-  };
-
-  const handleReadLess = () => {
-    setShowFullBiography(false);
-  };
-
-  const checkInfo = (actorInfo) => {
-    if (actorInfo) {
-      return actorInfo;
-    } else {
-      return "Not Available";
-    }
-  };
   useEffect(() => {
-    getActor();
+    getActor(setActor, setMovieCredits, actorId);
   }, [actorId]);
   return (
     <>
@@ -103,13 +58,11 @@ function Actor() {
               : "No biography avaible for this actor"}
           </div>
 
-          {actor.biography &&
-            actor.biography.length > 10 * 80 &&
-            (showFullBiography ? (
-              <button onClick={handleReadLess}>Read Less</button>
-            ) : (
-              <button onClick={handleReadMore}>Read More</button>
-            ))}
+          {actor.biography && actor.biography.length > 10 * 80 && (
+            <button onClick={() => setShowFullBiography(!showFullBiography)}>
+              {showFullBiography ? "Read Less" : "Read More"}
+            </button>
+          )}
           <div className="actorMovies">
             {movieCredits.slice(0, 10).map((movie) => (
               <Link to={movieSeriesUrl(movie)}>
