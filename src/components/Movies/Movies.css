@@ -21,6 +21,13 @@
   color: #4786d8;
 }
 
+.mainLogo {
+  height: auto;
+  width: 300px;
+  margin-top: 50px;
+  margin-left: 50px;
+}
+
 .gridContainer h1 {
   color: var(--second-color);
 }
@@ -67,7 +74,6 @@
   justify-content: center;
   align-items: center;
   transition: left 0.3s ease;
-  z-index: 1;
 }
 
 .card-content p {
@@ -127,7 +133,7 @@ select {
 .heartContainer {
   position: relative;
   top: 75px;
-  z-index: 100;
+  z-index: 2; /* 2 so it is over the card*/
   background: rgba(192, 192, 192, 0.6);
   /* opacity: 0.5;  */
   width: fit-content;
@@ -142,10 +148,14 @@ select {
   position: fixed;
   opacity: 1;
   transition: opacity 0.5s ease-in-out;
+  background-color: transparent;
 }
 
 .scrollUpContainer.hide {
+
   opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  
 }
 
 .scrollUp {
@@ -160,4 +170,15 @@ select {
   cursor: not-allowed;
 }
 
+.noFavorites {
+  color: var(--second-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+}
 
+.noFavorites h3 {
+  padding-bottom: 20px;
+}

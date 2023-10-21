@@ -4,7 +4,7 @@
   height: fit-content;
   background: var(--main-color);
   font-size: 0.9em;
-  border-right: 1px solid black;
+  border-right: 1px solid var(--second-color);
 }
 
 @media screen and (max-width: 1350px) {
@@ -25,6 +25,7 @@
   li {
     position: relative;
     margin: 3.2em 0;
+    transition: all ease-out 300ms;
 
     a {
       line-height: 5em;
@@ -34,30 +35,40 @@
       display: block;
       transition: all ease-out 300ms;
     }
-
-    &:not(.active)::after {
-      opacity: 0.5;
-    }
-
-    &::after {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 0.2em;
-      background: black;
-      left: 0;
-      bottom: 0;
-      background: var(--second-color);
-    }
   }
 }
 
 .sideBarText {
   color: var(--second-color);
+  border-bottom: 1px solid var(--second-color);
+  border-radius: 0;
+  transition: color 0.3s;
+  overflow: hidden;
+}
+
+.sideBarText::before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 1px;
+  background: #ff1053;
+  bottom: 0;
+  left: 0;
+  transition: width 0.25s;
+}
+
+.sideBarText:hover::before {
+  width: 100%;
+  transition: width 0.25s;
+}
+
+.sideBarText:hover {
+  color: #ff1053;
 }
 
 .active {
   color: #ff1053;
+  border-bottom: 1px solid #ff1053;
 }
 
 a {
@@ -67,13 +78,20 @@ a {
   border-radius: 0.5em;
 }
 
+.mainLogo {
+  height: auto;
+  width: 270px;
+  margin-top: 50px;
+  margin-left: 20px;
+}
+
 .search-container {
-  position: absolute;
-  top: 5px;
-  right: 0px;
+  position: fixed;
+  top: 10px;
+  right: 10px;
   display: flex;
   align-items: center;
-  z-index: 1000000000;
+  z-index: 4; /*so it is over hambuer menu when both open*/
 }
 
 @media screen and (max-width: 1350px) {
@@ -129,11 +147,8 @@ a {
   background-color: var(--second-color);
 }
 
-.search-box:hover {
-}
-
 #sidebar {
-  z-index: 10000000;
+  z-index: 3; /*So it is over movie card indluncing heart*/
   position: fixed;
 
   width: 300px;
@@ -160,24 +175,22 @@ a {
 }
 
 #sidebar ul li {
-  color: rgba(230, 230, 230, 0.9);
-
+  color: var(--second-color);
   list-style: none;
-
   padding: 15px 10px;
-
-  border-bottom: 1px solid rgba(100, 100, 100, 0.3);
+  border-bottom: 1px solid var(--main-color);
 }
 
 .navBarButton {
   position: fixed;
   margin-left: 5px;
-  top: 5px;
+  top: 10px;
+  left: 10px;
   display: none;
   border: none;
   background-color: transparent;
   cursor: pointer;
-  z-index: 1000000000;
+  z-index: 4; /*so it is over hamburger menu*/
 }
 
 @media screen and (max-width: 1350px) {

@@ -132,7 +132,6 @@
 
 .bookingFormContainer {
   margin-top: 30px;
-  background-color: yellow;
 }
 
 .bookingFormArrow {
@@ -151,8 +150,8 @@
 
 .bookingFormContainer input {
   margin-bottom: 15px;
-  margin-right: 15px;
   padding: 5px;
+  width: 98%;
 }
 
 .bookingLocaiton {

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, NavLink } from "react-router-dom";
+import { useNavigate, NavLink, Link } from "react-router-dom";
 import { BiSearch } from "react-icons/bi";
 import { IconContext } from "react-icons";
-import logo from "../../images/DATABASEFORMOVIES-logos_white.png";
 import axios from "axios";
 import Hamburger from "hamburger-react";
 import "./Navbar.css";
+import logo from "../../images/DATABASEFORMOVIES-logos_white.png";
 
 function Navbar() {
   const [searchWord, setSearchWord] = useState("");
@@ -36,13 +36,13 @@ function Navbar() {
 
   return (
     <>
+      <Link to="/">
+        <img className="mainLogo" src={logo} alt="DBFM image" />
+      </Link>
       <aside class="sidebar">
         <nav class="nav">
           <ul>
             <li>
-              <NavLink className="sideBarText" to="/">
-                Home
-              </NavLink>
               <NavLink className="sideBarText" to="/favorites">
                 Favorites
               </NavLink>
@@ -90,7 +90,7 @@ function Navbar() {
                 className="search-icon"
                 disabled={!searchWord}
               >
-                <BiSearch  />
+                <BiSearch />
               </button>
             </div>
           </div>

@@ -13,6 +13,7 @@ import React, { useEffect, useState } from "react";
 import { AiOutlineHeart, AiFillHeart, AiFillPlusCircle } from "react-icons/ai";
 import { BsFillArrowUpCircleFill } from "react-icons/bs";
 import { handleFavorites, sortMovie } from "./functions";
+import logo from "../../images/DATABASEFORMOVIES-logos_white.png";
 
 let moreMovies = 0;
 
@@ -37,8 +38,10 @@ function Movies() {
 
   const handleScroll = () => {
     const yOffset = window.scrollY;
-    setScrollButtonVisible(yOffset > 200);
+    setScrollButtonVisible(yOffset > 200); // Adjust the threshold as needed
   };
+
+ 
 
   const scrollUp = () => {
     const scrollSmooth = document.documentElement;
@@ -96,25 +99,32 @@ function Movies() {
   return (
     <>
       <div class="sortContainer">
-        <div class="select">
-          <select
-            onChange={(e) =>
-              sortMovie(e.target.value, filteredMovies, setMovies)
-            }
-          >
-            <option value="a-z">A-Z</option>
-            <option value="date">Sort by date</option>
-            <option value="vote">Sort by vote</option>
-          </select>
-        </div>
+        {((location.pathname !== "/favorites" && movies.length > 0) ||
+          (location.pathname === "/favorites" &&
+            favoriteMovies.length > 0)) && (
+          <div class="select">
+            <select
+              onChange={(e) =>
+                sortMovie(e.target.value, filteredMovies, setMovies)
+              }
+            >
+              <option value="a-z">A-Z</option>
+              <option value="date">Sort by date</option>
+              <option value="vote">Sort by vote</option>
+            </select>
+          </div>
+        )}
       </div>
+
       <div className="gridContainer">
         <div className="gridInnerContainer">
           {favoriteMovies.length === 0 &&
             location.pathname === "/favorites" && (
               <>
-                <h3>No movies added to favorites</h3>
-                <Link to="/">Start adding</Link>
+                <div className="noFavorites">
+                  <h3>No movies added to favorites</h3>
+                  <Link to="/">Start adding</Link>
+                </div>
               </>
             )}
 

@@ -7,7 +7,12 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import YouTube from "react-youtube";
 import poster from "../../images/poster-image.png";
-import { AiFillStar, AiOutlineSend, AiOutlineArrowDown } from "react-icons/ai";
+import {
+  AiFillStar,
+  AiOutlineSend,
+  AiOutlineArrowDown,
+  AiOutlineArrowUp,
+} from "react-icons/ai";
 import { IconContext } from "react-icons";
 import {
   fetchMovie,
@@ -38,6 +43,12 @@ function Movie() {
     { value: "Filmstaden Sergel", label: "Filmstaden Sergel" },
     { value: "Filmstaden Sickla", label: "Filmstaden Sickla" },
     { value: "Filmstaden Söder", label: "Filmstaden Söder" },
+    { value: "Filmstaden Täby", label: "Filmstaden Täby" },
+    { value: "Filmstaden Vällingby", label: "Filmstaden Vällingby" },
+    { value: "Filmstaden Råsunda", label: "Filmstaden Råsunda" },
+    { value: "Filmstaden Saga", label: "Filmstaden Saga" },
+    { value: "Filmstaden Uppsala", label: "Filmstaden Uppsala" },
+    { value: "Filmstaden Lidingö", label: "Filmstaden Lidingö" },
   ];
 
   useEffect(() => {
