@@ -23,7 +23,7 @@ import {
 import "./Movie.css";
 
 function Movie() {
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState("");
   let { id, tvId } = useParams();
   let location = useLocation();
   const [movie, setMovie] = useState({});
@@ -131,7 +131,15 @@ function Movie() {
             </AccordionSummary>
             <AccordionDetails>
               <form
-                onSubmit={(e) => sendBooking(e, booking, setSelectedOption)}
+                onSubmit={(e) =>
+                  sendBooking(
+                    e,
+                    booking,
+                    setSelectedOption,
+                    selectedOption,
+                    setBooking
+                  )
+                }
               >
                 <input
                   type="text"

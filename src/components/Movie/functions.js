@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export async function fetchMovie(
   id,
@@ -18,7 +19,7 @@ export async function fetchMovie(
   setMovie(res.data);
   setBooking({
     ...booking,
-    MovieName: res.data.original_title,
+    MovieName: res.data.original_title || res.data.original_name,
   });
 }
 
@@ -42,17 +43,31 @@ export async function getVideo(id, tvId, setVideo, location) {
   setVideo(res.data.results[0]);
 }
 
-export function sendBooking(e, booking, setSelectedOption) {
+export async function sendBooking(
+  e,
+  booking,
+  setSelectedOption,
+  selectedOption,
+  setBooking
+) {
   e.preventDefault();
 
   if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(booking.email)) {
-    alert("You have entered an invalid email address!");
-  } else if (!/^[A-Za-z]+$/.test(booking.name)) {
-    alert("You have entered an invalid name !");
+    toast.error("You have entered an invalid email address");
+  } else if (!/^[A-Za-z]+$/.test(booking.name) || booking.name === "") {
+    toast.error("You have entered an invalid name");
+  } else if (selectedOption === "") {
+    toast.error("Please choose a locaiton");
   } else {
-    axios.post("http://localhost:3003/bookings", booking);
+    await toast.promise(axios.post("http://localhost:3003/bookings", booking), {
+      pending: "Promise is pending",
+      success: "Promise resolved 👌",
+      error: "Promise rejected 🤯",
+    });
+
     e.target.reset();
     setSelectedOption([]);
-    axios.post("http://localhost:3003/sendEmail", booking);
+    setBooking({ name: null, MovieName: null, email: null, location: null });
+    // await axios.post("http://localhost:3003/sendEmail", booking);
   }
 }

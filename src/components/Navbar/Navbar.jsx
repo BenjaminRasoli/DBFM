@@ -99,11 +99,13 @@ function Navbar() {
 
       <div id="sidebar" className={toggle && "active"}>
         <nav class="nav">
-          <ul>
+          <ul onClick={() => setToggle(false)}>
             <li>
               <NavLink className="sideBarText" to="/">
                 Home
               </NavLink>
+            </li>
+            <li>
               <NavLink className="sideBarText" to="/favorites">
                 Favorites
               </NavLink>
