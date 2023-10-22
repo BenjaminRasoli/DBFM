@@ -62,7 +62,7 @@ export async function sendBooking(
     await toast.promise(
       axios.post(
         `${
-          "http://localhost:3003" || process.env.REACT_APP_SERVER_URL
+          process.env.REACT_APP_SERVER_URL || "http://localhost:3003"
         }/bookings`,
         booking
       ),
