@@ -4,17 +4,18 @@ const path = require("path");
 const Sequelize = require("sequelize");
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || "development";
-const config = require(__dirname + "/../config/config.json")[env];
 const db = {};
 require("dotenv").config();
 
 let sequelize;
-sequelize = new Sequelize(
-  process.env.DBNAME,
-  process.env.MASTER_USERNAME,
-  process.env.MASTER_PASSWORD,
-  config
-);
+sequelize = new Sequelize({
+  username: process.env.MASTER_USERNAME,
+  password: process.env.MASTER_PASSWORD,
+  database: process.env.DBNAME,
+  dialect: "mysql",
+  port: process.env.DB_PORT,
+  host: process.env.DB_HOST,
+});
 
 fs.readdirSync(__dirname)
   .filter((file) => {

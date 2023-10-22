@@ -13,10 +13,11 @@ app.use(cors({ origin: "*" }));
 // Routes
 app.use(routes);
 
+const port = 3003 || process.env.PORT;
 db.sequelize
   .sync()
   .then(() => {
-    app.listen(3003, () => {
+    app.listen(port, () => {
       console.log("Server running on port 3003");
     });
   })

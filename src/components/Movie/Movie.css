@@ -3,7 +3,7 @@
   float: right;
   display: flex;
   justify-content: center;
-  align-items: center;
+  
   flex-wrap: wrap;
   color: var(--second-color);
 }
@@ -16,8 +16,8 @@
 }
 
 .moreInformationImage {
-  width: 500px;
-  height: auto;
+   width: 400px;
+  height: fit-content;
   border-radius: 20px;
   padding: 10px;
 }
@@ -36,7 +36,7 @@
 }
 
 .movieInformationContainer {
-  padding-left: 100px;
+  margin-left: 80px;
 }
 
 @media screen and (max-width: 1350px) {

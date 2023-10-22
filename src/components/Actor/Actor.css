@@ -1,8 +1,6 @@
 .actorContainer {
   width: 90%;
   float: right;
-  margin-top: 100px;
-  padding: 30px;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
