@@ -59,15 +59,26 @@ export async function sendBooking(
   } else if (selectedOption === "") {
     toast.error("Please choose a locaiton");
   } else {
-    await toast.promise(axios.post("http://localhost:3003/bookings", booking), {
-      pending: "Promise is pending",
-      success: "Promise resolved 👌",
-      error: "Promise rejected 🤯",
-    });
+    await toast.promise(
+      axios.post(
+        `${
+          "http://localhost:3003" || process.env.REACT_APP_SERVER_URL
+        }/bookings`,
+        booking
+      ),
+      {
+        pending: "Promise is pending",
+        success: "Promise resolved 👌",
+        error: "Promise rejected 🤯",
+      }
+    );
 
     e.target.reset();
     setSelectedOption([]);
     setBooking({ name: null, MovieName: null, email: null, location: null });
-    // await axios.post("http://localhost:3003/sendEmail", booking);
+    // await axios.post(
+    //   `${"http://localhost:3003" || process.env.REACT_APP_SERVER_URL}/sendEmail`,
+    //   booking
+    // );
   }
 }
