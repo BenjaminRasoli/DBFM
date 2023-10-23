@@ -20,9 +20,9 @@ export async function fetchMovie(
   setBooking({
     ...booking,
     MovieName: res.data.original_title || res.data.original_name,
+    MovieImage: "https://image.tmdb.org/t/p/w500/" + res.data.poster_path,
   });
 }
-
 export async function getAllActors(id, tvId, setAllActor, location) {
   const url =
     location.pathname === `/movie/${id}`
@@ -66,19 +66,29 @@ export async function sendBooking(
         }/bookings`,
         booking
       ),
+
       {
         pending: "Promise is pending",
         success: "Promise resolved 👌",
         error: "Promise rejected 🤯",
       }
     );
+    document.getElementById("sendFormButton").disabled = true;
 
     e.target.reset();
     setSelectedOption([]);
-    setBooking({ name: null, MovieName: null, email: null, location: null });
+    setBooking({
+      ...booking,
+      name: null,
+      email: null,
+      location: null,
+    });
     // await axios.post(
-    //   `${"http://localhost:3003" || process.env.REACT_APP_SERVER_URL}/sendEmail`,
+    //   `${
+    //     process.env.REACT_APP_SERVER_URL || "http://localhost:3003"
+    //   }/sendEmail`,
     //   booking
     // );
   }
+  document.getElementById("sendFormButton").disabled = false;
 }

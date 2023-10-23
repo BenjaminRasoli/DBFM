@@ -32,6 +32,7 @@ function Movie() {
     MovieName: null,
     email: null,
     location: null,
+    MovieImage: null,
   });
   const [allActors, setAllActor] = useState([]);
   const [video, setVideo] = useState({});
@@ -124,7 +125,7 @@ function Movie() {
               aria-controls="panel1a-content"
               id="panel1a-header"
             >
-              <Typography>Boka Biljet</Typography>
+              <Typography>Book a Ticket</Typography>
               <div className="bookingFormArrow">
                 <AiOutlineArrowDown size={20} />
               </div>
@@ -173,7 +174,7 @@ function Movie() {
                     }),
                   }}
                 />
-                <button>
+                <button id="sendFormButton">
                   <AiOutlineSend size={20} />
                 </button>
               </form>

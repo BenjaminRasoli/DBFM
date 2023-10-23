@@ -13,7 +13,7 @@ const {
 router.get("/bookings", getBookings);
 // router.get("/posts/:id", getPost);
 router.post("/bookings", createBooking);
-router.post("/sendEmail", sendEmail);
+//router.post("/sendEmail", sendEmail);
 // router.put("/posts/:id", updatePost);
 // router.delete("/posts/:id", deletePost);
 

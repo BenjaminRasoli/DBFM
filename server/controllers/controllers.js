@@ -1,6 +1,5 @@
 const { Bookings } = require("../models");
 const nodemailer = require("nodemailer");
-require("dotenv").config();
 
 // Used sequlize methods to make the crud functionallity
 
@@ -26,6 +25,36 @@ const getBookings = async (req, res) => {
 const createBooking = async (req, res) => {
   try {
     const values = req.body;
+    console.log(req);
+
+    const transporter = nodemailer.createTransport({
+      service: "hotmail",
+      auth: {
+        user: process.env.USER_EMAIL,
+        pass: process.env.USER_PASS,
+      },
+    });
+
+    const options = {
+      from: `"DATA BASE FOR MOVIES" ${process.env.USER_EMAIL}>`,
+      to: values.email,
+      subject: `Thanks for booking ${values.MovieName}`,
+      text: "Hello world?",
+      html: `<div style=background-color:grey;>  <h2>Thank you ${values.name} for booking  ${values.MovieName} <br/>  See you at ${values.location}</h2> <img src="cid:unique@nodemailer.com"/>
+ </div>`,
+      attachments: [
+        {
+          path: values.MovieImage,
+          cid: "unique@nodemailer.com",
+        },
+      ],
+    };
+    transporter.sendMail(options, function (err, info) {
+      if (err) {
+        return res.status(500).json({ message: err.message });
+      }
+      console.log("sent" + info.response);
+    });
     const createdBooking = await Bookings.create(values);
     res.json(createdBooking);
   } catch (error) {
@@ -35,50 +64,28 @@ const createBooking = async (req, res) => {
 
 const sendEmail = async (req, res) => {
   const values = req.body;
-  const transporter = nodemailer.createTransport({
-    service: "hotmail",
-    auth: {
-      user: process.env.USER_EMAIL,
-      pass: process.env.USER_PASS,
-    },
-  });
+  //   const transporter = nodemailer.createTransport({
+  //     service: "hotmail",
+  //     auth: {
+  //       user: process.env.USER_EMAIL,
+  //       pass: process.env.USER_PASS,
+  //     },
+  //   });
 
-  const options = {
-    from: `"Peter" ${process.env.USER_EMAIL}>`,
-    to: values.email,
-    subject: "Hello ✔",
-    text: "Hello world?",
-    html: `<b>${values.name}</b><b>${values.location}</b>`,
-  };
-
-  transporter.sendMail(options, function (err, info) {
-    if (err) {
-      return res.status(500).json({ message: err.message });
-    }
-    console.log("sent" + info.response);
-  });
+  //   const options = {
+  //     from: `"DATA BASE FOR MOVIES" ${process.env.USER_EMAIL}>`,
+  //     to: values.email,
+  //     subject: `Thanks for booking ${values.MovieName}`,
+  //     text: "Hello world?",
+  //     html: `<b>${values.name}</b> <br /> <b>${values.location}</b>`,
+  //   };
+  // console.log(values)
+  //   transporter.sendMail(options, function (err, info) {
+  //     if (err) {
+  //       return res.status(500).json({ message: err.message });
+  //     }
+  //     console.log("sent" + info.response);
+  //   });
 };
-
-// const updatePost = async (req, res) => {
-//   try {
-//     let id = req.params.id;
-//     const post = await Posts.update(req.body, { where: { id: id } });
-//     res.json(post);
-//   } catch (error) {
-//     return res.status(500).json({ message: error.message });
-//   }
-// };
-
-// const deletePost = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const post = await Posts.destroy({ where: { id: id } });
-//     if (!post) {
-//       return res.status(404).json({ message: "Post  dont exist" });
-//     } else res.send("Post deleted");
-//   } catch (error) {
-//     return res.status(500).json({ message: error.message });
-//   }
-// };
 
 module.exports = { createBooking, getBookings, sendEmail };
