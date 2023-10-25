@@ -1,10 +1,23 @@
 .actorContainer {
-  width: 90%;
+  width: 80%;
   float: right;
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
   color: var(--second-color);
+}
+
+@media screen and (max-width: 1350px) {
+  .actorContainer {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .actorContainer {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .actorImageContainer {
@@ -18,8 +31,13 @@
   margin-top: 0;
 }
 
-@media screen and (max-width: 979px) {
-  .besideActorImage,
+@media screen and (max-width: 1170px) {
+  .besideActorImage {
+    max-width: 300px;
+    margin-left: 80;
+    display: flex;
+    flex-direction: column;
+  }
   .actorMovies {
     max-width: 300px;
   }
@@ -40,7 +58,7 @@
 }
 
 .actorMovies a {
-  color: #4786d8;
+  color: var(--third-color);
 }
 
 .actorMovies img {
@@ -51,13 +69,6 @@
 .actorMoviesTitle p {
   max-width: 200px;
   font-size: 20px;
-}
-
-@media screen and (max-width: 1350px) {
-  .actorContainer {
-    width: 100%;
-    padding: 0;
-  }
 }
 
 .actorImage {
@@ -75,7 +86,7 @@
 @media screen and (max-width: 1350px) {
   .actorImage {
     display: flex;
-    margin: auto;
+    /* margin: auto; */
   }
 }
 

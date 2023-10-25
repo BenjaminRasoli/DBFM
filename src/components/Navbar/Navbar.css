@@ -52,13 +52,13 @@
     position: absolute;
     width: 0;
     height: 1px;
-    background: #ff1053;
+    background: var(--fourth-color);
     bottom: 0;
     left: 0;
     transition: width 0.25s;
   }
   .sideBarText:hover {
-    color: #ff1053;
+    color: var(--fourth-color);
   }
 }
 
@@ -68,8 +68,8 @@
 }
 
 .active {
-  color: #ff1053;
-  border-bottom: 1px solid #ff1053;
+  color: var(--fourth-color);
+  border-bottom: 1px solid var(--fourth-color);
 }
 
 a {

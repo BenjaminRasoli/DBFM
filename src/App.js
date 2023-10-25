@@ -3,8 +3,9 @@ import Movies from "./components/Movies/Movies";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import Movie from "./components/Movie/Movie";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Contact from "./components/Contact/Contact";
 import Actor from "./components/Actor/Actor";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -33,8 +34,9 @@ function App() {
         <Route path="/tv/:tvId" element={<Movie />} />
         <Route path="/favorites" element={<Movies />} />
         <Route path="/actor/:actorId" element={<Actor />} />
+        <Route path="/contact/" element={<Contact />} />
       </Routes>
-      {/* <Footer /> */}
+      <Footer />
     </Router>
   );
 }

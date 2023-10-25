@@ -3,7 +3,6 @@
   float: right;
   display: flex;
   justify-content: center;
-  
   flex-wrap: wrap;
   color: var(--second-color);
 }
@@ -16,10 +15,15 @@
 }
 
 .moreInformationImage {
-   width: 400px;
+  width: 400px;
   height: fit-content;
   border-radius: 20px;
-  padding: 10px;
+}
+
+@media screen and (max-width: 1030px) {
+  .moreInformationImage {
+    height: auto;
+  }
 }
 
 @media screen and (max-width: 1650px) {
@@ -31,7 +35,6 @@
 @media screen and (max-width: 1350px) {
   .moreInformationImage {
     display: flex;
-    margin: auto;
   }
 }
 
@@ -39,9 +42,8 @@
   margin-left: 80px;
 }
 
-@media screen and (max-width: 1350px) {
+@media screen and (max-width: 1060px) {
   .movieInformationContainer {
-    padding-left: 0px;
     margin: 60px;
   }
 }
@@ -96,7 +98,7 @@
 }
 
 .actorsContainer a {
-  color: #4786d8;
+  color: var(--third-color);
 }
 
 .youtubeVideo {
@@ -118,13 +120,9 @@
   }
 }
 
-@media screen and (max-width: 540px) {
+@media screen and (max-width: 800px) {
   .youtubeVideo {
-    width: 350px;
-
-    iframe {
-      width: 350px;
-    }
+    display: none;
   }
 }
 
@@ -150,6 +148,7 @@
   margin-bottom: 15px;
   padding: 5px;
   width: 98%;
+  height: 30px;
 }
 
 .bookingLocaiton {

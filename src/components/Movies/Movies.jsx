@@ -14,6 +14,7 @@ import { AiOutlineHeart, AiFillHeart, AiFillPlusCircle } from "react-icons/ai";
 import { BsFillArrowUpCircleFill } from "react-icons/bs";
 import { handleFavorites, sortMovie } from "./functions";
 import logo from "../../images/DATABASEFORMOVIES-logos_white.png";
+import ClipLoader from "react-spinners/ClipLoader";
 
 let moreMovies = 0;
 
@@ -40,8 +41,6 @@ function Movies() {
     const yOffset = window.scrollY;
     setScrollButtonVisible(yOffset > 200); // Adjust the threshold as needed
   };
-
- 
 
   const scrollUp = () => {
     const scrollSmooth = document.documentElement;
@@ -143,19 +142,30 @@ function Movies() {
               );
             })}
         </div>
-        {location.pathname !== "/favorites" && totalResults > 15 && (
-          <div className="moreMovieButtonContainer">
-            <div className="centerButton">
-              <button
-                className="moreMovieButton"
-                disabled={disabled}
-                onClick={() => fetchMovies()}
-              >
-                <AiFillPlusCircle size={50} color="var(--second-color)" />
-              </button>
+
+        {movies.length === 0 &&
+          !searchWord &&
+          location.pathname !== "/favorites" && (
+            <div className="centerLoading">
+              <ClipLoader color="var(--fourth-color)" size={35} />
             </div>
-          </div>
-        )}
+          )}
+        {movies.length !== 0 &&
+          location.pathname !== "/favorites" &&
+          totalResults > 15 && (
+            <div className="moreMovieButtonContainer">
+              <div className="centerButton">
+                <button
+                  className="moreMovieButton"
+                  disabled={disabled}
+                  onClick={() => fetchMovies()}
+                >
+                  <AiFillPlusCircle size={50} color="var(--second-color)" />
+                </button>
+              </div>
+            </div>
+          )}
+
         <div
           className={`scrollUpContainer ${
             scrollButtonVisible ? "show" : "hide"

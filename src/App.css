@@ -8,10 +8,12 @@
 }
 
 body {
-  background: var(--main-color);
+  background: var(--main-color); 
 }
 
 :root {
   --main-color: #0e0d0d;
   --second-color: #f0efeb;
+  --third-color: #4786d8;
+  --fourth-color: #ff1053;
 }

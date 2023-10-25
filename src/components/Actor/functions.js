@@ -5,6 +5,7 @@ export async function getActor(setActor, setMovieCredits, actorId) {
     `https://api.themoviedb.org/3/person/${actorId}?api_key=${process.env.REACT_APP_APIKEY}`
   );
   setActor(res.data);
+  window.scrollTo(0, 0);
 
   const movieCreditsRes = await axios(
     `https://api.themoviedb.org/3/person/${actorId}/combined_credits?api_key=${process.env.REACT_APP_APIKEY}`

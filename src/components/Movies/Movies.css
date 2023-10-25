@@ -3,11 +3,12 @@
   flex-direction: column;
   float: right;
   width: 85%;
+  min-height: 280vh;
 }
 
 .gridInnerContainer {
   display: flex;
-  gap: 25px;
+  gap: 35px;
   justify-content: center;
   align-content: center;
   flex-wrap: wrap;
@@ -18,7 +19,7 @@
 }
 
 .gridInnerContainer a {
-  color: #4786d8;
+  color: var(--third-color);
 }
 
 .mainLogo {
@@ -43,7 +44,7 @@
   overflow: hidden;
   margin: 0;
   padding: 0;
-  width: 350px;
+  width: 330px;
   border-radius: 0px 40px 40px 40px;
 }
 
@@ -93,6 +94,7 @@
 .moreMovieButtonContainer {
   justify-content: center;
   display: flex;
+  padding-bottom: 100px;
 }
 
 .moreMovieButton {
@@ -149,13 +151,12 @@ select {
   opacity: 1;
   transition: opacity 0.5s ease-in-out;
   background-color: transparent;
+  z-index: 1;
 }
 
 .scrollUpContainer.hide {
-
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
-  
 }
 
 .scrollUp {
@@ -182,4 +183,9 @@ select {
 
 .noFavorites h3 {
   padding-bottom: 20px;
+}
+
+.centerLoading {
+  display: flex;
+  justify-content: center;
 }

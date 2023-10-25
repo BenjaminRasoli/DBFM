@@ -39,8 +39,8 @@ const createBooking = async (req, res) => {
       from: `"DATA BASE FOR MOVIES" ${process.env.USER_EMAIL}>`,
       to: values.email,
       subject: `Thanks for booking ${values.MovieName}`,
-      text: "Hello world?",
-      html: `<div style=background-color:grey;>  <h2>Thank you ${values.name} for booking  ${values.MovieName} <br/>  See you at ${values.location}</h2> <img src="cid:unique@nodemailer.com"/>
+      // text: "Hello world?",
+      html: `<div>  <h2>Thank you ${values.name} for booking  ${values.MovieName} <br/>  See you at ${values.location}</h2> <img src="cid:unique@nodemailer.com"/>
  </div>`,
       attachments: [
         {
