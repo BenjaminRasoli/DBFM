@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, NavLink, Link } from "react-router-dom";
 import { BiSearch } from "react-icons/bi";
-import { IconContext } from "react-icons";
 import axios from "axios";
 import Hamburger from "hamburger-react";
 import "./Navbar.css";
@@ -11,10 +10,12 @@ function Navbar() {
   const [searchWord, setSearchWord] = useState("");
   const [genres, setGenres] = useState([]);
   const [isHovered, setIsHovered] = useState(false);
+  const [toggle, setToggle] = useState(false);
   let navigate = useNavigate();
   function searchMovies(e) {
     e.preventDefault();
     setSearchWord("");
+    setToggle(false);
     navigate({
       pathname: "/search",
       search: `query=${searchWord}`,
@@ -28,8 +29,6 @@ function Navbar() {
     setGenres(res.data.genres);
   }
 
-  const [toggle, setToggle] = useState(false);
-
   useEffect(() => {
     getGenres();
   }, []);
@@ -37,10 +36,10 @@ function Navbar() {
   return (
     <>
       <Link to="/">
-        <img className="mainLogo" src={logo} alt="DBFM image" />
+        <img className="mainLogo" src={logo} alt="DBFM Logo" />
       </Link>
-      <aside class="sidebar">
-        <nav class="nav">
+      <aside className="sideBar">
+        <nav className="navbar">
           <ul>
             <li>
               <NavLink className="sideBarText" to="/favorites">
@@ -66,39 +65,34 @@ function Navbar() {
         </nav>
       </aside>
 
-      <IconContext.Provider
-        value={{ color: "var(--main-color)", size: "30px" }}
+      <form
+        id="search"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
-        <form
-          id="search"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-        >
-          <div className="search-container">
-            <div class="search-box">
-              <input
-                className="search-text"
-                type="text"
-                placeholder="Search.."
-                onChange={(e) => setSearchWord(e.target.value)}
-                value={searchWord}
-                disabled={!isHovered}
-              />
-              <button
-                class="search-btn"
-                onClick={(e) => searchMovies(e)}
-                className="search-icon"
-                disabled={!searchWord}
-              >
-                <BiSearch />
-              </button>
-            </div>
+        <div className="searchContainer">
+          <div className="searchBox">
+            <input
+              className="searchText"
+              type="text"
+              placeholder="Search.."
+              onChange={(e) => setSearchWord(e.target.value)}
+              value={searchWord}
+              disabled={!isHovered}
+            />
+            <button
+              onClick={(e) => searchMovies(e)}
+              className="searchIcon"
+              disabled={!searchWord}
+            >
+              <BiSearch size={30} color="var(--main-color)" />
+            </button>
           </div>
-        </form>
-      </IconContext.Provider>
+        </div>
+      </form>
 
-      <div id="sidebar" className={toggle && "active"}>
-        <nav class="nav">
+      <nav id="sideBar" className={toggle ? "active" : ""}>
+        <div className="navbar">
           <ul onClick={() => setToggle(false)}>
             <li>
               <NavLink className="sideBarText" to="/">
@@ -126,16 +120,14 @@ function Navbar() {
                 );
               })}
           </ul>
-        </nav>
-      </div>
-      <button class="navBarButton">
-        <IconContext.Provider>
-          <Hamburger
-            color="var(--second-color)"
-            toggled={toggle}
-            toggle={setToggle}
-          />
-        </IconContext.Provider>
+        </div>
+      </nav>
+      <button className="navBarButton">
+        <Hamburger
+          color="var(--second-color)"
+          toggled={toggle}
+          toggle={setToggle}
+        />
       </button>
     </>
   );

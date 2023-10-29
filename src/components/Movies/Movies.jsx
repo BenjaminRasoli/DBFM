@@ -6,14 +6,10 @@ import {
   useLocation,
   useSearchParams,
 } from "react-router-dom";
-import { AiFillStar } from "react-icons/ai";
-import { IconContext } from "react-icons";
-import poster from "../../images/poster-image.png";
 import React, { useEffect, useState } from "react";
-import { AiOutlineHeart, AiFillHeart, AiFillPlusCircle } from "react-icons/ai";
+import { AiFillPlusCircle } from "react-icons/ai";
 import { BsFillArrowUpCircleFill } from "react-icons/bs";
 import { handleFavorites, sortMovie } from "./functions";
-import logo from "../../images/DATABASEFORMOVIES-logos_white.png";
 import ClipLoader from "react-spinners/ClipLoader";
 
 let moreMovies = 0;
@@ -39,7 +35,7 @@ function Movies() {
 
   const handleScroll = () => {
     const yOffset = window.scrollY;
-    setScrollButtonVisible(yOffset > 200); // Adjust the threshold as needed
+    setScrollButtonVisible(yOffset > 200);
   };
 
   const scrollUp = () => {
@@ -49,12 +45,9 @@ function Movies() {
 
   async function fetchMovies() {
     if (location.pathname === "/favorites") {
-      // const favoriteMovies =
-      //   JSON.parse(localStorage.getItem("favoriteMovies")) || [];
       setMovies(favoriteMovies && favoriteMovies);
     } else {
       moreMovies++;
-      console.log(moreMovies);
       let url = "";
       if (location.pathname === "/") {
         url = `https://api.themoviedb.org/3/trending/all/day?language=en-US&page=${moreMovies}&api_key=${process.env.REACT_APP_APIKEY}`;
@@ -71,14 +64,12 @@ function Movies() {
       setTotalResults(allMovies.total_results || 0);
     }
   }
-
   useEffect(() => {
     moreMovies = 0;
     setMovies([]);
     fetchMovies();
     setDisabled(false);
 
-    // const favoriteMovies = JSON.parse(localStorage.getItem("favoriteMovies"));
     setFavorites(favoriteMovies !== null ? favoriteMovies : []);
     window.scrollTo(0, 0);
     window.addEventListener("scroll", handleScroll);
@@ -93,15 +84,15 @@ function Movies() {
         JSON.parse(localStorage.getItem("favoriteMovies")) || [];
       setMovies(favoriteMovies);
     }
-  }, [favorites]);
+  }, [favorites, location.pathname]);
 
   return (
     <>
-      <div class="sortContainer">
+      <div className="sortContainer">
         {((location.pathname !== "/favorites" && movies.length > 0) ||
           (location.pathname === "/favorites" &&
             favoriteMovies.length > 0)) && (
-          <div class="select">
+          <div className="select">
             <select
               onChange={(e) =>
                 sortMovie(e.target.value, filteredMovies, setMovies)
@@ -127,18 +118,20 @@ function Movies() {
               </>
             )}
 
-          {movies.length === 0 && searchWord && <h1> Movie not found</h1>}
+          {movies.length === 0 && searchWord && <h1>No Results Found</h1>}
           {Array.isArray(movies) &&
-            filteredMovies.map((movie) => {
+            filteredMovies.map((movie, i) => {
               return (
-                <MovieCard
-                  handleFavorites={handleFavorites}
-                  movie={movie}
-                  favorites={favorites}
-                  setFavorites={setFavorites}
-                  genreId={genreId}
-                  location={location}
-                />
+                <React.Fragment key={i}>
+                  <MovieCard
+                    handleFavorites={handleFavorites}
+                    movie={movie}
+                    favorites={favorites}
+                    setFavorites={setFavorites}
+                    genreId={genreId}
+                    location={location}
+                  />
+                </React.Fragment>
               );
             })}
         </div>
@@ -147,7 +140,7 @@ function Movies() {
           !searchWord &&
           location.pathname !== "/favorites" && (
             <div className="centerLoading">
-              <ClipLoader color="var(--fourth-color)" size={35} />
+              <ClipLoader color="var(--fourth-color)" size={150} />
             </div>
           )}
         {movies.length !== 0 &&

@@ -1,0 +1,60 @@
+.heartContainer {
+  position: relative;
+  top: 75px;
+  z-index: 2; /* 2 so it is over the card*/
+  background: rgba(192, 192, 192, 0.6);
+  width: fit-content;
+  border-bottom-right-radius: 20px;
+}
+
+.gridItem {
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  width: 330px;
+  border-radius: 0px 40px 40px 40px;
+}
+
+.movieCard {
+  position: relative;
+  text-align: center;
+}
+
+.movieCard:hover .cardContent {
+  left: 0;
+}
+
+.movieCard:hover .movieImage {
+  transform: scale(1.2);
+  transition: 0.5s;
+}
+
+.movieImage {
+  width: 100%;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+
+.cardContent {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: var(--second-color);
+  padding: 10px;
+  box-sizing: border-box;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: left 0.3s ease;
+}
+
+.cardContent p {
+  text-align: center;
+  margin: 5px 0;
+}

@@ -68,9 +68,9 @@ export async function sendBooking(
       ),
 
       {
-        pending: "Promise is pending",
-        success: "Promise resolved 👌",
-        error: "Promise rejected 🤯",
+        pending: "Booking is pending",
+        success: "Booking sent 👌",
+        error: "Booking failed 🤯",
       }
     );
     document.getElementById("sendFormButton").disabled = true;
@@ -83,12 +83,6 @@ export async function sendBooking(
       email: null,
       location: null,
     });
-    // await axios.post(
-    //   `${
-    //     process.env.REACT_APP_SERVER_URL || "http://localhost:3003"
-    //   }/sendEmail`,
-    //   booking
-    // );
   }
   document.getElementById("sendFormButton").disabled = false;
 }

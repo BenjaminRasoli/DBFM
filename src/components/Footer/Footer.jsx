@@ -7,86 +7,63 @@ import {
   AiFillFacebook,
   AiFillLinkedin,
 } from "react-icons/ai";
-import logo from "../../images/DATABASEFORMOVIES-logos_white.png";
 
 function Footer() {
   const scrollToTop = () => {
     window.scrollTo(0, 0);
   };
   return (
-    <footer class="footer">
-      <ul class="social-icon">
-        <li class="social-icon__item">
-          <a class="social-icon__link" href="#">
-            <ion-icon name="logo-facebook"></ion-icon>
-          </a>
-        </li>
-        <li class="social-icon__item">
-          <a class="social-icon__link" href="#">
-            <ion-icon name="logo-twitter"></ion-icon>
-          </a>
-        </li>
-        <li class="social-icon__item">
-          <a class="social-icon__link" href="#">
-            <ion-icon name="logo-linkedin"></ion-icon>
-          </a>
-        </li>
-        <li class="social-icon__item">
-          <a class="social-icon__link" href="#">
-            <ion-icon name="logo-instagram"></ion-icon>
-          </a>
-        </li>
-      </ul>
-      <ul class="menu">
-        <Link to="/">
-          <li class="menu__item">
-            <a class="menu__link" href="/">
-              Home
-            </a>
-          </li>
+    <footer className="footer">
+      <ul className="menu">
+        <Link className="menuLink" to="/">
+          <li className="menuItem">Home</li>
         </Link>
 
-        <Link to="/favorites">
-          <li class="menu__item">
-            <a class="menu__link" href="/">
-              Favtories
-            </a>
-          </li>
+        <Link className="menuLink" to="/favorites">
+          <li className="menuItem">Favtories</li>
         </Link>
 
-        <Link onClick={scrollToTop} to="/contact">
-          <li class="menu__item">
-            <a class="menu__link" href="/">
-              About
-            </a>
-          </li>
+        <Link className="menuLink" onClick={scrollToTop} to="/contact">
+          <li className="menuItem">About</li>
         </Link>
 
-        <Link onClick={scrollToTop} to="/contact">
-          <li class="menu__item">
-            <a class="menu__link" href="/">
-              Contact
-            </a>
-          </li>
+        <Link className="menuLink" onClick={scrollToTop} to="/contact">
+          <li className="menuItem">Contact</li>
         </Link>
       </ul>
       <div className="socialMediaFooter">
-        <a href="https://github.com/BenjaminRasoli" target="_blank">
+        <a
+          href="https://github.com/BenjaminRasoli"
+          target="_blank"
+          rel="noreferrer"
+        >
           <span className="instagram">
             <AiOutlineInstagram size={30} />
           </span>
         </a>
-        <a href="https://github.com/BenjaminRasoli" target="_blank">
+        <a
+          href="https://github.com/BenjaminRasoli"
+          target="_blank"
+          rel="noreferrer"
+        >
           <span className="facebook">
             <AiFillFacebook size={30} />
           </span>
         </a>
-        <a href="https://github.com/BenjaminRasoli" target="_blank">
+        <a
+          href="https://github.com/BenjaminRasoli"
+          target="_blank"
+          rel="noreferrer"
+        >
           <span className="github">
             <AiOutlineGithub size={30} />
           </span>
         </a>
-        <a href="https://github.com/BenjaminRasoli" target="_blank">
+        <a
+          href="https://github.com/BenjaminRasoli"
+          target="_blank"
+          rel="noreferrer"
+        >
           <span className="linkedin">
             <AiFillLinkedin size={30} />
           </span>

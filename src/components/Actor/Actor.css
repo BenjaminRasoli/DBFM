@@ -4,9 +4,10 @@
   display: flex;
   justify-content: center;
   color: var(--second-color);
+  padding-top: 50px;
 }
 
-@media screen and (max-width: 1350px) {
+@media screen and (max-width: 1450px) {
   .actorContainer {
     width: 100%;
   }
@@ -83,10 +84,9 @@
   }
 }
 
-@media screen and (max-width: 1350px) {
+@media screen and (max-width: 1450px) {
   .actorImage {
     display: flex;
-    /* margin: auto; */
   }
 }
 
@@ -106,7 +106,7 @@
   padding-left: 100px;
 }
 
-@media screen and (max-width: 1350px) {
+@media screen and (max-width: 1450px) {
   .actorInformationContainer {
     padding-left: 0px;
     margin: 60px;
@@ -151,4 +151,11 @@
 
 .actorSubDataLeft {
   margin-right: auto;
+}
+
+.readButton {
+  color: var(--third-color);
+  background: transparent;
+  cursor: pointer;
+  border: none;
 }
