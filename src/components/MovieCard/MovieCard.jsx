@@ -46,7 +46,7 @@ function MovieCard({
               className="movieImage"
             />
             <div className="cardContent">
-              <h3>{movie.original_title || movie.original_name}</h3>
+              <h3>{movie.title || movie.name}</h3>
               <p>{movie.release_date || movie.first_air_date}</p>
               <p>
                 {movie.vote_average}

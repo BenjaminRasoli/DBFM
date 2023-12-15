@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useParams, useLocation } from "react-router-dom";
 import Select from "react-select";
 import Accordion from "@mui/material/Accordion";
@@ -7,11 +7,15 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import YouTube from "react-youtube";
 import poster from "../../images/poster-image.png";
+import noImageHolder from "../../images/noImageHolder.jpg";
+
 import { AiFillStar, AiOutlineSend, AiOutlineArrowDown } from "react-icons/ai";
 import ClipLoader from "react-spinners/ClipLoader";
 import { options } from "./selectOptions";
 import {
   fetchMovie,
+  fetchSeasons,
+  getEpisodes,
   getAllActors,
   getVideo,
   sendBooking,
@@ -32,9 +36,33 @@ function Movie() {
   });
   const [allActors, setAllActor] = useState([]);
   const [video, setVideo] = useState({});
+  const [seasons, setSeasons] = useState([]);
+  const [episodes, setEpisodes] = useState([]);
+  const [expandedOverview, setExpandedOverview] = useState({});
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const episodesContainerRef = useRef(null);
+  const [bookedMovie, setBookedMovie] = useState(false);
+  const [bookingLoading, setBookingLoading] = useState(true);
+
+  const toggleReadMore = (episodeId) => {
+    setExpandedOverview((prevExpanded) => ({
+      ...prevExpanded,
+      [episodeId]: !prevExpanded[episodeId],
+    }));
+  };
 
   useEffect(() => {
-    fetchMovie(id, tvId, setMovie, setBooking, booking, location);
+    fetchMovie(
+      id,
+      tvId,
+      setMovie,
+      setBooking,
+      booking,
+      location,
+      setBookedMovie,
+      setBookingLoading
+    );
+    fetchSeasons(tvId, setSeasons);
     getAllActors(id, tvId, setAllActor, location);
     getVideo(id, tvId, setVideo, location);
     window.scroll(0, 0);
@@ -59,15 +87,26 @@ function Movie() {
           />
           <div className="movieInformationContainer">
             <div className="movieInformation">
-              <h1>{movie.original_title || movie.original_name}</h1>
+              {movie.title === movie.original_title &&
+              movie.name === movie.original_name ? (
+                <h1>{movie.original_title || movie.original_name}</h1>
+              ) : (
+                <>
+                  <h1>{movie.title || movie.name}</h1>
+                  <h1>{movie.original_title || movie.original_name}</h1>
+                </>
+              )}
+
               <div className="movieSubData">
                 <div className="movieSubDataLeft">
                   <AiFillStar color="yellow" />
                   {movie.vote_average}
                 </div>
                 <div className="movieSubDataRight">
-                  {movie.release_date || movie.first_air_date} /
-                  {movie.runtime || movie.episode_run_time}MIN
+                  {movie.release_date || movie.first_air_date}
+                  {movie.runtime || movie.episode_run_time?.length > 0
+                    ? `/${movie.runtime || movie.episode_run_time}min`
+                    : ""}
                 </div>
               </div>
               <div className="movieGenresContainer">
@@ -104,74 +143,168 @@ function Movie() {
               </div>
             </div>
 
-            <div>
-              <Accordion className="bookingFormContainer">
-                <AccordionSummary
-                  aria-controls="panel1a-content"
-                  id="panel1a-header"
-                >
-                  <Typography>Book a Ticket</Typography>
-                  <div className="bookingFormArrow">
-                    <AiOutlineArrowDown size={20} />
+            <div className="seasonEpisodeContainer">
+              {movie.original_name ? (
+                <>
+                  <h3>Seasons</h3>
+                  <div className="seasonsContainer">
+                    {seasons.map((season) => (
+                      <button
+                        key={season.season_number}
+                        className="seasonButton"
+                        onClick={() => {
+                          getEpisodes(
+                            tvId,
+                            season.season_number,
+                            episodesContainerRef,
+                            setEpisodes
+                          );
+                        }}
+                      >
+                        <p>{season.name}</p>
+                      </button>
+                    ))}
                   </div>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <form
-                    onSubmit={(e) =>
-                      sendBooking(
-                        e,
-                        booking,
-                        setSelectedOption,
-                        selectedOption,
-                        setBooking
-                      )
-                    }
-                  >
-                    <input
-                      type="text"
-                      placeholder="Name"
-                      onChange={(e) =>
-                        setBooking({ ...booking, name: e.target.value })
-                      }
-                    />
 
-                    <input
-                      type="text"
-                      placeholder="Email"
-                      onChange={(e) =>
-                        setBooking({ ...booking, email: e.target.value })
+                  <div
+                    className="episodesContainer"
+                    ref={episodesContainerRef}
+                    onScroll={(e) => setScrollPosition(e.target.scrollLeft)}
+                    style={{ scrollLeft: scrollPosition }}
+                  >
+                    {episodes.map((episode) => (
+                      <div key={episode.id} className="episodeCard">
+                        <div className="episodeTextContainer">
+                          <p className="episodeText">
+                            EP {episode.episode_number}
+                          </p>
+                          <p className="episodeText">{episode.name}</p>
+
+                          <div className="episodeInfo">
+                            <p className="episodeText rating">
+                              {episode.vote_average}
+                              <AiFillStar color="yellow" />
+                            </p>
+                            <div className="releaseTimeContainer">
+                              <p className="episodeText releaseDate">
+                                {episode.air_date}
+                              </p>
+                              /
+                              <p className="episodeText runTime">
+                                {episode.runtime}min
+                              </p>
+                            </div>
+                          </div>
+                          <p
+                            className={`episodeText episodeOverview ${
+                              expandedOverview[episode.id]
+                                ? "expandedOverview"
+                                : ""
+                            }`}
+                          >
+                            {episode.overview}
+                          </p>
+                          {episode.overview.length > 50 && (
+                            <button
+                              className="readMoreButton"
+                              onClick={() => toggleReadMore(episode.id)}
+                            >
+                              {expandedOverview[episode.id]
+                                ? "Read Less"
+                                : "Read More"}
+                            </button>
+                          )}
+                        </div>
+                        <img
+                          className="episodeImage"
+                          src={
+                            episode.still_path === null
+                              ? noImageHolder
+                              : "https://image.tmdb.org/t/p/w500/" +
+                                episode.still_path
+                          }
+                          alt={episode.title}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </>
+              ) : bookedMovie ? (
+                <h1>Movie Booked</h1>
+              ) : bookingLoading ? (
+                <span class="loader"></span>
+              ) : (
+                <Accordion className="bookingFormContainer">
+                  <AccordionSummary
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                  >
+                    <Typography>Book a Ticket</Typography>
+
+                    <div className="bookingFormArrow">
+                      <AiOutlineArrowDown size={20} />
+                    </div>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <form
+                      onSubmit={(e) =>
+                        sendBooking(
+                          e,
+                          booking,
+                          setSelectedOption,
+                          selectedOption,
+                          setBooking
+                        )
                       }
-                    />
-                    <Select
-                      className="bookingLocation"
-                      value={selectedOption}
-                      onChange={(selectedOption) => {
-                        setSelectedOption(selectedOption);
-                        setBooking({
-                          ...booking,
-                          location: selectedOption
-                            ? selectedOption.value
-                            : null,
-                        });
-                      }}
-                      options={options}
-                      styles={{
-                        control: (baseStyles) => ({
-                          ...baseStyles,
-                        }),
-                      }}
-                    />
-                    <button id="sendFormButton">
-                      <AiOutlineSend size={20} />
-                    </button>
-                  </form>
-                </AccordionDetails>
-              </Accordion>
+                    >
+                      <input
+                        type="text"
+                        placeholder="Name"
+                        onChange={(e) =>
+                          setBooking({ ...booking, name: e.target.value })
+                        }
+                      />
+
+                      <input
+                        type="text"
+                        placeholder="Email"
+                        onChange={(e) =>
+                          setBooking({ ...booking, email: e.target.value })
+                        }
+                      />
+                      <Select
+                        className="bookingLocation"
+                        value={selectedOption}
+                        onChange={(selectedOption) => {
+                          setSelectedOption(selectedOption);
+                          setBooking({
+                            ...booking,
+                            location: selectedOption
+                              ? selectedOption.value
+                              : null,
+                          });
+                        }}
+                        options={options}
+                        styles={{
+                          control: (baseStyles) => ({
+                            ...baseStyles,
+                          }),
+                        }}
+                      />
+                      <button id="sendFormButton">
+                        <AiOutlineSend size={20} />
+                      </button>
+                    </form>
+                  </AccordionDetails>
+                </Accordion>
+              )}
             </div>
             <div>
-              {video && (
-                <YouTube videoId={`${video.key}`} className="youtubeVideo" />
-              )}
+              <div className="youtubeVideoContainer">
+                {video && (
+                  <YouTube videoId={`${video.key}`} className="youtubeVideo" />
+                )}
+              </div>
             </div>
           </div>
         </div>

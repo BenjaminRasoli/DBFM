@@ -7,7 +7,9 @@ export async function fetchMovie(
   setMovie,
   setBooking,
   booking,
-  location
+  location,
+  setBookedMovie,
+  setBookingLoading
 ) {
   const url =
     location.pathname === `/movie/${id}`
@@ -22,7 +24,36 @@ export async function fetchMovie(
     MovieName: res.data.original_title || res.data.original_name,
     MovieImage: "https://image.tmdb.org/t/p/w500/" + res.data.poster_path,
   });
+  const bookings = await axios("https://dbfm.onrender.com/bookings");
+  const booked = bookings.data.some(
+    (booking) => booking.MovieName === res.data.original_title
+  );
+
+  setBookedMovie(booked);
+  setBookingLoading(false);
 }
+
+export async function fetchSeasons(tvId, setSeasons) {
+  const url = `https://api.themoviedb.org/3/tv/${tvId}?&api_key=${process.env.REACT_APP_APIKEY}`;
+
+  const response = await fetch(url);
+  const allSeasons = await response.json();
+  setSeasons(allSeasons.seasons);
+}
+
+export async function getEpisodes(
+  tvId,
+  seasonNumber,
+  episodesContainerRef,
+  setEpisodes
+) {
+  const url = `https://api.themoviedb.org/3/tv/${tvId}/season/${seasonNumber}?&api_key=${process.env.REACT_APP_APIKEY}`;
+  const response = await fetch(url);
+  const allEpisodes = await response.json();
+  episodesContainerRef.current.scrollLeft = 0;
+  setEpisodes(allEpisodes.episodes);
+}
+
 export async function getAllActors(id, tvId, setAllActor, location) {
   const url =
     location.pathname === `/movie/${id}`
@@ -52,13 +83,23 @@ export async function sendBooking(
 ) {
   e.preventDefault();
 
-  if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(booking.email)) {
-    toast.error("You have entered an invalid email address");
-  } else if (!/^[A-Za-z]+$/.test(booking.name) || booking.name === "") {
+  if (!/^[A-Öa-ö]+$/.test(booking.name) || booking.name === null) {
     toast.error("You have entered an invalid name");
+  } else if (
+    !/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(booking.email)
+  ) {
+    toast.error("You have entered an invalid email address");
   } else if (selectedOption === "") {
-    toast.error("Please choose a locaiton");
+    toast.error("Please choose a location");
   } else {
+    setSelectedOption([]);
+    setBooking({
+      ...booking,
+      name: null,
+      email: null,
+      location: null,
+    });
+    e.target.reset();
     await toast.promise(
       axios.post(
         `${
@@ -74,15 +115,6 @@ export async function sendBooking(
       }
     );
     document.getElementById("sendFormButton").disabled = true;
-
-    e.target.reset();
-    setSelectedOption([]);
-    setBooking({
-      ...booking,
-      name: null,
-      email: null,
-      location: null,
-    });
   }
   document.getElementById("sendFormButton").disabled = false;
 }

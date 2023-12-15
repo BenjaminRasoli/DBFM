@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, NavLink, Link } from "react-router-dom";
 import { BiSearch } from "react-icons/bi";
+import { toast } from "react-toastify";
 import axios from "axios";
 import Hamburger from "hamburger-react";
 import "./Navbar.css";
@@ -14,11 +15,16 @@ function Navbar() {
   let navigate = useNavigate();
   function searchMovies(e) {
     e.preventDefault();
+    const trimmedSearchWord = searchWord.trim();
+    if (trimmedSearchWord === "") {
+      toast.error("Invalid search");
+      return;
+    }
     setSearchWord("");
     setToggle(false);
     navigate({
       pathname: "/search",
-      search: `query=${searchWord}`,
+      search: `query=${trimmedSearchWord}`,
     });
   }
 
