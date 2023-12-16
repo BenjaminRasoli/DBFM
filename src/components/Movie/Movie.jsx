@@ -188,10 +188,14 @@ function Movie() {
                             <div className="releaseTimeContainer">
                               <p className="episodeText releaseDate">
                                 {episode.air_date}
-                              </p>
-                              /
-                              <p className="episodeText runTime">
-                                {episode.runtime}min
+                                {episode.runtime && (
+                                  <>
+                                    <span>/</span>
+                                    <span className="episodeText runTime">
+                                      {episode.runtime}min
+                                    </span>
+                                  </>
+                                )}
                               </p>
                             </div>
                           </div>

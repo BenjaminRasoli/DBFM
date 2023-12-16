@@ -14,8 +14,8 @@ export function handleFavorites(movie, favorites, setFavorites) {
       ...favorites,
       {
         id: movie.id,
-        original_title: movie.original_title,
-        original_name: movie.original_name,
+        title: movie.title,
+        name: movie.name,
         release_date: movie.release_date,
         first_air_date: movie.first_air_date,
         vote_average: movie.vote_average,
