@@ -24,7 +24,7 @@ export async function fetchMovie(
     MovieName: res.data.original_title || res.data.original_name,
     MovieImage: "https://image.tmdb.org/t/p/w500/" + res.data.poster_path,
   });
-  const bookings = await axios("https://dbfm.onrender.com/bookings");
+  const bookings = await axios(process.env.REACT_APP_SERVER_URL);
   const booked = bookings.data.some(
     (booking) => booking.MovieName === res.data.original_title
   );
@@ -101,12 +101,7 @@ export async function sendBooking(
     });
     e.target.reset();
     await toast.promise(
-      axios.post(
-        `${
-          process.env.REACT_APP_SERVER_URL || "http://localhost:3003"
-        }/bookings`,
-        booking
-      ),
+      axios.post(process.env.REACT_APP_SERVER_URL, booking),
 
       {
         pending: "Booking is pending",

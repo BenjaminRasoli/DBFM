@@ -243,7 +243,7 @@ function Movie() {
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                   >
-                    <Typography>Book a Ticket</Typography>
+                    <Typography>Book the movie</Typography>
 
                     <div className="bookingFormArrow">
                       <AiOutlineArrowDown size={20} />
@@ -278,6 +278,7 @@ function Movie() {
                       />
                       <Select
                         className="bookingLocation"
+                        placeholder="Pickup point"
                         value={selectedOption}
                         onChange={(selectedOption) => {
                           setSelectedOption(selectedOption);

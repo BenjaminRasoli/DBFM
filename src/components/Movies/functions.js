@@ -32,9 +32,7 @@ export function sortMovie(sortType, filteredMovies, setMovies) {
   const sortedMovies = filteredMovies.sort((a, b) => {
     switch (sortType) {
       case "a-z":
-        return (a.original_title || a.original_name).localeCompare(
-          b.original_title || b.original_name
-        );
+        return (a.title || a.name).localeCompare(b.title || b.name);
       case "date":
         return (
           new Date(b.release_date || b.first_air_date) -

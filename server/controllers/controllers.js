@@ -13,8 +13,6 @@ const getBookings = async (req, res) => {
 const createBooking = async (req, res) => {
   try {
     const values = req.body;
-    console.log(req);
-
     const transporter = nodemailer.createTransport({
       service: "hotmail",
       auth: {

@@ -8,12 +8,14 @@ function Contact() {
         <div className="aboutTextContainer">
           <h1>Let's talk about DBFM</h1>
           <div className="overallText">
-            The Movie Database (DBFM) is a community built movie and TV
-            database. Every piece of data has been added by our amazing
-            community dating back to 2008. DBFM's strong international focus and
-            breadth of data is largely unmatched and something we're incredibly
-            proud of. Put simply, we live and breathe community and that's
-            precisely what makes us different.
+            DBFM (The Movie Database) stands as a collaborative effort in
+            curating a comprehensive repository of movies and TV shows. Since
+            2008, our vibrant community has diligently contributed to building
+            this valuable database. What sets DBFM apart is its robust
+            international perspective and unparalleled breadth of data, a source
+            of immense pride for us. To put it simply, we are driven by a
+            passion for community collaboration, and it's this unique aspect
+            that defines us.
           </div>
           <h2 className="advantage">The DBFM advantage</h2>
           <div className="aboutText">
@@ -21,12 +23,14 @@ function Contact() {
               <h2>1</h2>
             </div>
             <p>
-              The Movie Database (DBFM) is a community built movie and TV
-              database. Every piece of data has been added by our amazing
-              community dating back to 2008. DBFM's strong international focus
-              and breadth of data is largely unmatched and something we're
-              incredibly proud of. Put simply, we live and breathe community and
-              that's precisely what makes us different.
+              DBFM (The Movie Database) stands as a collective venture in
+              curating a comprehensive movie and TV database. Since 2008, our
+              extraordinary community has contributed every piece of data,
+              forming a rich tapestry of information. DBFM takes pride in its
+              robust international focus and extensive data coverage,
+              distinguishing it significantly. In essence, we are not just a
+              database; we are a thriving community, and this is what sets us
+              apart.
             </p>
           </div>
 
@@ -35,10 +39,10 @@ function Contact() {
               <h2>2</h2>
             </div>
             <p>
-              Along with extensive metadata for movies, TV shows and people, we
-              also offer one of the best selections of high resolution posters
-              and fanart. On average, over 1,000 images are added every single
-              day.
+              In addition to providing comprehensive metadata for movies, TV
+              shows, and individuals, we boast one of the finest collections of
+              high-resolution posters and fan art. Remarkably, we add over 1,000
+              images each day on average.
             </p>
           </div>
           <div className="aboutText">
@@ -46,9 +50,10 @@ function Contact() {
               <h2>3</h2>
             </div>
             <p>
-              We're international. While we officially support 39 languages we
-              also have extensive regional data. Every single day DBFM is used
-              in over 180 countries.
+              We're truly international. Although we officially support 39
+              languages, our database also encompasses extensive regional data.
+              DBFM is accessed every single day in over 180 countries,
+              showcasing its global reach and impact.
             </p>
           </div>
           <div className="aboutText">
@@ -56,9 +61,10 @@ function Contact() {
               <h2>4</h2>
             </div>
             <p>
-              Our community is second to none. Between our staff and community
-              moderators, we're always here to help. We're passionate about
-              making sure your experience on DBFM is nothing short of amazing.
+              Our community is unparalleled. With our dedicated staff and
+              community moderators, assistance is always at your fingertips. We
+              are deeply passionate about ensuring that your experience on DBFM
+              is nothing short of amazing.
             </p>
           </div>
           <div className="aboutText">
@@ -66,10 +72,10 @@ function Contact() {
               <h2>5</h2>
             </div>
             <p>
-              Trusted platform. Every single day our service is used by millions
-              of people while we process over 3 billion requests. We've proven
-              for years that this is a service that can be trusted and relied
-              on.
+              A reliable platform. Each day, millions of users trust our service
+              as we handle over 3 billion requests. Over the years, we have
+              consistently demonstrated that our platform is trustworthy and
+              dependable.
             </p>
           </div>
         </div>

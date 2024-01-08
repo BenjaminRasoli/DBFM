@@ -31,7 +31,7 @@ function MovieCard({
         to={
           (location.pathname === `/genres/${genreId}` &&
             `/movie/${movie.id}`) ||
-          `/${movie.original_title ? "movie" : "tv"}/${movie.id}`
+          `/${movie.title ? "movie" : "tv"}/${movie.id}`
         }
       >
         <div className="gridItem">
