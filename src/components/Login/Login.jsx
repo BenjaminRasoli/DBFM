@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Login.css";
 import { auth } from "../../config/FireBaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { Link } from "react-router-dom";
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -23,6 +24,10 @@ function Login() {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log(user);
+        setFormData({
+          email: "",
+          password: "",
+        })
       })
       .catch((error) => {
         console.log(error);
@@ -38,15 +43,20 @@ function Login() {
           name="email"
           value={formData.email}
           onChange={handleChange}
+          placeholder="Email"
         />
         <input
           type="password"
           name="password"
           value={formData.password}
           onChange={handleChange}
+          placeholder="Password"
         />
         <button type="submit">Login</button>
       </form>
+      <div>
+        Dont have an account <Link to="/signup">Sign up</Link>
+      </div>
     </div>
   );
 }

@@ -6,6 +6,7 @@ import Movie from "./components/Movie/Movie";
 import Contact from "./components/Contact/Contact";
 import Actor from "./components/Actor/Actor";
 import Login from "./components/Login/Login";
+import SignUp from "./components/SignUp/SignUp";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -37,6 +38,7 @@ function App() {
         <Route path="/actor/:actorId" element={<Actor />} />
         <Route path="/contact/" element={<Contact />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp>Sign Up</SignUp>} />
         {/* <Route path="*" element={<h1>Not Found</h1>} /> */}
       </Routes>
       <Footer />
