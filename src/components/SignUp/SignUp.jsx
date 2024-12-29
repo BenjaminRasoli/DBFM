@@ -3,8 +3,11 @@ import "./SignUp.css";
 import { auth } from "../../config/FireBaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
+import { useUser } from "../../context/UserProvider";
 
 function SignUp() {
+  const { login } = useUser();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -28,7 +31,7 @@ function SignUp() {
     createUserWithEmailAndPassword(auth, formData.email, formData.password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user);
+        login(user);
         setFormData({
           email: "",
           password: "",

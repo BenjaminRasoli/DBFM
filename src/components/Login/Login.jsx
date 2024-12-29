@@ -3,11 +3,14 @@ import "./Login.css";
 import { auth } from "../../config/FireBaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
+import { useUser } from "../../context/UserProvider";
 
 function Login() {
+  const { login } = useUser();
+
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: "test@gmail.com",
+    password: "123456",
   });
 
   const handleChange = (e) => {
@@ -23,11 +26,11 @@ function Login() {
     signInWithEmailAndPassword(auth, formData.email, formData.password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user);
+        login(user);
         setFormData({
           email: "",
           password: "",
-        })
+        });
       })
       .catch((error) => {
         console.log(error);

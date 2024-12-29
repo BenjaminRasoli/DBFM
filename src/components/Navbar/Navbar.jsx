@@ -6,8 +6,10 @@ import axios from "axios";
 import Hamburger from "hamburger-react";
 import "./Navbar.css";
 import logo from "../../images/DATABASEFORMOVIES-logos_white.png";
+import { useUser } from "../../context/UserProvider";
 
 function Navbar() {
+  const { user, logout } = useUser();
   const [searchWord, setSearchWord] = useState("");
   const [genres, setGenres] = useState([]);
   const [isHovered, setIsHovered] = useState(false);
@@ -94,9 +96,15 @@ function Navbar() {
               <BiSearch size={30} color="var(--main-color)" />
             </button>
           </div>
-          <Link to="/login" className="loginLink">
-            Login
-          </Link>
+          {!user ? (
+            <Link to="/login" className="loginLink">
+              Login
+            </Link>
+          ) : (
+            <button className="logoutButton" onClick={logout}>
+              Logout
+            </button>
+          )}
         </div>
       </form>
 

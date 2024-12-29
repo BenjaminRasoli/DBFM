@@ -103,6 +103,17 @@ a {
   color: var(--second-color);
 }
 
+.logoutButton {
+  color: var(--second-color);
+  background-color: transparent;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+}
+
 @media screen and (max-width: 1450px) {
   .searchContainer {
     position: fixed;
