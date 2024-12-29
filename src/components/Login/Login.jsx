@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import "./Login.css";
 import { auth } from "../../config/FireBaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../../context/UserProvider";
 
 function Login() {
   const { login } = useUser();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     email: "test@gmail.com",
@@ -33,6 +34,7 @@ function Login() {
       const user = userCredential.user;
       console.log(user);
       login(user);
+      navigate("/");
       setFormData({
         email: "",
         password: "",

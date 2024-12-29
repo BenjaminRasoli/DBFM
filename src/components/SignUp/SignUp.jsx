@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import "./SignUp.css";
 import { auth, db } from "../../config/FireBaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../../context/UserProvider";
 import { doc, setDoc } from "firebase/firestore";
 
 function SignUp() {
   const { login } = useUser();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -50,6 +51,7 @@ function SignUp() {
         date: new Date().toLocaleDateString(),
       });
       login(user);
+      navigate("/");
       setFormData({
         email: "",
         password: "",

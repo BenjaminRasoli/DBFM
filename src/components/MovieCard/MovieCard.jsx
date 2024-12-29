@@ -2,8 +2,10 @@ import "./MovieCard.css";
 import { Link } from "react-router-dom";
 import { AiFillStar } from "react-icons/ai";
 import poster from "../../images/poster-image.png";
-import React from "react";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import { useUser } from "../../context/UserProvider";
+import { fetchFavoritesFromFirebase } from "../Movies/functions";
+import { useEffect } from "react";
 
 function MovieCard({
   handleFavorites,
@@ -11,14 +13,31 @@ function MovieCard({
   favorites,
   setFavorites,
   genreId,
-
   location,
 }) {
+  const { user } = useUser();
+
+  useEffect(() => {
+    if (user) {
+      fetchFavoritesFromFirebase(user.uid).then((fetchedFavorites) => {
+        setFavorites(fetchedFavorites);
+        localStorage.setItem(
+          "favoriteMovies",
+          JSON.stringify(fetchedFavorites)
+        );
+      });
+    } else {
+      const storedFavorites =
+        JSON.parse(localStorage.getItem("favoriteMovies")) || [];
+      setFavorites(storedFavorites);
+    }
+  }, [user]);
+
   return (
     <div key={movie.id}>
       <div
         className="heartContainer"
-        onClick={() => handleFavorites(movie, favorites, setFavorites)}
+        onClick={() => handleFavorites(movie, favorites, setFavorites, user)}
       >
         {favorites.some((favorite) => favorite.id === movie.id) ? (
           <AiFillHeart size={50} color="var(--fourth-color)" />
