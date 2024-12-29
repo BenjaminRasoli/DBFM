@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import "./SignUp.css";
-import { auth } from "../../config/FireBaseConfig";
+import { auth, db } from "../../config/FireBaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
 import { useUser } from "../../context/UserProvider";
+import { doc, setDoc } from "firebase/firestore";
 
 function SignUp() {
   const { login } = useUser();
@@ -26,25 +27,41 @@ function SignUp() {
     });
   };
 
-  const handleSignUp = (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
-    createUserWithEmailAndPassword(auth, formData.email, formData.password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        login(user);
-        setFormData({
-          email: "",
-          password: "",
-          firstName: "",
-          lastName: "",
-          userName: "",
-          uid: user.uid,
-          date: new Date().toLocaleDateString(),
-        });
-      })
-      .catch((error) => {
-        console.log(error);
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
+
+      const user = userCredential.user;
+
+      const userDocRef = doc(db, "users", user.uid);
+      await setDoc(userDocRef, {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        userName: formData.userName,
+        email: formData.email,
+        password: formData.password,
+        uid: user.uid,
+        date: new Date().toLocaleDateString(),
       });
+      login(user);
+      setFormData({
+        email: "",
+        password: "",
+        firstName: "",
+        lastName: "",
+        userName: "",
+        uid: user.uid,
+        date: new Date().toLocaleDateString(),
+      });
+    } catch (error) {
+      console.error("Error signing up: ", error);
+    }
   };
 
   return (

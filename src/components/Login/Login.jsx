@@ -21,20 +21,25 @@ function Login() {
     });
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    signInWithEmailAndPassword(auth, formData.email, formData.password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        login(user);
-        setFormData({
-          email: "",
-          password: "",
-        });
-      })
-      .catch((error) => {
-        console.log(error);
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
+      const user = userCredential.user;
+      console.log(user);
+      login(user);
+      setFormData({
+        email: "",
+        password: "",
       });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
