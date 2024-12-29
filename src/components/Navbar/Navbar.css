@@ -97,6 +97,12 @@ a {
   z-index: 5; /*so it is over hambuer menu when both open and x icon */
 }
 
+.loginLink {
+  margin-left: 10px;
+  text-decoration: none;
+  color: var(--second-color);
+}
+
 @media screen and (max-width: 1450px) {
   .searchContainer {
     position: fixed;

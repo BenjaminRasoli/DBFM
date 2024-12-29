@@ -94,6 +94,9 @@ function Navbar() {
               <BiSearch size={30} color="var(--main-color)" />
             </button>
           </div>
+          <Link to="/login" className="loginLink">
+            Login
+          </Link>
         </div>
       </form>
 

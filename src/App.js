@@ -5,6 +5,7 @@ import Footer from "./components/Footer/Footer";
 import Movie from "./components/Movie/Movie";
 import Contact from "./components/Contact/Contact";
 import Actor from "./components/Actor/Actor";
+import Login from "./components/Login/Login";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -35,6 +36,8 @@ function App() {
         <Route path="/favorites" element={<Movies />} />
         <Route path="/actor/:actorId" element={<Actor />} />
         <Route path="/contact/" element={<Contact />} />
+        <Route path="/login" element={<Login />} />
+        {/* <Route path="*" element={<h1>Not Found</h1>} /> */}
       </Routes>
       <Footer />
     </Router>
