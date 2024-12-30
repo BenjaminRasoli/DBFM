@@ -7,6 +7,7 @@ import About from "./components/About/About";
 import Actor from "./components/Actor/Actor";
 import Login from "./components/Login/Login";
 import SignUp from "./components/SignUp/SignUp";
+import NotFound from "./components/NotFound/NotFound";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -40,7 +41,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp>Sign Up</SignUp>} />
-          {/* <Route path="*" element={<h1>Not Found</h1>} /> */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       <Footer />

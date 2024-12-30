@@ -1,0 +1,26 @@
+.notFound {
+  width: 85%;
+  float: right;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 600px;
+  color: white;
+  text-align: center;
+}
+
+@media screen and (max-width: 1450px) {
+  .notFound {
+    width: 100%;
+  }
+}
+
+.notFound h3 {
+  margin: 20px 0;
+}
+
+.notFound a {
+  font-size: 1.2rem;
+  color: var(--fourth-color);
+}

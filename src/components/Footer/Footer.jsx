@@ -37,24 +37,6 @@ function Footer() {
           target="_blank"
           rel="noreferrer"
         >
-          <span className="instagram">
-            <AiOutlineInstagram size={30} />
-          </span>
-        </a>
-        <a
-          href="https://github.com/BenjaminRasoli"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <span className="facebook">
-            <AiFillFacebook size={30} />
-          </span>
-        </a>
-        <a
-          href="https://github.com/BenjaminRasoli"
-          target="_blank"
-          rel="noreferrer"
-        >
           <span className="github">
             <AiOutlineGithub size={30} />
           </span>
