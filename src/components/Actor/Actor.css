@@ -4,7 +4,7 @@
   display: flex;
   justify-content: center;
   color: var(--second-color);
-  padding-top: 50px;
+  padding-top: 150px;
 }
 
 @media screen and (max-width: 1450px) {
@@ -27,7 +27,7 @@
 }
 
 .besideActorImage {
-  max-width: 600px;
+  max-width: 650px;
   margin: 80px;
   margin-top: 0;
 }

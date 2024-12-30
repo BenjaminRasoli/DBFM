@@ -5,7 +5,7 @@
   justify-content: center;
   flex-wrap: wrap;
   color: var(--second-color);
-  padding-top: 50px;
+  padding-top: 150px;
 }
 
 @media screen and (max-width: 1450px) {
@@ -29,6 +29,11 @@
   }
 }
 
+.rating {
+  display: flex;
+  align-items: center;
+}
+
 @media screen and (max-width: 1650px) {
   .moreInformationImage {
     width: 300px;
@@ -44,6 +49,7 @@
 .movieInformationContainer {
   margin-left: 60px;
   margin-right: 60px;
+  max-width: 650px;
 }
 
 .movieGenresContainer {

@@ -54,6 +54,10 @@
   transition: left 0.3s ease;
 }
 
+.rating {
+  display: flex;
+  align-items: center;
+}
 .cardContent p {
   text-align: center;
   margin: 5px 0;
