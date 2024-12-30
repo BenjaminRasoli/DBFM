@@ -62,10 +62,15 @@ function Login() {
           onChange={handleChange}
           placeholder="Password"
         />
-        <button type="submit">Login</button>
+        <button className="loginButton" type="submit">
+          Login
+        </button>
       </form>
       <div>
-        Dont have an account <Link to="/signup">Sign up</Link>
+        Dont have an account
+        <Link to="/signup">
+          <span className="signupLink"> Sign up</span>
+        </Link>
       </div>
     </div>
   );

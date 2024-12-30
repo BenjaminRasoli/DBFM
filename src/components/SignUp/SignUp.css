@@ -1,11 +1,18 @@
 .signUpContainer {
   color: white;
   width: 85%;
+  padding-top: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   float: right;
+}
+
+@media screen and (max-width: 1450px) {
+  .signUpContainer {
+    width: 100%;
+  }
 }
 
 .signUpForm {
@@ -17,16 +24,42 @@
 }
 
 .signUpForm input {
-  padding: 10px;
+  padding: 12px;
   margin: 10px 0;
   border: none;
   border-radius: 5px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.signUpForm input:focus {
+  border: 1px solid var(--fourth-color);
+  border-color: var(--fourth-color);
+  outline: none;
 }
 
 .signUpForm button {
-  padding: 10px;
+  padding: 12px 20px;
   margin: 10px 0;
   border: none;
   border-radius: 5px;
+  background-color: var(--second-color);
+  color: var(--main-color);
+  font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.signUpForm button:active {
+  background-color: var(--fourth-color);
+}
+
+.signUpButton:hover {
+  color: var(--fourth-color);
+}
+
+.loginLinkSpan {
+  color: var(--fourth-color);
 }

@@ -105,10 +105,13 @@ function SignUp() {
           onChange={handleChange}
           placeholder="Password"
         />
-        <button type="submit">Signup</button>
+        <button className="signUpButton" type="submit">Signup</button>
       </form>
       <div>
-        Already have an account <Link to="/login">Login</Link>
+        Already have an account
+        <Link to="/login">
+          <span className="loginLinkSpan">Login</span>
+        </Link>
       </div>
     </div>
   );

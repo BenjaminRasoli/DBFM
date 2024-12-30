@@ -103,12 +103,12 @@ a {
 
 @media screen and (max-width: 1900px) {
   .mainLogo {
-  width: 180px;
+    width: 180px;
   }
 }
 @media screen and (max-width: 1550px) {
   .mainLogo {
-  width: 130px;
+    width: 130px;
   }
 }
 
@@ -153,9 +153,14 @@ a {
 }
 
 .loginLink {
-  margin-left: 10px;
+  margin-left: 20px;
   text-decoration: none;
   color: var(--second-color);
+}
+
+.loginLink:hover {
+  color: var(--fourth-color);
+  transition: 0.3s;
 }
 
 .logoutButton {
