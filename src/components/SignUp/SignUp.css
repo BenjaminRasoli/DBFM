@@ -52,10 +52,6 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.signUpForm button:active {
-  background-color: var(--fourth-color);
-}
-
 .signUpButton:hover {
   color: var(--fourth-color);
 }
