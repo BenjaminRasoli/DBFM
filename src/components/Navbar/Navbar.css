@@ -1,10 +1,25 @@
 .sideBar {
-  position: absolute;
+  position: fixed;
   width: 15%;
-  height: fit-content;
+  height: 100vh;
   background: var(--main-color);
   font-size: 0.9em;
   border-right: 1px solid var(--second-color);
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.sideBar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.sideBar::-webkit-scrollbar-thumb {
+  background: var(--second-color);
+  border-radius: 10px;
+}
+
+.sideBar::-webkit-scrollbar-thumb:hover {
+  background: var(--fourth-color);
 }
 
 @media screen and (max-width: 1450px) {
@@ -77,9 +92,13 @@ a {
 
 .mainLogo {
   height: auto;
-  width: 270px;
+  width: 230px;
   margin-top: 50px;
-  margin-left: 20px;
+  margin-left: 40px;
+}
+
+.mainLogo:hover {
+  content: url("../../images/DATABASEFORMOVIES-logos_pink-red.png");
 }
 
 @media screen and (max-width: 1450px) {
@@ -88,13 +107,38 @@ a {
   }
 }
 
-.searchContainer {
+.searchContainerWithHamburger {
+  background-color: var(--main-color);
+  height: 100px;
   position: fixed;
+  width: 83%;
+  float: right;
+  right: 0;
+  padding-top: 10px;
+  z-index: 3;
+}
+
+@media screen and (max-width: 1450px) {
+  .searchContainerWithHamburger {
+    width: 100%;
+  }
+}
+
+.searchContainer {
+  position: absolute;
   top: 10px;
   right: 10px;
   display: flex;
+  padding-top: 10px;
+  padding-right: 70px;
   align-items: center;
-  z-index: 5; /*so it is over hambuer menu when both open and x icon */
+  z-index: 2; /*so it is over hambuer menu when both open and x icon */
+}
+
+@media screen and (max-width: 1050px) {
+  .searchContainer {
+    padding-right: 0px;
+  }
 }
 
 .loginLink {
@@ -114,12 +158,6 @@ a {
   text-align: center;
 }
 
-@media screen and (max-width: 1450px) {
-  .searchContainer {
-    position: fixed;
-  }
-}
-
 .searchBox {
   background: var(--second-color);
   height: 40px;
@@ -129,11 +167,26 @@ a {
   align-items: center;
 }
 
-.searchBox:hover .searchText {
-  width: 240px;
-  padding: 0 6px;
+@media screen and (max-width: 1450px) {
+  .searchBox {
+    width: 130px;
+  }
+
+  .searchText {
+    width: 100%;
+  }
 }
 
+@media screen and (min-width: 1451px) {
+  .searchBox:hover .searchText {
+    width: 240px;
+    padding: 0 6px;
+  }
+
+  .searchText {
+    width: 0px;
+  }
+}
 .searchIcon {
   color: black;
   background: white;
@@ -144,7 +197,6 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: 0.4s;
   cursor: pointer;
   text-decoration: none;
   border: none;
@@ -159,7 +211,6 @@ a {
   font-weight: normal;
   transition: 0.4s;
   line-height: 40px;
-  width: 0px;
   background-color: var(--second-color);
 }
 
@@ -196,13 +247,13 @@ a {
 .navBarButton {
   position: fixed;
   margin-left: 5px;
-  top: 10px;
+  padding-top: 25px;
   left: 10px;
   display: none;
   border: none;
   background-color: transparent;
   cursor: pointer;
-  z-index: 4; /*so it is over hamburger menu*/
+  z-index: 5; /*so it is over hamburger menu*/
 }
 
 @media screen and (max-width: 1450px) {

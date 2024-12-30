@@ -6,6 +6,7 @@ import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { useUser } from "../../context/UserProvider";
 import { fetchFavoritesFromFirebase } from "../Movies/functions";
 import { useEffect } from "react";
+import { useToggle } from "../../context/ZustandStore";
 
 function MovieCard({
   handleFavorites,
@@ -16,6 +17,8 @@ function MovieCard({
   location,
 }) {
   const { user } = useUser();
+
+  const { setToggle } = useToggle();
 
   useEffect(() => {
     if (user) {
@@ -52,6 +55,7 @@ function MovieCard({
             `/movie/${movie.id}`) ||
           `/${movie.title ? "movie" : "tv"}/${movie.id}`
         }
+        onClick={() => setToggle(false)}
       >
         <div className="gridItem">
           <div className="movieCard">

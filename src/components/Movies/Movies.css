@@ -7,11 +7,13 @@
 
 .gridInnerContainer {
   display: flex;
-  gap: 45px;
+  gap: 40px;
   justify-content: center;
   align-content: center;
   flex-wrap: wrap;
   padding-top: 150px;
+  padding-right: 50px;
+  padding-left: 50px;
 }
 
 .gridInnerContainer a {
@@ -49,7 +51,7 @@
 
 .sortContainer {
   position: absolute;
-  top: 130px;
+  top: 80px;
   right: 0px;
   display: flex;
   align-items: center;
@@ -70,8 +72,14 @@ select {
   right: 10px;
   display: flex;
   align-items: center;
-  padding-right: 15px;
+  padding-right: 70px;
   height: 3em;
+}
+
+@media screen and (max-width: 1050px) {
+  .select {
+    padding-right: 0px;
+  }
 }
 
 .scrollUpContainer {

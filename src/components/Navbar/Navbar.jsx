@@ -7,14 +7,17 @@ import Hamburger from "hamburger-react";
 import "./Navbar.css";
 import logo from "../../images/DATABASEFORMOVIES-logos_white.png";
 import { useUser } from "../../context/UserProvider";
+import { useToggle } from "../../context/ZustandStore";
 
 function Navbar() {
   const { user, logout } = useUser();
   const [searchWord, setSearchWord] = useState("");
   const [genres, setGenres] = useState([]);
   const [isHovered, setIsHovered] = useState(false);
-  const [toggle, setToggle] = useState(false);
+  const { toggle, setToggle } = useToggle();
+
   let navigate = useNavigate();
+
   function searchMovies(e) {
     e.preventDefault();
     const trimmedSearchWord = searchWord.trim();
@@ -41,12 +44,27 @@ function Navbar() {
     getGenres();
   }, []);
 
+  useEffect(() => {
+    if (toggle) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [toggle]);
+
   return (
     <>
-      <Link to="/">
-        <img className="mainLogo" src={logo} alt="DBFM Logo" />
-      </Link>
+      <div className="navBarButton">
+        <Hamburger
+          color="var(--second-color)"
+          toggled={toggle}
+          toggle={setToggle}
+        />
+      </div>
       <aside className="sideBar">
+        <Link to="/">
+          <img className="mainLogo" src={logo} alt="DBFM Logo" />
+        </Link>
         <nav className="navbar">
           <ul>
             <li>
@@ -72,13 +90,13 @@ function Navbar() {
           </ul>
         </nav>
       </aside>
-
-      <form
-        id="search"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        <div className="searchContainer">
+      <div className="searchContainerWithHamburger">
+        <form
+          id="search"
+          className="searchContainer"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
           <div className="searchBox">
             <input
               className="searchText"
@@ -105,8 +123,8 @@ function Navbar() {
               Logout
             </button>
           )}
-        </div>
-      </form>
+        </form>
+      </div>
 
       <nav id="sideBar" className={toggle ? "active" : ""}>
         <div className="navbar">
@@ -139,13 +157,6 @@ function Navbar() {
           </ul>
         </div>
       </nav>
-      <button className="navBarButton">
-        <Hamburger
-          color="var(--second-color)"
-          toggled={toggle}
-          toggle={setToggle}
-        />
-      </button>
     </>
   );
 }
