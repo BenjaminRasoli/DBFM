@@ -94,11 +94,22 @@ a {
   height: auto;
   width: 230px;
   margin-top: 50px;
-  margin-left: 40px;
+  margin-left: 30px;
 }
 
 .mainLogo:hover {
   content: url("../../images/DATABASEFORMOVIES-logos_pink-red.png");
+}
+
+@media screen and (max-width: 1900px) {
+  .mainLogo {
+  width: 180px;
+  }
+}
+@media screen and (max-width: 1550px) {
+  .mainLogo {
+  width: 130px;
+  }
 }
 
 @media screen and (max-width: 1450px) {
@@ -229,6 +240,13 @@ a {
 @media screen and (max-width: 1450px) {
   #sideBar {
     display: block;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  #sideBar {
+    width: 100%;
+    left: -100%;
   }
 }
 

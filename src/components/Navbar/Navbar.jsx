@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, NavLink, Link } from "react-router-dom";
 import { BiSearch } from "react-icons/bi";
 import { toast } from "react-toastify";
@@ -7,16 +7,35 @@ import Hamburger from "hamburger-react";
 import "./Navbar.css";
 import logo from "../../images/DATABASEFORMOVIES-logos_white.png";
 import { useUser } from "../../context/UserProvider";
-import { useToggle } from "../../context/ZustandStore";
 
 function Navbar() {
   const { user, logout } = useUser();
   const [searchWord, setSearchWord] = useState("");
   const [genres, setGenres] = useState([]);
   const [isHovered, setIsHovered] = useState(false);
-  const { toggle, setToggle } = useToggle();
+  const [toggle, setToggle] = useState(false);
+  const navbarRef = useRef(null);
 
   let navigate = useNavigate();
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        navbarRef.current &&
+        !navbarRef.current.contains(e.target) &&
+        !e.target.closest(".navBarButton") &&
+        !e.target.closest("#sideBar")
+      ) {
+        setToggle(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [setToggle]);
 
   function searchMovies(e) {
     e.preventDefault();
@@ -26,7 +45,6 @@ function Navbar() {
       return;
     }
     setSearchWord("");
-    setToggle(false);
     navigate({
       pathname: "/search",
       search: `query=${trimmedSearchWord}`,
@@ -58,10 +76,10 @@ function Navbar() {
         <Hamburger
           color="var(--second-color)"
           toggled={toggle}
-          toggle={setToggle}
+          toggle={() => setToggle(!toggle)}
         />
       </div>
-      <aside className="sideBar">
+      <aside ref={navbarRef} className="sideBar">
         <Link to="/">
           <img className="mainLogo" src={logo} alt="DBFM Logo" />
         </Link>
@@ -125,7 +143,6 @@ function Navbar() {
           )}
         </form>
       </div>
-
       <nav id="sideBar" className={toggle ? "active" : ""}>
         <div className="navbar">
           <ul onClick={() => setToggle(false)}>
