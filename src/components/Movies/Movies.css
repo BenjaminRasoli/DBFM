@@ -16,10 +16,6 @@
   padding-left: 50px;
 }
 
-.gridInnerContainer a {
-  color: var(--third-color);
-}
-
 .mainLogo {
   height: auto;
   width: 300px;
@@ -112,7 +108,6 @@ select {
 }
 
 .noFavorites {
-  color: var(--second-color);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -123,6 +118,10 @@ select {
 
 .noFavorites h3 {
   padding-bottom: 20px;
+  color: var(--second-color);
+}
+.noFavorites a {
+  color: var(--fourth-color);
 }
 
 .centerLoading {

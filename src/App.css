@@ -7,6 +7,10 @@
   text-decoration: none;
 }
 
+main {
+  min-height: 80vh;
+}
+
 body {
   background: var(--main-color);
 }

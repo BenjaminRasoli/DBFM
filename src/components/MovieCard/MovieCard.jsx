@@ -52,7 +52,6 @@ function MovieCard({
             `/movie/${movie.id}`) ||
           `/${movie.title ? "movie" : "tv"}/${movie.id}`
         }
-        onClick={() => setToggle(false)}
       >
         <div className="gridItem">
           <div className="movieCard">

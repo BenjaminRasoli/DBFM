@@ -113,7 +113,9 @@ function Movies() {
               <>
                 <div className="noFavorites">
                   <h3>No movies added to favorites</h3>
-                  <Link to="/">Start adding</Link>
+                  <span>
+                    <Link to="/">Start adding</Link>
+                  </span>
                 </div>
               </>
             )}

@@ -23,12 +23,12 @@ function Footer() {
           <li className="menuItem">Favtories</li>
         </Link>
 
-        <Link className="menuLink" onClick={scrollToTop} to="/contact">
+        <Link className="menuLink" onClick={scrollToTop} to="/about">
           <li className="menuItem">About</li>
         </Link>
 
-        <Link className="menuLink" onClick={scrollToTop} to="/contact">
-          <li className="menuItem">Contact</li>
+        <Link className="menuLink" onClick={scrollToTop} to="/login">
+          <li className="menuItem">Login</li>
         </Link>
       </ul>
       <div className="socialMediaFooter">

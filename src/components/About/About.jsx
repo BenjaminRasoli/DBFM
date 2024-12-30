@@ -1,7 +1,7 @@
 import React from "react";
-import "./Contact.css";
+import "./About.css";
 
-function Contact() {
+function About() {
   return (
     <>
       <div className="aboutContainer">
@@ -84,4 +84,4 @@ function Contact() {
   );
 }
 
-export default Contact;
+export default About;

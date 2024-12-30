@@ -3,7 +3,7 @@ import Movies from "./components/Movies/Movies";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import Movie from "./components/Movie/Movie";
-import Contact from "./components/Contact/Contact";
+import About from "./components/About/About";
 import Actor from "./components/Actor/Actor";
 import Login from "./components/Login/Login";
 import SignUp from "./components/SignUp/SignUp";
@@ -28,22 +28,23 @@ function App() {
         theme="light"
       />
       <Navbar />
-      <Routes>
-        <Route path="/movie/:id" element={<Movie />} />
-        <Route path="/search" element={<Movies />} />
-        <Route path="/" element={<Movies />} />
-        <Route path="/genres/:genreId" element={<Movies />} />
-        <Route path="/tv/:tvId" element={<Movie />} />
-        <Route path="/favorites" element={<Movies />} />
-        <Route path="/actor/:actorId" element={<Actor />} />
-        <Route path="/contact/" element={<Contact />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp>Sign Up</SignUp>} />
-        {/* <Route path="*" element={<h1>Not Found</h1>} /> */}
-      </Routes>
+      <main>
+        <Routes>
+          <Route path="/movie/:id" element={<Movie />} />
+          <Route path="/search" element={<Movies />} />
+          <Route path="/" element={<Movies />} />
+          <Route path="/genres/:genreId" element={<Movies />} />
+          <Route path="/tv/:tvId" element={<Movie />} />
+          <Route path="/favorites" element={<Movies />} />
+          <Route path="/actor/:actorId" element={<Actor />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp>Sign Up</SignUp>} />
+          {/* <Route path="*" element={<h1>Not Found</h1>} /> */}
+        </Routes>
+      </main>
       <Footer />
-      </Router>
-      
+    </Router>
   );
 }
 export default App;
