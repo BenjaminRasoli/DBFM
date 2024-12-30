@@ -16,12 +16,7 @@
   padding-left: 50px;
 }
 
-.mainLogo {
-  height: auto;
-  width: 300px;
-  margin-top: 50px;
-  margin-left: 50px;
-}
+
 
 .gridContainer h1 {
   color: var(--second-color);
@@ -79,20 +74,15 @@ select {
 }
 
 .scrollUpContainer {
-  display: flex;
-  bottom: 0;
-  right: 0;
-  justify-content: flex-end;
   position: fixed;
-  opacity: 1;
-  transition: opacity 0.5s ease-in-out;
-  background-color: transparent;
-  z-index: 1;
+  bottom: 20px;
+  right: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
 }
 
-.scrollUpContainer.hide {
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
+.scrollUpContainer.show {
+  opacity: 1;
 }
 
 .scrollUp {

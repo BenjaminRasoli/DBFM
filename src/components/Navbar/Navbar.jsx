@@ -109,13 +109,12 @@ function Navbar() {
         </nav>
       </aside>
       <div className="searchContainerWithHamburger">
-        <form
-          id="search"
-          className="searchContainer"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-        >
-          <div className="searchBox">
+        <form id="search" className="searchContainer">
+          <div
+            className="searchBox"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
             <input
               className="searchText"
               type="text"

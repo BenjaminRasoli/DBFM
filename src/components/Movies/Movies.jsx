@@ -160,17 +160,10 @@ function Movies() {
               </div>
             </div>
           )}
-
-        <div
-          className={`scrollUpContainer ${
-            scrollButtonVisible ? "show" : "hide"
-          }`}
-        >
-          {scrollButtonVisible && (
-            <button className="scrollUp" onClick={scrollUp}>
-              <BsFillArrowUpCircleFill size={50} color="var(--second-color)" />
-            </button>
-          )}
+        <div className={`scrollUpContainer ${scrollButtonVisible && "show"}`}>
+          <button className="scrollUp" onClick={scrollUp}>
+            <BsFillArrowUpCircleFill size={50} color="var(--second-color)" />
+          </button>
         </div>
       </div>
     </>

@@ -144,11 +144,12 @@ function Movie() {
             </div>
 
             <div className="seasonEpisodeContainer">
-              {movie.original_name ? (
-                <>
-                  <h3>Seasons</h3>
-                  <div className="seasonsContainer">
-                    {seasons.map((season) => (
+              {/* {movie.original_name ? ( */}
+              <>
+                {movie.original_name && <h3>Seasons</h3>}
+                <div className="seasonsContainer">
+                  {Array.isArray(seasons) &&
+                    seasons.map((season) => (
                       <button
                         key={season.season_number}
                         className="seasonButton"
@@ -164,76 +165,76 @@ function Movie() {
                         <p>{season.name}</p>
                       </button>
                     ))}
-                  </div>
+                </div>
 
-                  <div
-                    className="episodesContainer"
-                    ref={episodesContainerRef}
-                    onScroll={(e) => setScrollPosition(e.target.scrollLeft)}
-                    style={{ scrollLeft: scrollPosition }}
-                  >
-                    {episodes.map((episode) => (
-                      <div key={episode.id} className="episodeCard">
-                        <div className="episodeTextContainer">
-                          <p className="episodeText">
-                            EP {episode.episode_number}
+                <div
+                  className="episodesContainer"
+                  ref={episodesContainerRef}
+                  onScroll={(e) => setScrollPosition(e.target.scrollLeft)}
+                  style={{ scrollLeft: scrollPosition }}
+                >
+                  {episodes.map((episode) => (
+                    <div key={episode.id} className="episodeCard">
+                      <div className="episodeTextContainer">
+                        <p className="episodeText">
+                          EP {episode.episode_number}
+                        </p>
+                        <p className="episodeText">{episode.name}</p>
+
+                        <div className="episodeInfo">
+                          <p className="episodeText rating">
+                            {episode.vote_average}
+                            <AiFillStar color="yellow" />
                           </p>
-                          <p className="episodeText">{episode.name}</p>
-
-                          <div className="episodeInfo">
-                            <p className="episodeText rating">
-                              {episode.vote_average}
-                              <AiFillStar color="yellow" />
+                          <div className="releaseTimeContainer">
+                            <p className="episodeText releaseDate">
+                              {episode.air_date}
+                              {episode.runtime && (
+                                <>
+                                  <span>/</span>
+                                  <span className="episodeText runTime">
+                                    {episode.runtime}min
+                                  </span>
+                                </>
+                              )}
                             </p>
-                            <div className="releaseTimeContainer">
-                              <p className="episodeText releaseDate">
-                                {episode.air_date}
-                                {episode.runtime && (
-                                  <>
-                                    <span>/</span>
-                                    <span className="episodeText runTime">
-                                      {episode.runtime}min
-                                    </span>
-                                  </>
-                                )}
-                              </p>
-                            </div>
                           </div>
-                          <p
-                            className={`episodeText episodeOverview ${
-                              expandedOverview[episode.id]
-                                ? "expandedOverview"
-                                : ""
-                            }`}
-                          >
-                            {episode.overview}
-                          </p>
-                          {episode.overview.length > 50 && (
-                            <button
-                              className="readMoreButton"
-                              onClick={() => toggleReadMore(episode.id)}
-                            >
-                              {expandedOverview[episode.id]
-                                ? "Read Less"
-                                : "Read More"}
-                            </button>
-                          )}
                         </div>
-                        <img
-                          className="episodeImage"
-                          src={
-                            episode.still_path === null
-                              ? noImageHolder
-                              : "https://image.tmdb.org/t/p/w500/" +
-                                episode.still_path
-                          }
-                          alt={episode.title}
-                        />
+                        <p
+                          className={`episodeText episodeOverview ${
+                            expandedOverview[episode.id]
+                              ? "expandedOverview"
+                              : ""
+                          }`}
+                        >
+                          {episode.overview}
+                        </p>
+                        {episode.overview.length > 50 && (
+                          <button
+                            className="readMoreButton"
+                            onClick={() => toggleReadMore(episode.id)}
+                          >
+                            {expandedOverview[episode.id]
+                              ? "Read Less"
+                              : "Read More"}
+                          </button>
+                        )}
                       </div>
-                    ))}
-                  </div>
-                </>
-              ) : bookedMovie ? (
+                      <img
+                        className="episodeImage"
+                        src={
+                          episode.still_path === null
+                            ? noImageHolder
+                            : "https://image.tmdb.org/t/p/w500/" +
+                              episode.still_path
+                        }
+                        alt={episode.title}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </>
+              {/* ) : bookedMovie ? (
                 <h1>Movie Booked</h1>
               ) : bookingLoading ? (
                 <span class="loader"></span>
@@ -302,7 +303,7 @@ function Movie() {
                     </form>
                   </AccordionDetails>
                 </Accordion>
-              )}
+              )} */}
             </div>
             <div>
               <div className="youtubeVideoContainer">
