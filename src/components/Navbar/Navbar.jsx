@@ -40,10 +40,6 @@ function Navbar() {
   function searchMovies(e) {
     e.preventDefault();
     const trimmedSearchWord = searchWord.trim();
-    if (trimmedSearchWord === "") {
-      toast.error("Invalid search");
-      return;
-    }
     setSearchWord("");
     navigate({
       pathname: "/search",

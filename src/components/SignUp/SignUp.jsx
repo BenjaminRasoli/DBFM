@@ -5,6 +5,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../../context/UserProvider";
 import { doc, setDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
 
 function SignUp() {
   const { login } = useUser();
@@ -52,6 +53,7 @@ function SignUp() {
       });
       login(user);
       navigate("/");
+      toast.success("Signup successful.");
       setFormData({
         email: "",
         password: "",
@@ -62,7 +64,7 @@ function SignUp() {
         date: new Date().toLocaleDateString(),
       });
     } catch (error) {
-      console.error("Error signing up: ", error);
+      toast.error(error.message || "Signup failed. Please try again.");
     }
   };
 
@@ -92,7 +94,7 @@ function SignUp() {
           placeholder="User Name"
         />
         <input
-          type="email"
+          type="text"
           name="email"
           value={formData.email}
           onChange={handleChange}
@@ -105,7 +107,9 @@ function SignUp() {
           onChange={handleChange}
           placeholder="Password"
         />
-        <button className="signUpButton" type="submit">Signup</button>
+        <button className="signUpButton" type="submit">
+          Signup
+        </button>
       </form>
       <div>
         Already have an account

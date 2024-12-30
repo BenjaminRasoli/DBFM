@@ -4,6 +4,7 @@ import { auth } from "../../config/FireBaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../../context/UserProvider";
+import { toast } from "react-toastify";
 
 function Login() {
   const { login } = useUser();
@@ -39,8 +40,9 @@ function Login() {
         email: "",
         password: "",
       });
+      toast.success("Login successful.");
     } catch (error) {
-      console.log(error);
+      toast.error(error.message || "Login failed. Please try again.");
     }
   };
 
@@ -49,7 +51,7 @@ function Login() {
       <h1>Login</h1>
       <form onSubmit={handleLogin} className="loginForm">
         <input
-          type="email"
+          type="text"
           name="email"
           value={formData.email}
           onChange={handleChange}
