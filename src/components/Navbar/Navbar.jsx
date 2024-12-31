@@ -54,6 +54,8 @@ function Navbar() {
     setGenres(res.data.genres);
   }
 
+  console.log(user);
+
   useEffect(() => {
     getGenres();
   }, []);
@@ -127,6 +129,7 @@ function Navbar() {
               <BiSearch size={30} color="var(--main-color)" />
             </button>
           </div>
+          {user && <h4 className="userName">{user.userName}</h4>}
           {!user ? (
             <Link to="/login" className="loginLink">
               Login

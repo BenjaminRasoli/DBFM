@@ -65,8 +65,12 @@ function MovieCard({
               className="movieImage"
             />
             <div className="cardContent">
-              <h3>{movie.title || movie.name}</h3>
-              <p>{movie.release_date || movie.first_air_date}</p>
+              <h3>{movie.title || movie.name || "Unknown Title"}</h3>
+              <p>
+                {movie.release_date ||
+                  movie.first_air_date ||
+                  "Unknown Release Date"}
+              </p>
               <p className="rating">
                 {movie.vote_average}
                 <AiFillStar color="yellow" />

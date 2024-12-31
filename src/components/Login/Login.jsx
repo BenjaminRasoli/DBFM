@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import "./Login.css";
-import { auth } from "../../config/FireBaseConfig";
+import { auth, db } from "../../config/FireBaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../../context/UserProvider";
 import { toast } from "react-toastify";
+import { doc, getDoc } from "firebase/firestore";
 
 function Login() {
   const { login } = useUser();
@@ -33,14 +34,30 @@ function Login() {
         formData.password
       );
       const user = userCredential.user;
-      console.log(user);
-      login(user);
-      navigate("/");
-      setFormData({
-        email: "",
-        password: "",
-      });
-      toast.success("Login successful.");
+
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+
+        const completeUserData = {
+          uid: user.uid,
+          email: user.email,
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+          userName: userData.userName,
+        };
+
+        login(completeUserData);
+        navigate("/");
+        setFormData({
+          email: "",
+          password: "",
+        });
+        toast.success("Login successful.");
+      } else {
+        toast.error("User data not found.");
+      }
     } catch (error) {
       toast.error(error.message || "Login failed. Please try again.");
     }

@@ -41,8 +41,7 @@ function SignUp() {
 
       const user = userCredential.user;
 
-      const userDocRef = doc(db, "users", user.uid);
-      await setDoc(userDocRef, {
+      const userData = {
         firstName: formData.firstName,
         lastName: formData.lastName,
         userName: formData.userName,
@@ -50,8 +49,18 @@ function SignUp() {
         password: formData.password,
         uid: user.uid,
         date: new Date().toLocaleDateString(),
-      });
-      login(user);
+      };
+
+      const userDocRef = doc(db, "users", user.uid);
+      await setDoc(userDocRef, userData);
+
+      const completeUserData = {
+        uid: user.uid,
+        email: user.email,
+        password: user.password,
+        ...userData,
+      };
+      login(completeUserData);
       navigate("/");
       toast.success("Signup successful.");
       setFormData({

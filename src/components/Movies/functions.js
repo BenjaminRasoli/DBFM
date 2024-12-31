@@ -72,13 +72,13 @@ export async function handleFavorites(movie, favorites, setFavorites, user) {
       } else {
         await setDoc(favoriteRef, {
           id: movie.id,
-          title: movie.title || "Unknown Title",
-          name: movie.name || "Unknown Name",
-          release_date: movie.release_date || "Unknown Date",
-          first_air_date: movie.first_air_date || "Unknown Air Date",
+          title: movie.title || null,
+          name: movie.name || null,
+          release_date: movie.release_date || null,
+          first_air_date: movie.first_air_date || null,
           vote_average: movie.vote_average || 0,
           poster_path: movie.poster_path || null,
-          media_type: movie.media_type || "unknown",
+          media_type: movie.media_type || null,
         });
 
         const updatedFavorites = [
