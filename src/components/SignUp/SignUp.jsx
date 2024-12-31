@@ -8,7 +8,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 
 function SignUp() {
-  const { login } = useUser();
+  const { login, user } = useUser();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -29,8 +29,36 @@ function SignUp() {
     });
   };
 
+  const validateInput = () => {
+    if (formData.firstName.trim() === "") {
+      toast.error("First name cannot be empty.");
+      return false;
+    }
+    if (!/^[A-Za-z]+$/.test(formData.firstName)) {
+      toast.error("First name should contain only letters.");
+      return false;
+    }
+    if (formData.lastName.trim() === "") {
+      toast.error("Last name cannot be empty.");
+      return false;
+    }
+    if (!/^[A-Za-z]+$/.test(formData.lastName)) {
+      toast.error("Last name should contain only letters.");
+      return false;
+    }
+    if (formData.userName.trim() === "") {
+      toast.error("User name cannot be empty.");
+      return false;
+    }
+    return true;
+  };
+
   const handleSignUp = async (e) => {
     e.preventDefault();
+
+    if (!validateInput()) {
+      return;
+    }
 
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -78,55 +106,66 @@ function SignUp() {
   };
 
   return (
-    <div className="signUpContainer">
-      <h1>Login</h1>
-      <form onSubmit={handleSignUp} className="signUpForm">
-        <input
-          type="text"
-          name="firstName"
-          value={formData.firstName}
-          onChange={handleChange}
-          placeholder="First Name"
-        />
-        <input
-          type="text"
-          name="lastName"
-          value={formData.lastName}
-          onChange={handleChange}
-          placeholder="Last Name"
-        />
-        <input
-          type="text"
-          name="userName"
-          value={formData.userName}
-          onChange={handleChange}
-          placeholder="User Name"
-        />
-        <input
-          type="text"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          placeholder="Email"
-        />
-        <input
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          placeholder="Password"
-        />
-        <button className="signUpButton" type="submit">
-          Signup
-        </button>
-      </form>
-      <div>
-        Already have an account
-        <Link to="/login">
-          <span className="loginLinkSpan">Login</span>
-        </Link>
-      </div>
-    </div>
+    <>
+      {!user ? (
+        <div className="signUpContainer">
+          <h1>Sign Up</h1>
+          <form onSubmit={handleSignUp} className="signUpForm">
+            <input
+              type="text"
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleChange}
+              placeholder="First Name"
+            />
+            <input
+              type="text"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              placeholder="Last Name"
+            />
+            <input
+              type="text"
+              name="userName"
+              value={formData.userName}
+              onChange={handleChange}
+              placeholder="User Name"
+            />
+            <input
+              type="text"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Email"
+            />
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Password"
+            />
+            <button className="signUpButton" type="submit">
+              Signup
+            </button>
+          </form>
+          <div>
+            Already have an account
+            <Link to="/login">
+              <span className="loginLinkSpan">Login</span>
+            </Link>
+          </div>
+        </div>
+      ) : (
+        <>
+          <div className="alreadyLoggedIn">
+            <h2>You are already logged in</h2>
+            <Link to="/">Go back to Home</Link>
+          </div>
+        </>
+      )}
+    </>
   );
 }
 

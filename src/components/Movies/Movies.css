@@ -16,8 +16,6 @@
   padding-left: 50px;
 }
 
-
-
 .gridContainer h1 {
   color: var(--second-color);
 }
@@ -25,6 +23,29 @@
 @media screen and (max-width: 1450px) {
   .gridContainer {
     width: 100%;
+  }
+}
+
+.movieGenresText {
+  position: relative;
+  top: 50px;
+  padding-left: 80px;
+  display: flex;
+  align-items: center;
+  color: var(--second-color);
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+@media screen and (max-width: 1450px) {
+  .movieGenresText {
+  padding-left: 50px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .movieGenresText {
+  font-size: 20px;
   }
 }
 
@@ -42,10 +63,44 @@
 
 .sortContainer {
   position: absolute;
+  width: 85%;
   top: 80px;
   right: 0px;
   display: flex;
   align-items: center;
+}
+
+@media screen and (max-width: 1450px) {
+  .sortContainer {
+    width: 100%;
+  }
+}
+
+.noResultsFound {
+  width: 85%;
+  float: right;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 600px;
+  color: white;
+  text-align: center;
+}
+
+@media screen and (max-width: 1450px) {
+  .noResultsFound {
+    width: 100%;
+  }
+}
+
+.noResultsFound h3 {
+  margin: 20px 0;
+}
+
+.noResultsFound a {
+  font-size: 1.2rem;
+  color: var(--fourth-color);
 }
 
 select {
@@ -104,6 +159,7 @@ select {
   align-items: center;
   font-size: 30px;
   text-align: center;
+  padding-top: 100px;
 }
 
 .noFavorites h3 {
@@ -117,5 +173,4 @@ select {
 .centerLoading {
   display: flex;
   justify-content: center;
-  min-height: 100vh;
 }

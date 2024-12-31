@@ -11,8 +11,22 @@ import NotFound from "./components/NotFound/NotFound";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function App() {
+  const [genres, setGenres] = useState([]);
+
+  async function getGenres() {
+    const res = await axios.get(
+      `https://api.themoviedb.org/3/genre/movie/list?language=en&api_key=${process.env.REACT_APP_APIKEY}`
+    );
+    setGenres(res.data.genres);
+  }
+
+  useEffect(() => {
+    getGenres();
+  }, []);
   return (
     <Router>
       <ToastContainer
@@ -28,13 +42,13 @@ function App() {
         pauseOnHover
         theme="light"
       />
-      <Navbar />
+      <Navbar genres={genres} />
       <main>
         <Routes>
           <Route path="/movie/:id" element={<Movie />} />
           <Route path="/search" element={<Movies />} />
           <Route path="/" element={<Movies />} />
-          <Route path="/genres/:genreId" element={<Movies />} />
+          <Route path="/genres/:genreId" element={<Movies genres={genres} />} />
           <Route path="/tv/:tvId" element={<Movie />} />
           <Route path="/favorites" element={<Movies />} />
           <Route path="/actor/:actorId" element={<Actor />} />

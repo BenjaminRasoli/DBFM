@@ -1,11 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./Footer.css";
 import {
-  AiOutlineInstagram,
-  AiOutlineGithub,
-  AiFillFacebook,
-  AiFillLinkedin,
+  AiOutlineGithub, AiFillLinkedin
 } from "react-icons/ai";
 
 function Footer() {
@@ -15,21 +12,31 @@ function Footer() {
   return (
     <footer className="footer">
       <ul className="menu">
-        <Link className="menuLink" to="/">
+        <NavLink className="menuLink" to="/" activeClassName="active">
           <li className="menuItem">Home</li>
-        </Link>
+        </NavLink>
 
-        <Link className="menuLink" to="/favorites">
+        <NavLink className="menuLink" to="/favorites" activeClassName="active">
           <li className="menuItem">Favtories</li>
-        </Link>
+        </NavLink>
 
-        <Link className="menuLink" onClick={scrollToTop} to="/about">
+        <NavLink
+          className="menuLink"
+          onClick={scrollToTop}
+          to="/about"
+          activeClassName="active"
+        >
           <li className="menuItem">About</li>
-        </Link>
+        </NavLink>
 
-        <Link className="menuLink" onClick={scrollToTop} to="/login">
+        <NavLink
+          className="menuLink"
+          onClick={scrollToTop}
+          to="/login"
+          activeClassName="active"
+        >
           <li className="menuItem">Login</li>
-        </Link>
+        </NavLink>
       </ul>
       <div className="socialMediaFooter">
         <a
@@ -42,7 +49,7 @@ function Footer() {
           </span>
         </a>
         <a
-          href="https://github.com/BenjaminRasoli"
+          href="https://www.linkedin.com/in/benjamin-rasoli-2948ab300"
           target="_blank"
           rel="noreferrer"
         >

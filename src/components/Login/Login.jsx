@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { doc, getDoc } from "firebase/firestore";
 
 function Login() {
-  const { login } = useUser();
+  const { login, user } = useUser();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -64,34 +64,45 @@ function Login() {
   };
 
   return (
-    <div className="loginContainer">
-      <h1>Login</h1>
-      <form onSubmit={handleLogin} className="loginForm">
-        <input
-          type="text"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          placeholder="Email"
-        />
-        <input
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          placeholder="Password"
-        />
-        <button className="loginButton" type="submit">
-          Login
-        </button>
-      </form>
-      <div>
-        Dont have an account
-        <Link to="/signup">
-          <span className="signupLink"> Sign up</span>
-        </Link>
-      </div>
-    </div>
+    <>
+      {!user ? (
+        <div className="loginContainer">
+          <h1>Login</h1>
+          <form onSubmit={handleLogin} className="loginForm">
+            <input
+              type="text"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Email"
+            />
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Password"
+            />
+            <button className="loginButton" type="submit">
+              Login
+            </button>
+          </form>
+          <div>
+            Dont have an account
+            <Link to="/signup">
+              <span className="signupLink"> Sign up</span>
+            </Link>
+          </div>
+        </div>
+      ) : (
+        <>
+          <div className="alreadyLoggedIn">
+            <h2>You are already logged in</h2>
+            <Link to="/">Go back to Home</Link>
+          </div>
+        </>
+      )}
+    </>
   );
 }
 

@@ -26,6 +26,7 @@
   align-items: center;
   margin: 10px 0;
   flex-wrap: wrap;
+  text-decoration: none;
 }
 
 .menuItem {
@@ -45,6 +46,13 @@
 .menuLink:hover {
   color: var(--fourth-color);
   opacity: 1;
+}
+
+.menuLink.active {
+  color: var(--fourth-color);
+  opacity: 1;
+  font-weight: 500;
+  border: none;
 }
 
 .footer p {

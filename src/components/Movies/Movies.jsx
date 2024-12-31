@@ -14,7 +14,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 
 let moreMovies = 0;
 
-function Movies() {
+function Movies({ genres }) {
   const [searchParams] = useSearchParams();
   let searchWord = searchParams.get("query");
   let { genreId } = useParams();
@@ -32,6 +32,7 @@ function Movies() {
   const [scrollButtonVisible, setScrollButtonVisible] = useState(false);
   const [totalResults, setTotalResults] = useState(0);
   const [disabled, setDisabled] = useState(false);
+  const [loading, setLoading] = useState(true); // Loading state
 
   const handleScroll = () => {
     const yOffset = window.scrollY;
@@ -44,6 +45,8 @@ function Movies() {
   };
 
   async function fetchMovies() {
+    setLoading(true); // Set loading to true when fetching starts
+
     if (location.pathname === "/favorites") {
       setMovies(favoriteMovies && favoriteMovies);
     } else {
@@ -63,7 +66,10 @@ function Movies() {
       setMovies((prevMovies) => [...prevMovies, ...allMovies.results]);
       setTotalResults(allMovies.total_results || 0);
     }
+
+    setLoading(false); // Set loading to false when fetching is complete
   }
+
   useEffect(() => {
     moreMovies = 0;
     setMovies([]);
@@ -86,6 +92,8 @@ function Movies() {
     }
   }, [favorites, location.pathname]);
 
+  console.log(genres);
+
   return (
     <>
       <div className="sortContainer">
@@ -104,6 +112,22 @@ function Movies() {
             </select>
           </div>
         )}
+        <div className="movieGenresText">
+          {location.pathname === "/" && <h3>Recent</h3>}
+          {location.pathname === "/favorites" && <h3>Favorites</h3>}
+          {location.pathname === "/search" && <h3>Search Results</h3>}
+
+          {location.pathname.startsWith("/genres/") && Array.isArray(genres) ? (
+            genres.filter((genre) => genre.id === parseInt(genreId)).length >
+            0 ? (
+              genres
+                .filter((genre) => genre.id === parseInt(genreId))
+                .map((genre) => <h3 key={genre.id}>{genre.name}</h3>)
+            ) : (
+              <h3>Genre not found</h3>
+            )
+          ) : null}
+        </div>
       </div>
 
       <div className="gridContainer">
@@ -119,8 +143,12 @@ function Movies() {
                 </div>
               </>
             )}
-
-          {movies.length === 0 && searchWord && <h1>No Results Found</h1>}
+          {!loading && movies.length === 0 && searchWord && (
+            <div className="noResultsFound">
+              <h1>No results found</h1>
+              <Link to="/">Go back to Home</Link>
+            </div>
+          )}
           {Array.isArray(movies) &&
             filteredMovies.map((movie, i) => {
               return (
@@ -138,13 +166,14 @@ function Movies() {
             })}
         </div>
 
-        {movies.length === 0 &&
-          !searchWord &&
+        {loading &&
+          movies.length === 0 &&
           location.pathname !== "/favorites" && (
             <div className="centerLoading">
               <ClipLoader color="var(--fourth-color)" size={150} />
             </div>
           )}
+
         {movies.length !== 0 &&
           location.pathname !== "/favorites" &&
           totalResults > 15 && (
@@ -160,6 +189,7 @@ function Movies() {
               </div>
             </div>
           )}
+
         <div className={`scrollUpContainer ${scrollButtonVisible && "show"}`}>
           <button className="scrollUp" onClick={scrollUp}>
             <BsFillArrowUpCircleFill size={50} color="var(--second-color)" />

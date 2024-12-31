@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 const UserContext = createContext();
 
@@ -24,6 +25,7 @@ export const UserProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("favoriteMovies");
+    toast.success("Logged out successfully");
     setUser(null);
   };
 

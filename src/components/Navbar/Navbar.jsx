@@ -1,22 +1,24 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate, NavLink, Link } from "react-router-dom";
+import { useNavigate, NavLink, Link, useLocation } from "react-router-dom";
 import { BiSearch } from "react-icons/bi";
-import { toast } from "react-toastify";
 import axios from "axios";
 import Hamburger from "hamburger-react";
 import "./Navbar.css";
 import logo from "../../images/DATABASEFORMOVIES-logos_white.png";
+import pinkRedLogo from "../../images/DATABASEFORMOVIES-logos_pink-red.png";
 import { useUser } from "../../context/UserProvider";
 
-function Navbar() {
+function Navbar({ genres }) {
   const { user, logout } = useUser();
   const [searchWord, setSearchWord] = useState("");
-  const [genres, setGenres] = useState([]);
   const [isHovered, setIsHovered] = useState(false);
   const [toggle, setToggle] = useState(false);
   const navbarRef = useRef(null);
 
-  let navigate = useNavigate();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const isHomePage = location.pathname === "/";
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -47,18 +49,6 @@ function Navbar() {
     });
   }
 
-  async function getGenres() {
-    const res = await axios.get(
-      `https://api.themoviedb.org/3/genre/movie/list?language=en&api_key=${process.env.REACT_APP_APIKEY}`
-    );
-    setGenres(res.data.genres);
-  }
-
-
-  useEffect(() => {
-    getGenres();
-  }, []);
-
   useEffect(() => {
     if (toggle) {
       document.body.style.overflow = "hidden";
@@ -78,7 +68,11 @@ function Navbar() {
       </div>
       <aside ref={navbarRef} className="sideBar">
         <Link to="/">
-          <img className="mainLogo" src={logo} alt="DBFM Logo" />
+          <img
+            className="mainLogo"
+            src={isHomePage ? pinkRedLogo : logo}
+            alt="DBFM Logo"
+          />
         </Link>
         <nav className="navbar">
           <ul>

@@ -1,7 +1,7 @@
 .signUpContainer {
   color: white;
   width: 85%;
-  padding-top: 100px;
+  padding-top: 130px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -57,5 +57,33 @@
 }
 
 .loginLinkSpan {
+  color: var(--fourth-color);
+}
+
+
+.alreadyLoggedIn {
+  width: 85%;
+  float: right;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 600px;
+  color: white;
+  text-align: center;
+}
+
+@media screen and (max-width: 1450px) {
+  .alreadyLoggedIn {
+    width: 100%;
+  }
+}
+
+.alreadyLoggedIn h2 {
+  margin: 20px 0;
+}
+
+.alreadyLoggedIn a {
+  font-size: 1.2rem;
   color: var(--fourth-color);
 }
