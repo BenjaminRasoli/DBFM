@@ -54,7 +54,6 @@ function Navbar() {
     setGenres(res.data.genres);
   }
 
-  console.log(user);
 
   useEffect(() => {
     getGenres();
