@@ -45,7 +45,7 @@ function Movies({ genres }) {
   };
 
   async function fetchMovies() {
-    setLoading(true); // Set loading to true when fetching starts
+    setLoading(true);
 
     if (location.pathname === "/favorites") {
       setMovies(favoriteMovies && favoriteMovies);
@@ -57,17 +57,23 @@ function Movies({ genres }) {
       } else if (location.pathname === "/search") {
         url = `https://api.themoviedb.org/3/search/multi?language=en-US&query=${searchWord}&page=${moreMovies}&api_key=${process.env.REACT_APP_APIKEY}`;
       } else if (location.pathname === `/genres/${genreId}`) {
-        url = `https://api.themoviedb.org/3/discover/movie?language=en-US&&with_genres=${genreId}&page=${moreMovies}&api_key=${process.env.REACT_APP_APIKEY}`;
+        url = `https://api.themoviedb.org/3/discover/movie?language=en-US&with_genres=${genreId}&page=${moreMovies}&api_key=${process.env.REACT_APP_APIKEY}`;
       }
+
       const response = await fetch(url);
       const allMovies = await response.json();
-      allMovies.results.length === 0 && setDisabled(true);
 
-      setMovies((prevMovies) => [...prevMovies, ...allMovies.results]);
-      setTotalResults(allMovies.total_results || 0);
+      const filteredResults = allMovies.results?.filter(
+        (item) => item.media_type === "movie" || item.media_type === "tv"
+      );
+
+      if (filteredResults?.length === 0) setDisabled(true);
+
+      setMovies((prevMovies) => [...prevMovies, ...filteredResults]);
+      setTotalResults(filteredResults.total_results || 0);
     }
 
-    setLoading(false); // Set loading to false when fetching is complete
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -92,8 +98,6 @@ function Movies({ genres }) {
     }
   }, [favorites, location.pathname]);
 
-  console.log(genres);
-
   return (
     <>
       <div className="sortContainer">
@@ -112,17 +116,29 @@ function Movies({ genres }) {
             </select>
           </div>
         )}
-        <div className="movieGenresText">
-          {location.pathname === "/" && <h3>Recent</h3>}
-          {location.pathname === "/favorites" && <h3>Favorites</h3>}
-          {location.pathname === "/search" && <h3>Search Results</h3>}
-
+        <div className="movieGenresContainerAll">
+          {location.pathname === "/" && (
+            <h3 className="movieGenresText">Recent</h3>
+          )}
+          {location.pathname === "/favorites" && (
+            <h3 className="movieGenresText">Favorites</h3>
+          )}
+          {location.pathname === "/search" && (
+            <h3>
+              Results for <span className="searchWord"> "{searchWord}" </span>(
+              {totalResults} found)
+            </h3>
+          )}
           {location.pathname.startsWith("/genres/") && Array.isArray(genres) ? (
             genres.filter((genre) => genre.id === parseInt(genreId)).length >
             0 ? (
               genres
                 .filter((genre) => genre.id === parseInt(genreId))
-                .map((genre) => <h3 key={genre.id}>{genre.name}</h3>)
+                .map((genre) => (
+                  <h3 className="movieGenresText" key={genre.id}>
+                    {genre.name}
+                  </h3>
+                ))
             ) : (
               <h3>Genre not found</h3>
             )

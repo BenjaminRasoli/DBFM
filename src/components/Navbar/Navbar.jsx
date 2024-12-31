@@ -108,6 +108,7 @@ function Navbar({ genres }) {
           >
             <input
               className="searchText"
+              maxLength={500}
               type="text"
               placeholder="Search.."
               onChange={(e) => setSearchWord(e.target.value)}
