@@ -32,7 +32,7 @@ function Movies({ genres }) {
   const [scrollButtonVisible, setScrollButtonVisible] = useState(false);
   const [totalResults, setTotalResults] = useState(0);
   const [disabled, setDisabled] = useState(false);
-  const [loading, setLoading] = useState(true); // Loading state
+  const [loading, setLoading] = useState(true);
 
   const handleScroll = () => {
     const yOffset = window.scrollY;
@@ -52,25 +52,38 @@ function Movies({ genres }) {
     } else {
       moreMovies++;
       let url = "";
+      let movieUrl = "";
+      let tvUrl = "";
+
       if (location.pathname === "/") {
         url = `https://api.themoviedb.org/3/trending/all/day?language=en-US&page=${moreMovies}&api_key=${process.env.REACT_APP_APIKEY}`;
       } else if (location.pathname === "/search") {
-        url = `https://api.themoviedb.org/3/search/multi?language=en-US&query=${searchWord}&page=${moreMovies}&api_key=${process.env.REACT_APP_APIKEY}`;
+        movieUrl = `https://api.themoviedb.org/3/search/movie?include_adult=true?language=en-US&query=${searchWord}&page=${moreMovies}&api_key=${process.env.REACT_APP_APIKEY}`;
+        tvUrl = `https://api.themoviedb.org/3/search/tv?include_adult=true?language=en-US&query=${searchWord}&page=${moreMovies}&api_key=${process.env.REACT_APP_APIKEY}`;
       } else if (location.pathname === `/genres/${genreId}`) {
         url = `https://api.themoviedb.org/3/discover/movie?language=en-US&with_genres=${genreId}&page=${moreMovies}&api_key=${process.env.REACT_APP_APIKEY}`;
       }
 
-      const response = await fetch(url);
-      const allMovies = await response.json();
+      if (movieUrl && tvUrl) {
+        const [movieResponse, tvResponse] = await Promise.all([
+          fetch(movieUrl),
+          fetch(tvUrl),
+        ]);
 
-      const filteredResults = allMovies.results?.filter(
-        (item) => item.media_type === "movie" || item.media_type === "tv"
-      );
+        const allMovies = await movieResponse.json();
+        const allTVShows = await tvResponse.json();
 
-      if (filteredResults?.length === 0) setDisabled(true);
+        const combinedResults = [...allMovies.results, ...allTVShows.results];
 
-      setMovies((prevMovies) => [...prevMovies, ...filteredResults]);
-      setTotalResults(filteredResults.total_results || 0);
+        setMovies((prevMovies) => [...prevMovies, ...combinedResults]);
+        setTotalResults(allMovies.total_results + allTVShows.total_results);
+        console.log(combinedResults);
+      } else {
+        const response = await fetch(url);
+        const allMovies = await response.json();
+
+        setMovies((prevMovies) => [...prevMovies, ...allMovies.results]);
+      }
     }
 
     setLoading(false);
@@ -166,9 +179,9 @@ function Movies({ genres }) {
             </div>
           )}
           {Array.isArray(movies) &&
-            filteredMovies.map((movie, i) => {
+            filteredMovies.map((movie) => {
               return (
-                <React.Fragment key={i}>
+                <React.Fragment key={movie.id}>
                   <MovieCard
                     handleFavorites={handleFavorites}
                     movie={movie}
