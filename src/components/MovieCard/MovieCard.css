@@ -32,7 +32,8 @@
 
 .movieImage {
   width: 100%;
-  height: auto;
+  height: 500px;
+  object-fit: cover;
   transition: transform 0.3s ease;
 }
 

@@ -89,6 +89,8 @@ function Movies({ genres }) {
     setLoading(false);
   }
 
+
+
   useEffect(() => {
     moreMovies = 0;
     setMovies([]);
@@ -137,8 +139,8 @@ function Movies({ genres }) {
             <h3 className="movieGenresText">Favorites</h3>
           )}
           {location.pathname === "/search" && (
-            <h3>
-              Results for <span className="searchWord"> "{searchWord}" </span>(
+            <h3 className="searchWordContainer">
+              Results for <span className="searchWord"> <br /> "{searchWord}" </span><br />(
               {totalResults} found)
             </h3>
           )}
@@ -205,7 +207,7 @@ function Movies({ genres }) {
 
         {movies.length !== 0 &&
           location.pathname !== "/favorites" &&
-          totalResults > 15 && (
+          totalResults > movies.length && (
             <div className="moreMovieButtonContainer">
               <div className="centerButton">
                 <button

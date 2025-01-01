@@ -43,14 +43,33 @@
   }
 }
 
-@media screen and (max-width: 550px) {
+@media screen and (max-width: 1050px) {
+  .movieGenresContainerAll {
+    padding-left: 15px;
+  }
+}
+
+
+@media screen and (max-width: 950px) {
   .movieGenresContainerAll {
     font-size: 20px;
   }
 }
 
+@media screen and (max-width: 550px) {
+  .movieGenresContainerAll {
+    font-size: 15px;
+  }
+}
+
 .searchWord {
   color: var(--fourth-color);
+}
+
+@media screen and (min-width: 700px) {
+  .searchWordContainer br {
+    display: none;
+  }
 }
 
 .movieGenresText {
