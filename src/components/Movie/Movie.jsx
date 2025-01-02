@@ -79,238 +79,178 @@ function Movie() {
           <img
             className="moreInformationImage"
             src={
-              movie.poster_path === null
-                ? poster
-                : "https://image.tmdb.org/t/p/w500/" + movie.poster_path
+              movie.poster_path
+                ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+                : poster
             }
-            alt={movie.title}
+            alt={movie.title || "Poster"}
           />
           <div className="movieInformationContainer">
             <div className="movieInformation">
-              {movie.title === movie.original_title &&
-              movie.name === movie.original_name ? (
-                <h1>{movie.original_title || movie.original_name}</h1>
-              ) : (
-                <>
-                  <h1>{movie.title || movie.name}</h1>
-                  <h1>{movie.original_title || movie.original_name}</h1>
-                </>
-              )}
-
+              <h1>{movie.title || movie.name || "Title not available"}</h1>
+              {movie.original_title !== movie.title &&
+                movie.original_name !== movie.name && (
+                  <h2>{movie.original_title || movie.original_name}</h2>
+                )}
               <div className="movieSubData">
                 <div className="movieSubDataLeft">
                   <AiFillStar color="yellow" />
-                  {movie.vote_average}
+                  {movie.vote_average || "N/A"}
                 </div>
                 <div className="movieSubDataRight">
-                  {movie.release_date || movie.first_air_date}
+                  {movie.release_date || movie.first_air_date || "Unknown"}
                   {movie.runtime || movie.episode_run_time?.length > 0
-                    ? `/${movie.runtime || movie.episode_run_time}min`
+                    ? ` / ${movie.runtime || movie.episode_run_time} min`
                     : ""}
                 </div>
               </div>
               <div className="movieGenresContainer">
-                <h2> The Genres</h2>
+                <h2>The Genres</h2>
                 <div className="movieGenres">
-                  {Array.isArray(movie.genres) &&
-                    movie.genres.map((genre, index) => {
-                      return (
-                        <h3 className="movieGenres" key={genre.id}>
-                          {genre.name}
-                          {index < movie.genres.length - 1 ? ", " : ""}
-                        </h3>
-                      );
-                    })}
+                  {Array.isArray(movie.genres) && movie.genres.length > 0 ? (
+                    movie.genres.map((genre, index) => (
+                      <p key={genre.id} className="movieGenres">
+                        {genre.name}
+                        {index < movie.genres.length - 1 ? ", " : ""}
+                      </p>
+                    ))
+                  ) : (
+                    <p>No genres available</p>
+                  )}
                 </div>
               </div>
               <div className="movieOverViewContainer">
-                <h3> The Synopsis</h3>
+                <h2>The Synopsis</h2>
                 <div className="movieOverView">
-                  <p>{movie.overview}</p>
+                  <p>{movie.overview || "No synopsis available"}</p>
                 </div>
               </div>
 
               <div className="actorsContainer">
-                <h3> Actors</h3>
-                {Array.isArray(allActors) &&
-                  allActors.slice(0, 10).map((actor, i) => {
-                    return (
-                      <Link key={i} to={`/actor/${actor.id}`}>
-                        <p>{actor.name}</p>
-                      </Link>
-                    );
-                  })}
+                <h2>Actors</h2>
+                <div className="actorsList">
+                  {Array.isArray(allActors) && allActors.length > 0 ? (
+                    allActors.slice(0, 15).map((actor, index) => (
+                      <span key={actor.id}>
+                        <Link to={`/actor/${actor.id}`}>{actor.name}</Link>
+                        {index < allActors.slice(0, 15).length - 1 && ", "}
+                      </span>
+                    ))
+                  ) : (
+                    <p>No actors available</p>
+                  )}
+                </div>
               </div>
             </div>
 
-            <div className="seasonEpisodeContainer">
-              {/* {movie.original_name ? ( */}
-              <>
-                {movie.original_name && <h3>Seasons</h3>}
-                <div className="seasonsContainer">
-                  {Array.isArray(seasons) &&
-                    seasons.map((season) => (
-                      <button
-                        key={season.season_number}
-                        className="seasonButton"
-                        onClick={() => {
-                          getEpisodes(
-                            tvId,
-                            season.season_number,
-                            episodesContainerRef,
-                            setEpisodes
-                          );
-                        }}
-                      >
-                        <p>{season.name}</p>
-                      </button>
-                    ))}
-                </div>
-
-                <div
-                  className="episodesContainer"
-                  ref={episodesContainerRef}
-                  onScroll={(e) => setScrollPosition(e.target.scrollLeft)}
-                  style={{ scrollLeft: scrollPosition }}
-                >
-                  {episodes.map((episode) => (
-                    <div key={episode.id} className="episodeCard">
-                      <div className="episodeTextContainer">
-                        <p className="episodeText">
-                          EP {episode.episode_number}
-                        </p>
-                        <p className="episodeText">{episode.name}</p>
-
-                        <div className="episodeInfo">
-                          <p className="episodeText rating">
-                            {episode.vote_average}
-                            <AiFillStar color="yellow" />
-                          </p>
-                          <div className="releaseTimeContainer">
-                            <p className="episodeText releaseDate">
-                              {episode.air_date}
-                              {episode.runtime && (
-                                <>
-                                  <span>/</span>
-                                  <span className="episodeText runTime">
-                                    {episode.runtime}min
-                                  </span>
-                                </>
-                              )}
-                            </p>
-                          </div>
-                        </div>
-                        <p
-                          className={`episodeText episodeOverview ${
-                            expandedOverview[episode.id]
-                              ? "expandedOverview"
-                              : ""
-                          }`}
-                        >
-                          {episode.overview}
-                        </p>
-                        {episode.overview.length > 50 && (
+            {movie.original_name && (
+              <div className="seasonEpisodeContainer">
+                <h2>Seasons</h2>
+                {Array.isArray(seasons) && seasons.length > 0 ? (
+                  <>
+                    <div className="seasonsContainer">
+                      {seasons.map((season) =>
+                        season.name ? (
                           <button
-                            className="readMoreButton"
-                            onClick={() => toggleReadMore(episode.id)}
+                            key={season.season_number}
+                            className="seasonButton"
+                            onClick={() =>
+                              getEpisodes(
+                                tvId,
+                                season.season_number,
+                                episodesContainerRef,
+                                setEpisodes
+                              )
+                            }
                           >
-                            {expandedOverview[episode.id]
-                              ? "Read Less"
-                              : "Read More"}
+                            <p>{season.name}</p>
                           </button>
-                        )}
-                      </div>
-                      <img
-                        className="episodeImage"
-                        src={
-                          episode.still_path === null
-                            ? noImageHolder
-                            : "https://image.tmdb.org/t/p/w500/" +
-                              episode.still_path
-                        }
-                        alt={episode.title}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </>
-              {/* ) : bookedMovie ? (
-                <h1>Movie Booked</h1>
-              ) : bookingLoading ? (
-                <span class="loader"></span>
-              ) : (
-                <Accordion className="bookingFormContainer">
-                  <AccordionSummary
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
-                  >
-                    <Typography>Book the movie</Typography>
-
-                    <div className="bookingFormArrow">
-                      <AiOutlineArrowDown size={20} />
-                    </div>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    <form
-                      onSubmit={(e) =>
-                        sendBooking(
-                          e,
-                          booking,
-                          setSelectedOption,
-                          selectedOption,
-                          setBooking
+                        ) : (
+                          <div key={season.season_number}>
+                            <p className="noSeason">No seasons available</p>
+                          </div>
                         )
-                      }
-                    >
-                      <input
-                        type="text"
-                        placeholder="Name"
-                        onChange={(e) =>
-                          setBooking({ ...booking, name: e.target.value })
-                        }
-                      />
+                      )}
+                    </div>
+                  </>
+                ) : (
+                  <p className="noSeason">No seasons available</p>
+                )}
 
-                      <input
-                        type="text"
-                        placeholder="Email"
-                        onChange={(e) =>
-                          setBooking({ ...booking, email: e.target.value })
-                        }
-                      />
-                      <Select
-                        className="bookingLocation"
-                        placeholder="Pickup point"
-                        value={selectedOption}
-                        onChange={(selectedOption) => {
-                          setSelectedOption(selectedOption);
-                          setBooking({
-                            ...booking,
-                            location: selectedOption
-                              ? selectedOption.value
-                              : null,
-                          });
-                        }}
-                        options={options}
-                        styles={{
-                          control: (baseStyles) => ({
-                            ...baseStyles,
-                          }),
-                        }}
-                      />
-                      <button id="sendFormButton">
-                        <AiOutlineSend size={20} />
-                      </button>
-                    </form>
-                  </AccordionDetails>
-                </Accordion>
-              )} */}
-            </div>
-            <div>
-              <div className="youtubeVideoContainer">
-                {video && (
-                  <YouTube videoId={`${video.key}`} className="youtubeVideo" />
+                {Array.isArray(seasons) && seasons.length > 0 && (
+                  <div
+                    className="episodesContainer"
+                    ref={episodesContainerRef}
+                    onScroll={(e) => setScrollPosition(e.target.scrollLeft)}
+                    style={{ scrollLeft: scrollPosition }}
+                  >
+                    {Array.isArray(episodes) &&
+                      episodes.map((episode) => (
+                        <div key={episode.id} className="episodeCard">
+                          <div className="episodeTextContainer">
+                            <p className="episodeText">
+                              EP {episode.episode_number}
+                            </p>
+                            <p className="episodeText">
+                              {episode.name || "Untitled"}
+                            </p>
+                            <div className="episodeInfo">
+                              <p className="episodeText rating">
+                                {episode.vote_average || "N/A"}
+                                <AiFillStar color="yellow" />
+                              </p>
+                              <p className="episodeText releaseDate">
+                                {episode.air_date || "Unknown"}
+                                {episode.runtime && (
+                                  <>
+                                    <span>/</span>
+                                    <span className="runTime">
+                                      {episode.runtime}min
+                                    </span>
+                                  </>
+                                )}
+                              </p>
+                            </div>
+                            <p
+                              className={`episodeText episodeOverview ${
+                                expandedOverview[episode.id]
+                                  ? "expandedOverview"
+                                  : ""
+                              }`}
+                            >
+                              {episode.overview || "No overview available"}
+                            </p>
+                            {episode.overview?.length > 50 && (
+                              <button
+                                className="readMoreButton"
+                                onClick={() => toggleReadMore(episode.id)}
+                              >
+                                {expandedOverview[episode.id]
+                                  ? "Read Less"
+                                  : "Read More"}
+                              </button>
+                            )}
+                          </div>
+                          <img
+                            className="episodeImage"
+                            src={
+                              episode.still_path
+                                ? `https://image.tmdb.org/t/p/w500/${episode.still_path}`
+                                : noImageHolder
+                            }
+                            alt={episode.title || "Episode"}
+                          />
+                        </div>
+                      ))}
+                  </div>
                 )}
               </div>
+            )}
+
+            <div className="youtubeVideoContainer">
+              {video && (
+                <YouTube videoId={video.key} className="youtubeVideo" />
+              )}
             </div>
           </div>
         </div>
@@ -318,4 +258,5 @@ function Movie() {
     </>
   );
 }
+
 export default Movie;

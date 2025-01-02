@@ -72,7 +72,7 @@ function MovieCard({
                   "Unknown Release Date"}
               </p>
               <p className="rating">
-                {movie.vote_average}
+                {movie.vote_average || 0}
                 <AiFillStar color="yellow" />
               </p>
             </div>

@@ -20,12 +20,10 @@ function Movies({ genres }) {
   let { genreId } = useParams();
   let location = useLocation();
   const [movies, setMovies] = useState([]);
-  let filteredMovies = movies.filter(
-    (movie) =>
-      movie.release_date ||
-      (movie.first_air_date && movie.media_type !== "person")
-  );
 
+  if (searchWord && searchWord.length > 15) {
+    searchWord = searchWord.slice(0, 15) + "...";
+  }
   const [favorites, setFavorites] = useState([]);
   const favoriteMovies =
     JSON.parse(localStorage.getItem("favoriteMovies")) || [];
@@ -77,7 +75,6 @@ function Movies({ genres }) {
 
         setMovies((prevMovies) => [...prevMovies, ...combinedResults]);
         setTotalResults(allMovies.total_results + allTVShows.total_results);
-        console.log(combinedResults);
       } else {
         const response = await fetch(url);
         const allMovies = await response.json();
@@ -88,8 +85,6 @@ function Movies({ genres }) {
 
     setLoading(false);
   }
-
-
 
   useEffect(() => {
     moreMovies = 0;
@@ -121,9 +116,7 @@ function Movies({ genres }) {
             favoriteMovies.length > 0)) && (
           <div className="select">
             <select
-              onChange={(e) =>
-                sortMovie(e.target.value, filteredMovies, setMovies)
-              }
+              onChange={(e) => sortMovie(e.target.value, movies, setMovies)}
             >
               <option value="a-z">A-Z</option>
               <option value="date">Sort by date</option>
@@ -140,8 +133,11 @@ function Movies({ genres }) {
           )}
           {location.pathname === "/search" && (
             <h3 className="searchWordContainer">
-              Results for <span className="searchWord"> <br /> "{searchWord}" </span><br />(
-              {totalResults} found)
+              Results for
+              <span className="searchWord">
+                <br /> "{searchWord}"
+              </span>
+              <br />({totalResults} found)
             </h3>
           )}
           {location.pathname.startsWith("/genres/") && Array.isArray(genres) ? (
@@ -181,7 +177,7 @@ function Movies({ genres }) {
             </div>
           )}
           {Array.isArray(movies) &&
-            filteredMovies.map((movie) => {
+            movies.map((movie) => {
               return (
                 <React.Fragment key={movie.id}>
                   <MovieCard

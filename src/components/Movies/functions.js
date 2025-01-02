@@ -106,8 +106,8 @@ export async function handleFavorites(movie, favorites, setFavorites, user) {
   }
 }
 
-export function sortMovie(sortType, filteredMovies, setMovies) {
-  const sortedMovies = filteredMovies.sort((a, b) => {
+export function sortMovie(sortType, movies, setMovies) {
+  const sortedMovies = [...movies].sort((a, b) => {
     switch (sortType) {
       case "a-z":
         return (a.title || a.name).localeCompare(b.title || b.name);

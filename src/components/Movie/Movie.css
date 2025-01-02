@@ -56,6 +56,10 @@
   padding-top: 40px;
 }
 
+.movieGenresContainer h2 {
+  margin-bottom: 5px;
+}
+
 .movieGenres {
   display: flex;
 }
@@ -72,7 +76,10 @@
 
 .movieOverViewContainer {
   padding-top: 40px;
-  padding-bottom: 40px;
+}
+
+.movieOverViewContainer h2 {
+  padding-bottom: 5px;
 }
 
 .movieOverView {
@@ -93,16 +100,30 @@
 }
 
 .actorsContainer {
+  margin-top: 40px;
+}
+
+.actorsContainer h2 {
+  margin-bottom: 5px;
+}
+
+.actorsList {
   display: flex;
-  max-width: 400px;
-  word-wrap: break-word;
   flex-wrap: wrap;
-  gap: 5px;
-  margin-bottom: 10px;
+  gap: 2px;
+}
+
+.actorLink {
+  text-decoration: none;
 }
 
 .actorsContainer a {
   color: var(--third-color);
+  padding: 3px;
+}
+
+.actorLink p {
+  margin: 0;
 }
 
 .seasonButton {
@@ -141,7 +162,16 @@
 }
 
 .seasonEpisodeContainer {
-  padding-bottom: 60px;
+  padding-bottom: 40px;
+  padding-top: 40px;
+}
+
+.seasonEpisodeContainer h2 {
+  margin-bottom: 5px;
+}
+
+.noSeason {
+  color: var(--second-color);
 }
 
 .episodeCard {
@@ -209,6 +239,7 @@
 
 .youtubeVideoContainer {
   display: flex;
+  padding-top: 50px;
 }
 
 @media screen and (max-width: 1800px) {
