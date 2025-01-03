@@ -80,6 +80,7 @@ function Movies({ genres }) {
         const allMovies = await response.json();
 
         setMovies((prevMovies) => [...prevMovies, ...allMovies.results]);
+        setTotalResults(allMovies.total_results);
       }
     }
 
