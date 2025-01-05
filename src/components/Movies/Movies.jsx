@@ -212,7 +212,7 @@ function Movies({ genres }) {
                   disabled={disabled}
                   onClick={() => fetchMovies()}
                 >
-                  <AiFillPlusCircle size={50} color="var(--second-color)" />
+                  <AiFillPlusCircle size={50} />
                 </button>
               </div>
             </div>
@@ -220,7 +220,7 @@ function Movies({ genres }) {
 
         <div className={`scrollUpContainer ${scrollButtonVisible && "show"}`}>
           <button className="scrollUp" onClick={scrollUp}>
-            <BsFillArrowUpCircleFill size={50} color="var(--second-color)" />
+            <BsFillArrowUpCircleFill size={50}  />
           </button>
         </div>
       </div>
