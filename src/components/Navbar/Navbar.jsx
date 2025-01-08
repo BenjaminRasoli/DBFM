@@ -60,11 +60,7 @@ function Navbar({ genres }) {
   return (
     <>
       <div className="navBarButton">
-        <Hamburger
-          color="var(--second-color)"
-          toggled={toggle}
-          toggle={() => setToggle(!toggle)}
-        />
+        <Hamburger toggled={toggle} toggle={() => setToggle(!toggle)} />
       </div>
       <aside ref={navbarRef} className="sideBar">
         <Link to="/">

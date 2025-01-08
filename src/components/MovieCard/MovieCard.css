@@ -7,6 +7,10 @@
   border-bottom-right-radius: 20px;
 }
 
+.movieLink {
+  padding: 0.25em;
+}
+
 .gridItem {
   position: relative;
   overflow: hidden;

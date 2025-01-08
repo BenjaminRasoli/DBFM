@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { Link, useParams, useLocation } from "react-router-dom";
 import Select from "react-select";
 import Accordion from "@mui/material/Accordion";
@@ -9,7 +9,13 @@ import YouTube from "react-youtube";
 import poster from "../../images/poster-image.png";
 import noImageHolder from "../../images/noImageHolder.jpg";
 
-import { AiFillStar, AiOutlineSend, AiOutlineArrowDown } from "react-icons/ai";
+import {
+  AiFillStar,
+  AiOutlineSend,
+  AiOutlineArrowDown,
+  AiFillHeart,
+  AiOutlineHeart,
+} from "react-icons/ai";
 import ClipLoader from "react-spinners/ClipLoader";
 import { options } from "./selectOptions";
 import {
@@ -21,12 +27,17 @@ import {
   sendBooking,
 } from "./functions.js";
 import "./Movie.css";
+import { useUser } from "../../context/UserProvider.js";
+import { handleFavorites } from "../Movies/functions.js";
 
 function Movie() {
   const [selectedOption, setSelectedOption] = useState("");
   let { id, tvId } = useParams();
   let location = useLocation();
   const [movie, setMovie] = useState({});
+  const [favorites, setFavorites] = useState([]);
+  const favoriteMovies =
+    JSON.parse(localStorage.getItem("favoriteMovies")) || [];
   const [booking, setBooking] = useState({
     name: null,
     MovieName: null,
@@ -43,6 +54,7 @@ function Movie() {
   const episodesContainerRef = useRef(null);
   const [bookedMovie, setBookedMovie] = useState(false);
   const [bookingLoading, setBookingLoading] = useState(true);
+  const { user } = useUser();
 
   const toggleReadMore = (episodeId) => {
     setExpandedOverview((prevExpanded) => ({
@@ -68,6 +80,10 @@ function Movie() {
     window.scroll(0, 0);
   }, []);
 
+  useEffect(() => {
+    setFavorites(favoriteMovies !== null ? favoriteMovies : []);
+  }, [favorites]);
+
   return (
     <>
       {Object.keys(movie).length === 0 ? (
@@ -76,15 +92,29 @@ function Movie() {
         </div>
       ) : (
         <div className="movieContainer">
-          <img
-            className="moreInformationImage"
-            src={
-              movie.poster_path
-                ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
-                : poster
-            }
-            alt={movie.title || "Poster"}
-          />
+          <div className="movieCardOneMovie">
+            <img
+              className="moreInformationImage"
+              src={
+                movie.poster_path
+                  ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+                  : poster
+              }
+              alt={movie.title || "Poster"}
+            />
+            <div
+              className="heartContainerOneMovie"
+              onClick={() =>
+                handleFavorites(movie, favorites, setFavorites, user)
+              }
+            >
+              {favorites.some((favorite) => favorite.id === movie.id) ? (
+                <AiFillHeart size={50} color="var(--fourth-color)" />
+              ) : (
+                <AiOutlineHeart size={50} color="var(--main-color)" />
+              )}
+            </div>
+          </div>
           <div className="movieInformationContainer">
             <div className="movieInformation">
               <h1>{movie.title || movie.name || "Title not available"}</h1>

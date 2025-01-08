@@ -14,11 +14,34 @@
   }
 }
 
+.movieCardOneMovie {
+  position: relative;
+  max-width: 450px;
+  margin-left: 80px;
+}
+
+@media screen and (max-width: 1450px) {
+  .movieCardOneMovie {
+    margin-left: 0px;
+  }
+}
+
+.heartContainerOneMovie {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  padding: 3px;
+  z-index: 2;
+  background: rgba(192, 192, 192, 0.6);
+  width: fit-content;
+  border-bottom-right-radius: 20px;
+  border-top-left-radius: 20px;
+}
+
 .moreInformationImage {
   width: 450px;
   height: fit-content;
   border-radius: 20px;
-  margin-left: 80px;
   margin-bottom: 40px;
 }
 
@@ -111,6 +134,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 2px;
+  font-size: 16;
 }
 
 .actorLink {
@@ -120,6 +144,7 @@
 .actorsContainer a {
   color: var(--third-color);
   padding: 3px;
+  font-weight: bold;
 }
 
 .actorLink p {

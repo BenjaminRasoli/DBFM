@@ -47,6 +47,7 @@ function MovieCard({
       </div>
 
       <Link
+        className="movieLink"
         to={
           (location.pathname === `/genres/${genreId}` &&
             `/movie/${movie.id}`) ||

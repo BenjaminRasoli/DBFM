@@ -1,22 +1,23 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import "./Footer.css";
-import {
-  AiOutlineGithub, AiFillLinkedin
-} from "react-icons/ai";
+import { AiOutlineGithub, AiFillLinkedin } from "react-icons/ai";
+import { useUser } from "../../context/UserProvider";
 
 function Footer() {
+  const { user } = useUser();
+
   const scrollToTop = () => {
     window.scrollTo(0, 0);
   };
   return (
     <footer className="footer">
       <ul className="menu">
-        <NavLink className="menuLink" to="/" activeClassName="active">
+        <NavLink className="menuLink" to="/" activeclassname="active">
           <li className="menuItem">Home</li>
         </NavLink>
 
-        <NavLink className="menuLink" to="/favorites" activeClassName="active">
+        <NavLink className="menuLink" to="/favorites" activeclassname="active">
           <li className="menuItem">Favtories</li>
         </NavLink>
 
@@ -24,19 +25,21 @@ function Footer() {
           className="menuLink"
           onClick={scrollToTop}
           to="/about"
-          activeClassName="active"
+          activeclassname="active"
         >
           <li className="menuItem">About</li>
         </NavLink>
 
-        <NavLink
-          className="menuLink"
-          onClick={scrollToTop}
-          to="/login"
-          activeClassName="active"
-        >
-          <li className="menuItem">Login</li>
-        </NavLink>
+        {!user && (
+          <NavLink
+            className="menuLink"
+            onClick={scrollToTop}
+            to="/login"
+            activeclassname="active"
+          >
+            <li className="menuItem">Login</li>
+          </NavLink>
+        )}
       </ul>
       <div className="socialMediaFooter">
         <a

@@ -58,8 +58,12 @@
 
 .loginLinkSpan {
   color: var(--fourth-color);
+  padding-left: 5px;
 }
 
+.loginLinkSpan:hover {
+  text-decoration: underline;
+}
 
 .alreadyLoggedIn {
   width: 85%;

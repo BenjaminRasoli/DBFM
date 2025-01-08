@@ -51,12 +51,17 @@ export async function handleFavorites(movie, favorites, setFavorites, user) {
     }
   } else {
     try {
+      const filteredTitle = (movie.title || movie.name || "").replace(
+        /[\/\.\#\$\[\]]/g,
+        "-"
+      );
+
       const favoriteRef = doc(
         db,
         "userFavoriteList",
         user.uid,
         "favorites",
-        movie.title || movie.name
+        filteredTitle
       );
 
       if (isAlreadyInFavorites) {

@@ -59,3 +59,7 @@
 .signupLink {
   color: var(--fourth-color);
 }
+
+.signupLink:hover{
+  text-decoration: underline;
+}

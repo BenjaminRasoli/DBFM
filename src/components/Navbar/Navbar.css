@@ -48,6 +48,9 @@
   text-decoration: none;
   letter-spacing: 0.4em;
   display: block;
+  font-weight: bold;
+  text-decoration: drop-shadow;
+  padding: 0.25em;
 }
 
 .sideBarText {
@@ -81,13 +84,6 @@
 .active {
   color: var(--fourth-color);
   border-bottom: 1px solid var(--fourth-color);
-}
-
-a {
-  font-weight: bold;
-  text-decoration: drop-shadow;
-  padding: 0.25em;
-  border-radius: 0.5em;
 }
 
 .mainLogo {
@@ -299,6 +295,11 @@ a {
   background-color: transparent;
   cursor: pointer;
   z-index: 5; /*so it is over hamburger menu*/
+  color: var(--second-color);
+}
+
+.navBarButton:hover {
+  color: var(--fourth-color);
 }
 
 @media screen and (max-width: 1450px) {
