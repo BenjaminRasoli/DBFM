@@ -11,7 +11,7 @@
   justify-content: center;
   align-content: center;
   flex-wrap: wrap;
-  padding-top: 150px;
+  padding-top: 200px;
   padding-right: 50px;
   padding-left: 50px;
 }
@@ -55,7 +55,7 @@
   }
 }
 
-@media screen and (max-width: 550px) {
+@media screen and (max-width: 450px) {
   .movieGenresContainerAll {
     font-size: 15px;
   }
@@ -104,6 +104,38 @@
   }
 }
 
+.moviesOrSeries {
+  color: var(--second-color);
+}
+
+.moviesOrSeries a {
+  text-decoration: none;
+}
+
+.moviesOrSeries button {
+  border: none;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+.searchedFilter {
+  color: var(--second-color);
+  font-size: 20px;
+  padding: 20px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.searchedFilter.active {
+  color: var(--fourth-color);
+  font-weight: bold;
+}
+
+.searchedFilter:hover {
+  color: var(--fourth-color);
+}
+
 .noResultsFound {
   width: 85%;
   float: right;
@@ -142,7 +174,7 @@ select {
 
 .select {
   position: absolute;
-  top: 40px;
+  top: 55px;
   right: 10px;
   display: flex;
   align-items: center;
@@ -150,9 +182,11 @@ select {
   height: 3em;
 }
 
-@media screen and (max-width: 1050px) {
+@media screen and (max-width: 1450px) {
   .select {
     padding-right: 0px;
+    flex-direction: column;
+    top: 30px;
   }
 }
 

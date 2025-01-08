@@ -31,6 +31,7 @@ function Movies({ genres }) {
   const [totalResults, setTotalResults] = useState(0);
   const [disabled, setDisabled] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [activeFilter, setActiveFilter] = useState("movies");
 
   const handleScroll = () => {
     const yOffset = window.scrollY;
@@ -50,42 +51,45 @@ function Movies({ genres }) {
     } else {
       moreMovies++;
       let url = "";
-      let movieUrl = "";
-      let tvUrl = "";
 
       if (location.pathname === "/") {
         url = `https://api.themoviedb.org/3/trending/all/day?language=en-US&page=${moreMovies}&api_key=${process.env.REACT_APP_APIKEY}`;
       } else if (location.pathname === "/search") {
-        movieUrl = `https://api.themoviedb.org/3/search/movie?include_adult=true?language=en-US&query=${searchWord}&page=${moreMovies}&api_key=${process.env.REACT_APP_APIKEY}`;
-        tvUrl = `https://api.themoviedb.org/3/search/tv?include_adult=true?language=en-US&query=${searchWord}&page=${moreMovies}&api_key=${process.env.REACT_APP_APIKEY}`;
+        url = `https://api.themoviedb.org/3/search/movie?include_adult=true?language=en-US&query=${searchWord}&page=${moreMovies}&api_key=${process.env.REACT_APP_APIKEY}`;
       } else if (location.pathname === `/genres/${genreId}`) {
         url = `https://api.themoviedb.org/3/discover/movie?language=en-US&with_genres=${genreId}&page=${moreMovies}&api_key=${process.env.REACT_APP_APIKEY}`;
       }
 
-      if (movieUrl && tvUrl) {
-        const [movieResponse, tvResponse] = await Promise.all([
-          fetch(movieUrl),
-          fetch(tvUrl),
-        ]);
+      const response = await fetch(url);
+      const allMovies = await response.json();
 
-        const allMovies = await movieResponse.json();
-        const allTVShows = await tvResponse.json();
-
-        const combinedResults = [...allMovies.results, ...allTVShows.results];
-
-        setMovies((prevMovies) => [...prevMovies, ...combinedResults]);
-        setTotalResults(allMovies.total_results + allTVShows.total_results);
-      } else {
-        const response = await fetch(url);
-        const allMovies = await response.json();
-
-        setMovies((prevMovies) => [...prevMovies, ...allMovies.results]);
-        setTotalResults(allMovies.total_results);
-      }
+      setMovies((prevMovies) => [...prevMovies, ...allMovies.results]);
+      setTotalResults(allMovies.total_results);
+      setActiveFilter("movies");
     }
 
     setLoading(false);
   }
+
+  const fetchSearchedMovies = async () => {
+    const url = `https://api.themoviedb.org/3/search/movie?include_adult=true?language=en-US&query=${searchWord}&page=${moreMovies}&api_key=${process.env.REACT_APP_APIKEY}`;
+    const response = await fetch(url);
+    const allMovies = await response.json();
+
+    setMovies(allMovies.results);
+    setTotalResults(allMovies.total_results);
+    setActiveFilter("movies");
+  };
+
+  const fetchSearchedSeries = async () => {
+    const url = `https://api.themoviedb.org/3/search/tv?include_adult=true?language=en-US&query=${searchWord}&page=${moreMovies}&api_key=${process.env.REACT_APP_APIKEY}`;
+    const response = await fetch(url);
+    const allMovies = await response.json();
+
+    setMovies(allMovies.results);
+    setTotalResults(allMovies.total_results);
+    setActiveFilter("series");
+  };
 
   useEffect(() => {
     moreMovies = 0;
@@ -116,6 +120,28 @@ function Movies({ genres }) {
           (location.pathname === "/favorites" &&
             favoriteMovies.length > 0)) && (
           <div className="select">
+            {location.pathname === "/search" && (
+              <div className="moviesOrSeries">
+                <button
+                  className={`searchedFilter ${
+                    activeFilter === "movies" ? "active" : ""
+                  }`}
+                  onClick={fetchSearchedMovies}
+                >
+                  Movies
+                </button>
+                |
+                <button
+                  className={`searchedFilter ${
+                    activeFilter === "series" ? "active" : ""
+                  }`}
+                  onClick={fetchSearchedSeries}
+                >
+                  Series
+                </button>
+              </div>
+            )}
+
             <select
               onChange={(e) => sortMovie(e.target.value, movies, setMovies)}
             >
@@ -220,7 +246,7 @@ function Movies({ genres }) {
 
         <div className={`scrollUpContainer ${scrollButtonVisible && "show"}`}>
           <button className="scrollUp" onClick={scrollUp}>
-            <BsFillArrowUpCircleFill size={50}  />
+            <BsFillArrowUpCircleFill size={50} />
           </button>
         </div>
       </div>
