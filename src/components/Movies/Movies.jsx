@@ -17,13 +17,14 @@ let moreMovies = 0;
 function Movies({ genres }) {
   const [searchParams] = useSearchParams();
   let searchWord = searchParams.get("query");
+  let displaySearchWord = searchWord;
+  if (searchWord && searchWord.length > 15) {
+    displaySearchWord = searchWord.slice(0, 15) + "...";
+  }
+
   let { genreId } = useParams();
   let location = useLocation();
   const [movies, setMovies] = useState([]);
-
-  if (searchWord && searchWord.length > 15) {
-    searchWord = searchWord.slice(0, 15) + "...";
-  }
   const [favorites, setFavorites] = useState([]);
   const favoriteMovies =
     JSON.parse(localStorage.getItem("favoriteMovies")) || [];
@@ -65,13 +66,13 @@ function Movies({ genres }) {
 
       setMovies((prevMovies) => [...prevMovies, ...allMovies.results]);
       setTotalResults(allMovies.total_results);
-      setActiveFilter("movies");
     }
 
     setLoading(false);
   }
 
   const fetchSearchedMovies = async () => {
+    moreMovies = 1;
     const url = `https://api.themoviedb.org/3/search/movie?include_adult=true?language=en-US&query=${searchWord}&page=${moreMovies}&api_key=${process.env.REACT_APP_APIKEY}`;
     const response = await fetch(url);
     const allMovies = await response.json();
@@ -82,6 +83,7 @@ function Movies({ genres }) {
   };
 
   const fetchSearchedSeries = async () => {
+    moreMovies = 1;
     const url = `https://api.themoviedb.org/3/search/tv?include_adult=true?language=en-US&query=${searchWord}&page=${moreMovies}&api_key=${process.env.REACT_APP_APIKEY}`;
     const response = await fetch(url);
     const allMovies = await response.json();
@@ -96,6 +98,7 @@ function Movies({ genres }) {
     setMovies([]);
     fetchMovies();
     setDisabled(false);
+    setActiveFilter("movies");
 
     setFavorites(favoriteMovies !== null ? favoriteMovies : []);
     window.scrollTo(0, 0);
@@ -116,13 +119,12 @@ function Movies({ genres }) {
   return (
     <>
       <div className="sortContainer">
-        {((location.pathname !== "/favorites" && movies.length > 0) ||
-          (location.pathname === "/favorites" &&
-            favoriteMovies.length > 0)) && (
+        {(location.pathname !== "/favorites" || favoriteMovies.length > 0) && (
           <div className="select">
             {location.pathname === "/search" && (
               <div className="moviesOrSeries">
                 <button
+                  disabled={activeFilter === "movies"}
                   className={`searchedFilter ${
                     activeFilter === "movies" ? "active" : ""
                   }`}
@@ -132,6 +134,7 @@ function Movies({ genres }) {
                 </button>
                 |
                 <button
+                  disabled={activeFilter === "series"}
                   className={`searchedFilter ${
                     activeFilter === "series" ? "active" : ""
                   }`}
@@ -141,7 +144,6 @@ function Movies({ genres }) {
                 </button>
               </div>
             )}
-
             <select
               onChange={(e) => sortMovie(e.target.value, movies, setMovies)}
             >
@@ -151,6 +153,7 @@ function Movies({ genres }) {
             </select>
           </div>
         )}
+
         <div className="movieGenresContainerAll">
           {location.pathname === "/" && (
             <h3 className="movieGenresText">Recent</h3>
@@ -162,7 +165,7 @@ function Movies({ genres }) {
             <h3 className="searchWordContainer">
               Results for
               <span className="searchWord">
-                <br /> "{searchWord}"
+                <br /> "{displaySearchWord}"
               </span>
               <br />({totalResults} found)
             </h3>

@@ -118,6 +118,10 @@
   text-decoration: none;
 }
 
+.moviesOrSeries button:disabled {
+  cursor: default;
+}
+
 .searchedFilter {
   color: var(--second-color);
   font-size: 20px;
