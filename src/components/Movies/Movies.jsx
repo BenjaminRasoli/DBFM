@@ -63,8 +63,11 @@ function Movies({ genres }) {
 
       const response = await fetch(url);
       const allMovies = await response.json();
+      const filteredAllMovies = allMovies.results.filter(
+        (movie) => movie.media_type !== "person"
+      );
 
-      setMovies((prevMovies) => [...prevMovies, ...allMovies.results]);
+      setMovies((prevMovies) => [...prevMovies, ...filteredAllMovies]);
       setTotalResults(allMovies.total_results);
     }
 
@@ -156,7 +159,7 @@ function Movies({ genres }) {
 
         <div className="movieGenresContainerAll">
           {location.pathname === "/" && (
-            <h3 className="movieGenresText">Recent</h3>
+            <h3 className="movieGenresText">Trending</h3>
           )}
           {location.pathname === "/favorites" && (
             <h3 className="movieGenresText">Favorites</h3>
