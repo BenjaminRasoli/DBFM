@@ -76,6 +76,7 @@
 }
 
 .moreMovieButtonContainer {
+  padding-top: 100px;
   justify-content: center;
   display: flex;
 }
@@ -87,6 +88,25 @@
   margin: 10px;
   color: var(--second-color);
   transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.favoritesText {
+  display: flex;
+  flex-direction: column;
+}
+
+.favoritesAmountText {
+  font-size: 20px;
+}
+
+.favoritesAmount {
+  color: var(--fourth-color);
+}
+
+@media screen and (max-width: 700px) {
+  .favoritesAmountText {
+    font-size: 14px;
+  }
 }
 
 .sortContainer {

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import "./Actor.css";
 import { Link } from "react-router-dom";
+import personPoster from "../../images/personPlaceHolder.jpg";
 import poster from "../../images/poster-image.png";
 import { getActor, checkInfo, movieSeriesUrl, truncateText } from "./functions";
 import ClipLoader from "react-spinners/ClipLoader";
@@ -28,7 +29,7 @@ function Actor() {
               className="actorImage"
               src={
                 actor.profile_path === null
-                  ? poster
+                  ? personPoster
                   : `https://image.tmdb.org/t/p/w500/${actor.profile_path}`
               }
               alt={actor.name}

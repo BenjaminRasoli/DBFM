@@ -1,8 +1,13 @@
-.heartContainer {
+.movieCardContainer {
   position: relative;
   top: 75px;
+}
+
+.heartContainer {
+  position: absolute;
+  top: 21.5px;
   z-index: 2; /* 2 so it is over the card*/
-  background: rgba(192, 192, 192, 0.6);
+  background: rgba(192, 192, 192, 0.8);
   width: fit-content;
   border-bottom-right-radius: 20px;
 }

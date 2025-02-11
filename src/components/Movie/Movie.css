@@ -1,4 +1,5 @@
 .movieContainer {
+  position: relative;
   width: 90%;
   float: right;
   display: flex;
@@ -6,6 +7,22 @@
   flex-wrap: wrap;
   color: var(--second-color);
   padding-top: 150px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.movieContainer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+  z-index: 1;
 }
 
 @media screen and (max-width: 1450px) {
@@ -15,6 +32,7 @@
 }
 
 .movieCardOneMovie {
+  z-index: 2;
   position: relative;
   max-width: 450px;
   margin-left: 80px;
@@ -39,6 +57,7 @@
 }
 
 .moreInformationImage {
+  z-index: 2;
   width: 450px;
   height: fit-content;
   border-radius: 20px;
@@ -70,8 +89,13 @@
 }
 
 .movieInformationContainer {
+  z-index: 2;
   margin-left: 60px;
   margin-right: 60px;
+  background-color: var(--main-color);
+  padding: 30px;
+  margin-bottom: 50px;
+  border-radius: 10px;
   max-width: 650px;
 }
 
@@ -120,6 +144,8 @@
 
 .movieSubDataLeft {
   margin-right: auto;
+  display: flex;
+  align-items: center;
 }
 
 .actorsContainer {
@@ -147,6 +173,11 @@
   font-weight: bold;
 }
 
+.actorsContainer a:hover {
+  color: var(--fourth-color);
+  transition: 0.2s;
+}
+
 .actorLink p {
   margin: 0;
 }
@@ -159,12 +190,13 @@
   margin-right: 20px;
 }
 
-.seasonButton {
-  color: var(--third-color);
-  background: transparent;
-  cursor: pointer;
-  border: none;
-  margin-right: 20px;
+.seasonButton:hover {
+  color: var(--fourth-color);
+  transition: 0.2s;
+}
+
+.selected {
+  color: var(--fourth-color);
 }
 
 .episodesContainer {
@@ -239,6 +271,10 @@
   cursor: pointer;
   border: none;
   margin-right: 20px;
+}
+
+.readMoreButton:hover {
+  color: var(--fourth-color);
 }
 
 .episodeOverview {

@@ -45,13 +45,15 @@ export async function getEpisodes(
   tvId,
   seasonNumber,
   episodesContainerRef,
-  setEpisodes
+  setEpisodes,
+  setSelectedSeason
 ) {
   const url = `https://api.themoviedb.org/3/tv/${tvId}/season/${seasonNumber}?&api_key=${process.env.REACT_APP_APIKEY}`;
   const response = await fetch(url);
   const allEpisodes = await response.json();
   episodesContainerRef.current.scrollLeft = 0;
   setEpisodes(allEpisodes.episodes);
+  setSelectedSeason(seasonNumber);
 }
 
 export async function getAllActors(id, tvId, setAllActor, location) {

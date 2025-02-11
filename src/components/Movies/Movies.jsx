@@ -12,8 +12,6 @@ import { BsFillArrowUpCircleFill } from "react-icons/bs";
 import { handleFavorites, sortMovie } from "./functions";
 import ClipLoader from "react-spinners/ClipLoader";
 
-let moreMovies = 0;
-
 function Movies({ genres }) {
   const [searchParams] = useSearchParams();
   let searchWord = searchParams.get("query");
@@ -26,14 +24,17 @@ function Movies({ genres }) {
   let location = useLocation();
   const [movies, setMovies] = useState([]);
   const [favorites, setFavorites] = useState([]);
+  const [page, setPage] = useState(1);
   const favoriteMovies =
     JSON.parse(localStorage.getItem("favoriteMovies")) || [];
   const [scrollButtonVisible, setScrollButtonVisible] = useState(false);
   const [totalResults, setTotalResults] = useState(0);
   const [disabled, setDisabled] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [activeFilter, setActiveFilter] = useState("movies");
+  const [sortOption, setSortOption] = useState("default");
 
+  const [activeFilter, setActiveFilter] = useState("all");
+  console.log(activeFilter);
   const handleScroll = () => {
     const yOffset = window.scrollY;
     setScrollButtonVisible(yOffset > 200);
@@ -46,37 +47,66 @@ function Movies({ genres }) {
 
   async function fetchMovies() {
     setLoading(true);
-
     if (location.pathname === "/favorites") {
       setMovies(favoriteMovies && favoriteMovies);
     } else {
-      moreMovies++;
       let url = "";
 
       if (location.pathname === "/") {
-        url = `https://api.themoviedb.org/3/trending/all/day?language=en-US&page=${moreMovies}&api_key=${process.env.REACT_APP_APIKEY}`;
+        url = `https://api.themoviedb.org/3/trending/all/day?language=en-US&page=${page}&api_key=${process.env.REACT_APP_APIKEY}`;
       } else if (location.pathname === "/search") {
-        url = `https://api.themoviedb.org/3/search/movie?include_adult=true?language=en-US&query=${searchWord}&page=${moreMovies}&api_key=${process.env.REACT_APP_APIKEY}`;
+        if (activeFilter === "all") {
+          url = `https://api.themoviedb.org/3/search/multi?include_adult=true?language=en-US&query=${searchWord}&page=${page}&api_key=${process.env.REACT_APP_APIKEY}`;
+        } else if (activeFilter === "movies") {
+          url = `https://api.themoviedb.org/3/search/movie?include_adult=true?language=en-US&query=${searchWord}&page=${page}&api_key=${process.env.REACT_APP_APIKEY}`;
+        } else if (activeFilter === "series") {
+          url = `https://api.themoviedb.org/3/search/tv?include_adult=true?language=en-US&query=${searchWord}&page=${page}&api_key=${process.env.REACT_APP_APIKEY}`;
+        }
       } else if (location.pathname === `/genres/${genreId}`) {
-        url = `https://api.themoviedb.org/3/discover/movie?language=en-US&with_genres=${genreId}&page=${moreMovies}&api_key=${process.env.REACT_APP_APIKEY}`;
+        url = `https://api.themoviedb.org/3/discover/movie?language=en-US&with_genres=${genreId}&page=${page}&api_key=${process.env.REACT_APP_APIKEY}`;
       }
 
       const response = await fetch(url);
       const allMovies = await response.json();
-      const filteredAllMovies = allMovies.results.filter(
-        (movie) => movie.media_type !== "person"
+      setMovies((prevMovies) =>
+        page === 1 ? allMovies.results : [...prevMovies, ...allMovies.results]
       );
-
-      setMovies((prevMovies) => [...prevMovies, ...filteredAllMovies]);
       setTotalResults(allMovies.total_results);
     }
 
     setLoading(false);
   }
 
+  const fetchAll = async () => {
+    let url = "";
+    if (location.pathname === "/") {
+      url = `https://api.themoviedb.org/3/trending/all/day?language=en-US&page=${page}&api_key=${process.env.REACT_APP_APIKEY}`;
+    } else if (location.pathname === "/search") {
+      url = `https://api.themoviedb.org/3/search/multi?include_adult=true?language=en-US&query=${searchWord}&page=${page}&api_key=${process.env.REACT_APP_APIKEY}`;
+    } else if (location.pathname === "/favorites") {
+      setActiveFilter("all");
+      setMovies(favoriteMovies);
+      return;
+    }
+    const response = await fetch(url);
+    const allMovies = await response.json();
+
+    setMovies(allMovies.results);
+    setTotalResults(allMovies.total_results);
+    setActiveFilter("all");
+  };
+
   const fetchSearchedMovies = async () => {
-    moreMovies = 1;
-    const url = `https://api.themoviedb.org/3/search/movie?include_adult=true?language=en-US&query=${searchWord}&page=${moreMovies}&api_key=${process.env.REACT_APP_APIKEY}`;
+    let url = "";
+    if (location.pathname === "/search") {
+      url = `https://api.themoviedb.org/3/search/movie?include_adult=true?language=en-US&query=${searchWord}&page=${page}&api_key=${process.env.REACT_APP_APIKEY}`;
+    } else if (location.pathname === "/") {
+      url = `https://api.themoviedb.org/3/trending/movie/day?language=en-US&page=${page}&api_key=${process.env.REACT_APP_APIKEY}`;
+    } else if (location.pathname === "/favorites") {
+      setActiveFilter("movies");
+      setMovies(favoriteMovies);
+      return;
+    }
     const response = await fetch(url);
     const allMovies = await response.json();
 
@@ -86,8 +116,16 @@ function Movies({ genres }) {
   };
 
   const fetchSearchedSeries = async () => {
-    moreMovies = 1;
-    const url = `https://api.themoviedb.org/3/search/tv?include_adult=true?language=en-US&query=${searchWord}&page=${moreMovies}&api_key=${process.env.REACT_APP_APIKEY}`;
+    let url = "";
+    if (location.pathname === "/search") {
+      url = `https://api.themoviedb.org/3/search/tv?include_adult=true?language=en-US&query=${searchWord}&page=${page}&api_key=${process.env.REACT_APP_APIKEY}`;
+    } else if (location.pathname === "/") {
+      url = `https://api.themoviedb.org/3/trending/tv/day?language=en-US&page=${page}&api_key=${process.env.REACT_APP_APIKEY}`;
+    } else if (location.pathname === "/favorites") {
+      setActiveFilter("series");
+      setMovies(favoriteMovies);
+      return;
+    }
     const response = await fetch(url);
     const allMovies = await response.json();
 
@@ -97,35 +135,82 @@ function Movies({ genres }) {
   };
 
   useEffect(() => {
-    moreMovies = 0;
+    setActiveFilter("all");
     setMovies([]);
-    fetchMovies();
+    setPage(1);
     setDisabled(false);
-    setActiveFilter("movies");
+    fetchAll();
 
-    setFavorites(favoriteMovies !== null ? favoriteMovies : []);
     window.scrollTo(0, 0);
     window.addEventListener("scroll", handleScroll);
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [location]);
+  }, [searchWord, location]);
+
+  useEffect(() => {
+    fetchMovies();
+  }, [genreId]);
+
+  useEffect(() => {
+    setPage(1);
+    setSortOption("default");
+  }, [activeFilter, searchWord]);
+
+  useEffect(() => {
+    fetchMovies();
+  }, [page]);
 
   useEffect(() => {
     if (location.pathname === "/favorites") {
-      const favoriteMovies =
+      let favoriteMovies =
         JSON.parse(localStorage.getItem("favoriteMovies")) || [];
-      setMovies(favoriteMovies);
+
+      if (activeFilter === "movies") {
+        favoriteMovies = favoriteMovies.filter(
+          (movie) => movie.media_type !== "tv"
+        );
+      } else if (activeFilter === "series") {
+        favoriteMovies = favoriteMovies.filter(
+          (movie) => movie.media_type !== "movie"
+        );
+      }
+      const fetchFavorites = async () => {
+        try {
+          const moviesDetails = await Promise.all(
+            favoriteMovies.map(async (movie) => {
+              const url = `https://api.themoviedb.org/3/${movie.media_type}/${movie.id}?api_key=${process.env.REACT_APP_APIKEY}&language=en-US`;
+              const response = await fetch(url);
+              return response.json();
+            })
+          );
+          setMovies(moviesDetails);
+        } catch (error) {
+          console.error("Error fetching favorite movies:", error);
+        }
+      };
+      fetchFavorites();
     }
-  }, [favorites, location.pathname]);
+  }, [favorites, location.pathname, activeFilter]);
 
   return (
     <>
       <div className="sortContainer">
         {(location.pathname !== "/favorites" || favoriteMovies.length > 0) && (
           <div className="select">
-            {location.pathname === "/search" && (
+            {location.pathname !== `/genres/${genreId}` && (
               <div className="moviesOrSeries">
+                <button
+                  disabled={activeFilter === "all"}
+                  className={`searchedFilter ${
+                    activeFilter === "all" ? "active" : ""
+                  }`}
+                  onClick={fetchAll}
+                >
+                  All
+                </button>
+                |
                 <button
                   disabled={activeFilter === "movies"}
                   className={`searchedFilter ${
@@ -147,9 +232,17 @@ function Movies({ genres }) {
                 </button>
               </div>
             )}
+
             <select
-              onChange={(e) => sortMovie(e.target.value, movies, setMovies)}
+              value={sortOption}
+              onChange={(e) => {
+                setSortOption(e.target.value);
+                sortMovie(e.target.value, movies, setMovies);
+              }}
             >
+              {sortOption === "default" && (
+                <option value="default">Sort by</option>
+              )}
               <option value="a-z">A-Z</option>
               <option value="date">Sort by date</option>
               <option value="vote">Sort by vote</option>
@@ -162,7 +255,18 @@ function Movies({ genres }) {
             <h3 className="movieGenresText">Trending</h3>
           )}
           {location.pathname === "/favorites" && (
-            <h3 className="movieGenresText">Favorites</h3>
+            <div className="favoritesText">
+              <h3 className="movieGenresText">Favorites</h3>
+              <span className="favoritesAmountText">
+                You've favorited
+                <span className="favoritesAmount"> {movies.length}</span>{" "}
+                {activeFilter === "movies"
+                  ? "Movies"
+                  : activeFilter === "series"
+                  ? "Series"
+                  : "Movies/Series"}
+              </span>
+            </div>
           )}
           {location.pathname === "/search" && (
             <h3 className="searchWordContainer">
@@ -220,6 +324,7 @@ function Movies({ genres }) {
                     setFavorites={setFavorites}
                     genreId={genreId}
                     location={location}
+                    activeFilter={activeFilter}
                   />
                 </React.Fragment>
               );
@@ -242,7 +347,7 @@ function Movies({ genres }) {
                 <button
                   className="moreMovieButton"
                   disabled={disabled}
-                  onClick={() => fetchMovies()}
+                  onClick={() => setPage(page + 1)}
                 >
                   <AiFillPlusCircle size={50} />
                 </button>

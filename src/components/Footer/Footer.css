@@ -6,7 +6,7 @@
   align-items: center;
   flex-direction: column;
   float: right;
-  padding-top: 60px;
+  padding-top: 80px;
 }
 
 @media screen and (max-width: 1450px) {

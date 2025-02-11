@@ -54,6 +54,8 @@ function Movie() {
   const episodesContainerRef = useRef(null);
   const [bookedMovie, setBookedMovie] = useState(false);
   const [bookingLoading, setBookingLoading] = useState(true);
+  const [selectedSeason, setSelectedSeason] = useState("");
+  const [backgroundLoaded, setBackgroundLoaded] = useState(false);
   const { user } = useUser();
 
   const toggleReadMore = (episodeId) => {
@@ -61,6 +63,10 @@ function Movie() {
       ...prevExpanded,
       [episodeId]: !prevExpanded[episodeId],
     }));
+  };
+
+  const handleBackgroundLoad = () => {
+    setBackgroundLoaded(true);
   };
 
   useEffect(() => {
@@ -82,16 +88,33 @@ function Movie() {
 
   useEffect(() => {
     setFavorites(favoriteMovies !== null ? favoriteMovies : []);
-  }, [favorites]);
+  }, []);
+
+  useEffect(() => {
+    if (movie.backdrop_path) {
+      const backgroundImage = new Image();
+      backgroundImage.src = `https://image.tmdb.org/t/p/original/${movie.backdrop_path}`;
+      backgroundImage.onload = () => {
+        setBackgroundLoaded(true);
+      };
+    }
+  }, [movie.backdrop_path]);
 
   return (
     <>
-      {Object.keys(movie).length === 0 ? (
+      {Object.keys(movie).length === 0 || !backgroundLoaded ? (
         <div className="centerLoadingMovie">
           <ClipLoader color="var(--fourth-color)" size={150} />
         </div>
       ) : (
-        <div className="movieContainer">
+        <div
+          className="movieContainer"
+          style={{
+            backgroundImage: movie.backdrop_path
+              ? `url(https://image.tmdb.org/t/p/original/${movie.backdrop_path})`
+              : "none",
+          }}
+        >
           <div className="movieCardOneMovie">
             <img
               className="moreInformationImage"
@@ -183,13 +206,18 @@ function Movie() {
                         season.name ? (
                           <button
                             key={season.season_number}
-                            className="seasonButton"
+                            className={`seasonButton ${
+                              selectedSeason === season.season_number
+                                ? "selected"
+                                : ""
+                            }`}
                             onClick={() =>
                               getEpisodes(
                                 tvId,
                                 season.season_number,
                                 episodesContainerRef,
-                                setEpisodes
+                                setEpisodes,
+                                setSelectedSeason
                               )
                             }
                           >
