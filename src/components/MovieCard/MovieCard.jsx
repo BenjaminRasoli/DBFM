@@ -19,6 +19,7 @@ function MovieCard({
 }) {
   const { user } = useUser();
 
+
   useEffect(() => {
     if (user) {
       fetchFavoritesFromFirebase(user.uid).then((fetchedFavorites) => {
@@ -54,7 +55,9 @@ function MovieCard({
         to={
           activeFilter === "movies" || movie.media_type === "movie"
             ? `/movie/${movie.id}`
-            : activeFilter === "series" || movie.media_type === "tv"
+            : activeFilter === "series" ||
+              movie.media_type === "tv" ||
+              (movie.first_air_date && movie.first_air_date !== "")
             ? `/tv/${movie.id}`
             : movie.media_type === "person"
             ? `/actor/${movie.id}`

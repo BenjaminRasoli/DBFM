@@ -34,7 +34,6 @@ function Movies({ genres }) {
   const [sortOption, setSortOption] = useState("default");
 
   const [activeFilter, setActiveFilter] = useState("all");
-  console.log(activeFilter);
   const handleScroll = () => {
     const yOffset = window.scrollY;
     setScrollButtonVisible(yOffset > 200);
@@ -76,6 +75,7 @@ function Movies({ genres }) {
 
     setLoading(false);
   }
+
 
   const fetchAll = async () => {
     let url = "";
