@@ -90,6 +90,7 @@ function Movie() {
     setFavorites(favoriteMovies !== null ? favoriteMovies : []);
   }, []);
 
+
   useEffect(() => {
     if (movie.backdrop_path) {
       const backgroundImage = new Image();

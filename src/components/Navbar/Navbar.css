@@ -4,6 +4,7 @@
   height: 100vh;
   background: var(--main-color);
   font-size: 0.9em;
+  z-index: 5;
   border-right: 1px solid var(--second-color);
   overflow-y: scroll;
   overflow-x: hidden;
@@ -118,11 +119,11 @@
   background-color: var(--main-color);
   height: 100px;
   position: fixed;
-  width: 83%;
+  width: 85%;
   float: right;
   right: 0;
   padding-top: 10px;
-  z-index: 3;
+  z-index: 4;
 }
 
 @media screen and (max-width: 1450px) {

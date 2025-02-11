@@ -5,7 +5,7 @@
 
 .heartContainer {
   position: absolute;
-  top: 21.5px;
+  top: 21.4px;
   z-index: 2; /* 2 so it is over the card*/
   background: rgba(192, 192, 192, 0.8);
   width: fit-content;
