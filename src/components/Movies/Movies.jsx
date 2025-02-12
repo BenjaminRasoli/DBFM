@@ -76,7 +76,6 @@ function Movies({ genres }) {
     setLoading(false);
   }
 
-
   const fetchAll = async () => {
     let url = "";
     if (location.pathname === "/") {
@@ -210,7 +209,7 @@ function Movies({ genres }) {
                 >
                   All
                 </button>
-                |
+                <span className="hideLine">|</span>
                 <button
                   disabled={activeFilter === "movies"}
                   className={`searchedFilter ${
@@ -220,7 +219,7 @@ function Movies({ genres }) {
                 >
                   Movies
                 </button>
-                |
+                <span className="hideLine">|</span>
                 <button
                   disabled={activeFilter === "series"}
                   className={`searchedFilter ${

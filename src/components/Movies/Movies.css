@@ -128,6 +128,13 @@
   color: var(--second-color);
 }
 
+@media screen and (max-width: 600px) {
+  .moviesOrSeries {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 .moviesOrSeries a {
   text-decoration: none;
 }
@@ -142,6 +149,12 @@
   cursor: default;
 }
 
+@media screen and (max-width: 600px) {
+  .hideLine {
+    display: none;
+  }
+}
+
 .searchedFilter {
   color: var(--second-color);
   font-size: 20px;
@@ -149,6 +162,12 @@
   cursor: pointer;
   text-decoration: none;
   transition: 0.3s;
+}
+
+@media screen and (max-width: 600px) {
+  .searchedFilter {
+    padding: 3px;
+  }
 }
 
 .searchedFilter.active {
