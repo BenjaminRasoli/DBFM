@@ -68,13 +68,15 @@ function Movies({ genres }) {
 
       const response = await axios(url);
       const allMovies = response.data;
-      if (location.pathname === `/genres/${genreId}`) {
-        {
-          allMovies.results.map((movie) => {
+      if (allMovies.results) {
+        allMovies.results.map((movie) => {
+          if (movie.media_type === null) {
             movie.media_type = movie.original_title ? "movie" : "tv";
-          });
-        }
+          }
+          return movie;
+        });
       }
+
       setMovies((prevMovies) =>
         page === 1 ? allMovies.results : [...prevMovies, ...allMovies.results]
       );
@@ -95,9 +97,13 @@ function Movies({ genres }) {
       setMovies(favoriteMovies);
       return;
     }
-    const response = await fetch(url);
-    const allMovies = await response.json();
-
+    const response = await axios(url);
+    const allMovies = response.data;
+    allMovies.results.map((movie) => {
+      if (!movie.media_type) {
+        movie.media_type = movie.original_title ? "movie" : "tv";
+      }
+    });
     setMovies(allMovies.results);
     setTotalResults(allMovies.total_results);
     setActiveFilter("all");
@@ -114,8 +120,13 @@ function Movies({ genres }) {
       setMovies(favoriteMovies);
       return;
     }
-    const response = await fetch(url);
-    const allMovies = await response.json();
+    const response = await axios(url);
+    const allMovies = response.data;
+    allMovies.results.map((movie) => {
+      if (!movie.media_type) {
+        movie.media_type = movie.original_title ? "movie" : "tv";
+      }
+    });
 
     setMovies(allMovies.results);
     setTotalResults(allMovies.total_results);
@@ -133,8 +144,13 @@ function Movies({ genres }) {
       setMovies(favoriteMovies);
       return;
     }
-    const response = await fetch(url);
-    const allMovies = await response.json();
+    const response = await axios(url);
+    const allMovies = response.data;
+    allMovies.results.map((movie) => {
+      if (!movie.media_type) {
+        movie.media_type = movie.original_title ? "movie" : "tv";
+      }
+    });
 
     setMovies(allMovies.results);
     setTotalResults(allMovies.total_results);
