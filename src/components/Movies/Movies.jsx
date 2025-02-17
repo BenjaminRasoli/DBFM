@@ -11,6 +11,7 @@ import { AiFillPlusCircle } from "react-icons/ai";
 import { BsFillArrowUpCircleFill } from "react-icons/bs";
 import { handleFavorites, sortMovie } from "./functions";
 import ClipLoader from "react-spinners/ClipLoader";
+import axios from "axios";
 
 function Movies({ genres }) {
   const [searchParams] = useSearchParams();
@@ -65,8 +66,15 @@ function Movies({ genres }) {
         url = `https://api.themoviedb.org/3/discover/movie?language=en-US&with_genres=${genreId}&page=${page}&api_key=${process.env.REACT_APP_APIKEY}`;
       }
 
-      const response = await fetch(url);
-      const allMovies = await response.json();
+      const response = await axios(url);
+      const allMovies = response.data;
+      if (location.pathname === `/genres/${genreId}`) {
+        {
+          allMovies.results.map((movie) => {
+            movie.media_type = movie.original_title ? "movie" : "tv";
+          });
+        }
+      }
       setMovies((prevMovies) =>
         page === 1 ? allMovies.results : [...prevMovies, ...allMovies.results]
       );

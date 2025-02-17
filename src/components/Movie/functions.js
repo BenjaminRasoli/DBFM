@@ -19,7 +19,10 @@ export async function fetchMovie(
 
   const res = await axios(url);
   const data = res.data;
-  data.media_type = location.pathname === `/movie/${id}` ? "movie" : "tv";
+  data.media_type =
+    location.pathname === `/movie/${id}` || data.original_title
+      ? "movie"
+      : "tv";
 
   setMovie(data);
   setBooking({

@@ -65,9 +65,7 @@ function Movie() {
     }));
   };
 
-  const handleBackgroundLoad = () => {
-    setBackgroundLoaded(true);
-  };
+ 
 
   useEffect(() => {
     fetchMovie(
@@ -89,7 +87,6 @@ function Movie() {
   useEffect(() => {
     setFavorites(favoriteMovies !== null ? favoriteMovies : []);
   }, []);
-
 
   useEffect(() => {
     if (movie.backdrop_path) {
