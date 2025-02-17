@@ -68,14 +68,11 @@ function Movies({ genres }) {
 
       const response = await axios(url);
       const allMovies = response.data;
-      if (allMovies.results) {
-        allMovies.results.map((movie) => {
-          if (movie.media_type === null) {
-            movie.media_type = movie.original_title ? "movie" : "tv";
-          }
-          return movie;
-        });
-      }
+      allMovies.results.map((movie) => {
+        if (!movie.media_type) {
+          movie.media_type = movie.original_title ? "movie" : "tv";
+        }
+      });
 
       setMovies((prevMovies) =>
         page === 1 ? allMovies.results : [...prevMovies, ...allMovies.results]
